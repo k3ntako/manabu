@@ -21,6 +21,26 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autocomplete: "given-name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name, autocomplete: "family-name" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :birthday %><br />
+    <%= f.date_field :birthday,
+      value: f.object.try(:strftime,"%d/%m/%Y"),
+      min: 150.years.ago,
+      max: 13.year.ago,
+      autocomplete: "bday"
+    %>
+  </div>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
