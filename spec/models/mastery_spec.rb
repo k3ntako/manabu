@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 RSpec.describe Mastery, type: :model do
   describe "Mastery model" do
     it { should have_valid(:mastery).when("Learning") }
