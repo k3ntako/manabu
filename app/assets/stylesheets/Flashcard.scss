@@ -1,0 +1,48 @@
+.homepage{
+  width: 80vw;
+  margin: auto;
+}
+
+
+div.startCards{
+  margin: 50px auto;
+  width: 25%;
+  text-align: center;
+  font-weight: 900;
+  width: 40vw;
+  // border-radius: 10px;
+  // border: 8px solid black;
+  // background-color: steelblue;
+}
+
+
+
+.deck-tile{
+  width: 80vw;
+  margin: 10px auto;
+
+  padding: 10px;
+  text-align: center;
+
+  border: 8px solid black;
+  border-radius: 10px;
+
+  background-color: lightgray;
+}
+
+#deck-selected{
+  background-color: limegreen;
+  color:white;
+}
+
+.homeButtons{
+  grid-template-columns: 1fr 1fr;
+}
+
+#startCards{
+
+}
+
+#editCards{
+
+}
