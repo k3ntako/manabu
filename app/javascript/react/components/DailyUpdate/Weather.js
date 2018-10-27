@@ -6,8 +6,8 @@ constructor(props) {
     this.state = {
       latitude: 42.354046,
       longitude: -71.058831,
-      temp: "loading",
-      summary: "weather",
+      temp: "weather",
+      summary: "loading",
       locatiion: ""
     };
 
@@ -55,9 +55,10 @@ constructor(props) {
       return response.json();
     })
     .then(data => {
+      let temperature = data.currently.temperature.toFixed(0)
       this.setState({
         summary: data.currently.summary,
-        temp: `${data.currently.temperature}˚F`
+        temp: `${temperature}˚F`
       })
       return data.currently.icon.toUpperCase().replace(/-/g,"_");
     })
@@ -101,7 +102,7 @@ constructor(props) {
   }
 
   render(){
-
+    console.log(parseInt(this.state.temp), );
     return(
       <div className="weather cell small-24 medium-12">
         <canvas id="icon1"></canvas>
