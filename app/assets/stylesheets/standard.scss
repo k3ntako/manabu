@@ -5,6 +5,8 @@ $grey: #777777;
 $light-blue: #E5F3F4;
 
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Exo|Gloria+Hallelujah|Indie+Flower|KoHo|Ubuntu:300,400,700');
 
 :root {
   --bg-color: #FFF;
@@ -15,7 +17,9 @@ $light-blue: #E5F3F4;
 body{
   margin:0;
   user-select: none;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+
   background-color: $background;
 }
 
@@ -36,26 +40,32 @@ a{
 }
 
 /////////Nav Bar/////////
-nav.nav{
+.top-bar{
   background-color: #093145; // #e6e6e6;
-
   width: 100vw;
-  padding: 0.5rem 3rem;
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
   user-select: none;
-
-  grid-template-columns: 1fr 1fr 1fr;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.nav-k3ntako, .nav-k3ntako:focus{
-  color:white;
+.top-bar ul{
+  background-color: rgba(255,255,255,0);
+}
+//
+#title-link{
+  padding:0;
 }
 
-.nav-center{
-  text-align: center;
-  font-weight: bold;
+ul.menu > li > a, #title-link {
+  color: white;
+
+  -webkit-font-smoothing: antialiased;
+  text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+
+ul.menu > li > a:hover, #title-link:hover {
+  color: steelblue;
 }
 
 /////////Error Page/////////
