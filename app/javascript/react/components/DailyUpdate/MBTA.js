@@ -126,7 +126,7 @@ constructor(props) {
         {routesHTML}
         {directionsHTML}
         {stopsHTML}
-        
+
         <Predictions stationPrediction={this.state.stationPrediction}/>
       </div>
     )

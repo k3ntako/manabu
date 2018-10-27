@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import MBTA from './MBTA';
 import Weather from './Weather';
 
-
 class DailyUpdate extends Component {
 constructor(props) {
     super(props);

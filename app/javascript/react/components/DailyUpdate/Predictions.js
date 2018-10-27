@@ -3,7 +3,7 @@ import React from 'react'
 const Predictions = props => {
   let prediction1 = "";
   let prediction2 = "";
-  
+
   if(props.stationPrediction && Object.keys(props.stationPrediction).length != 0){
     for(let i = 0; i<props.stationPrediction.data.length; i++){
       let train = props.stationPrediction.data[i];
