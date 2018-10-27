@@ -1,0 +1,111 @@
+$background: #FFFFFF;
+$blue: #37BECC;
+$green: #84CE15;
+$grey: #777777;
+$light-blue: #E5F3F4;
+
+
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+:root {
+  --bg-color: #FFF;
+  /* @reasonCode green */
+  --palatte-padding-left: 0px
+}
+
+body{
+  margin:0;
+  user-select: none;
+  font-family: 'Quicksand', sans-serif;
+  background-color: $background;
+}
+
+div{
+  background-color: --bg-color;
+}
+
+
+a{
+  color:black;
+}
+
+.css-grid-container{
+  display: grid;
+}
+
+#app{
+  margin-bottom: 3%;
+}
+
+/////////Nav Bar/////////
+nav.nav{
+  background-color: #093145; // #e6e6e6;
+
+  width: 100vw;
+  padding: 0.5rem 3rem;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  user-select: none;
+
+  grid-template-columns: 1fr 1fr 1fr;
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+
+.nav-k3ntako, .nav-k3ntako:focus{
+  color:white;
+}
+
+.nav-center{
+  text-align: center;
+  font-weight: bold;
+}
+
+/////////Error Page/////////
+div.error-page{
+  width: 60vw;
+  margin: auto;
+  text-align: center;
+}
+
+h3.error-message > a{
+  color: red;
+}
+
+h3.error-message > a:hover{
+  color: steelblue;
+}
+
+
+/////////MBTA/////////
+.mbta{
+  width:40vw;
+  margin-top: 30px;
+}
+
+.predictions{
+
+}
+.prediction{
+  text-align: center;
+  font-size: 2rem;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+.weatherInfo{
+  text-align: center;
+}
+
+canvas{
+  display: block;
+  margin: auto;
+}
+
+.weatherInfoText{
+  font-size: 1.4rem;
+
+}
+.weather{
+
+}
