@@ -31,12 +31,8 @@ a{
   color:black;
 }
 
-.css-grid-container{
-  display: grid;
-}
-
 #app{
-  margin-bottom: 3%;
+  margin-top: 70px;
 }
 
 /////////Nav Bar/////////
@@ -47,21 +43,26 @@ a{
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 50px;
+  position: fixed;
+  top: 0;
 }
 
 .top-bar ul{
   background-color: rgba(255,255,255,0);
 }
-//
-#title-link{
-  padding:0;
-}
 
 ul.menu > li > a, #title-link {
+  font-size: 1.2rem;
   color: white;
-
   -webkit-font-smoothing: antialiased;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
+  line-height: 22px;
+}
+
+#title-link{
+  padding:0;
+  font-size: 1.5rem;
 }
 
 ul.menu > li > a:hover, #title-link:hover {
@@ -90,9 +91,6 @@ h3.error-message > a:hover{
   margin-top: 30px;
 }
 
-.predictions{
-
-}
 .prediction{
   text-align: center;
   font-size: 2rem;
@@ -111,8 +109,4 @@ canvas{
 
 .weatherInfoText{
   font-size: 1.4rem;
-
-}
-.weather{
-
 }

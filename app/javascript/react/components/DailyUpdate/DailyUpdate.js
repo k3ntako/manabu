@@ -52,7 +52,6 @@ constructor(props) {
       <div className="grid-x grid-margin-x">
         <Weather />
         {mbtaHTML}
-
       </div>
     )
   }

@@ -67,7 +67,7 @@ constructor(props) {
     }
 
     return(
-      <div className = "homepage">
+      <div>
         {deckList}
         <div className="grid-x grid-margin-x">
           {startButton}
