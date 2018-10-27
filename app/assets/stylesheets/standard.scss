@@ -4,7 +4,6 @@ $green: #84CE15;
 $grey: #777777;
 $light-blue: #E5F3F4;
 
-
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
 :root {
@@ -23,7 +22,6 @@ body{
 div{
   background-color: --bg-color;
 }
-
 
 a{
   color:black;
@@ -50,7 +48,6 @@ nav.nav{
   grid-template-columns: 1fr 1fr 1fr;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
-
 
 .nav-k3ntako, .nav-k3ntako:focus{
   color:white;
