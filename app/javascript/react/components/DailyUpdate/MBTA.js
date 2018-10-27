@@ -51,7 +51,6 @@ constructor(props) {
       this.getStops();
     }
 
-
     getPredictions(stopName){
       console.log(stopName, this.state.selectedRoute,this.state.selectedDirection)
       this.fetchData(
@@ -84,12 +83,14 @@ constructor(props) {
   render(){
     let routesHTML
     if(this.state.routes && Object.keys(this.state.routes).length != 0){
-      routesHTML = (<MBTADropdown
+      routesHTML = (
+        <MBTADropdown
           data={this.state.routes.data}
           default={this.state.selectedRoute}
           displayedAttribute = {"long_name"}
           changeHandler = {this.routesChangeHandler}
-          />)
+        />
+      )
     }
 
     let stopsHTML;
@@ -99,30 +100,35 @@ constructor(props) {
         default={this.selectedStation}
         displayedAttribute = {"name"}
         changeHandler = {this.stopsChangeHandler}
-        />)
+        />
+      )
     }
 
     let directionsHTML;
     if(this.state.directions){
-      directionsHTML = (<MBTADropdown
+      directionsHTML = (
+        <MBTADropdown
           data={[
-            {attributes: {directions: this.state.directions[0]}, id: this.state.directions[0]},
-            {attributes: {directions: this.state.directions[1]}, id: this.state.directions[1]}
+            {attributes: {directions: this.state.directions[0]},
+            id: this.state.directions[0]},
+            {attributes: {directions: this.state.directions[1]},
+            id: this.state.directions[1]}
           ]}
           default={this.selectedDirection}
           displayedAttribute = {"directions"}
           changeHandler = {this.directionsChangeHandler}
-          />)
+        />
+      )
     }
 
     return(
-        <div className="cell small-12 medium-6">
-          {routesHTML}
-          {directionsHTML}
-          {stopsHTML}
+      <div className="cell small-24 medium-12">
+        {routesHTML}
+        {directionsHTML}
+        {stopsHTML}
 
-          <Predictions stationPrediction={this.state.stationPrediction}/>
-        </div>
+        <Predictions stationPrediction={this.state.stationPrediction}/>
+      </div>
     )
   }
 }

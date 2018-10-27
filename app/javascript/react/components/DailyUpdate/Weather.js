@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-//https://api.darksky.net/forecast/c89e5685e5401ac3737c71e59af42160/42.333386,-71.129077?units=auto
 class Weather extends Component {
 constructor(props) {
     super(props);
@@ -40,7 +39,8 @@ constructor(props) {
 
   fetchWeather() {
     let weatherURL = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/c89e5685e5401ac3737c71e59af42160/${this.state.latitude},${this.state.longitude}?units=auto`;
-     // `https://api.darksky.net/forecast/c89e5685e5401ac3737c71e59af42160/${this.state.latitude},${this.state.longitude}?units=auto`
+    //Issue with cors, originally:
+    // `https://api.darksky.net/forecast/c89e5685e5401ac3737c71e59af42160/${this.state.latitude},${this.state.longitude}?units=auto`
     fetch(weatherURL, {mode: 'cors'})
     .then(response => {
       if (response.ok) {
@@ -92,7 +92,6 @@ constructor(props) {
         location: data.resourceSets[0].resources[0].name
       })
     })
-
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   };
 
@@ -104,7 +103,7 @@ constructor(props) {
   render(){
 
     return(
-      <div className="weather cell small-12 medium-6">
+      <div className="weather cell small-24 medium-12">
         <canvas id="icon1"></canvas>
         <p className="newsDescription weatherInfo">
           <span className="weatherInfoText current" id="temp">{this.state.summary} | {this.state.temp}</span><br />

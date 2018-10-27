@@ -3,8 +3,8 @@ import React from 'react'
 const Predictions = props => {
   let prediction1 = "";
   let prediction2 = "";
-  if(props.stationPrediction && Object.keys(props.stationPrediction).length != 0){
 
+  if(props.stationPrediction && Object.keys(props.stationPrediction).length != 0){
     for(let i = 0; i<props.stationPrediction.data.length; i++){
       let train = props.stationPrediction.data[i];
 
@@ -24,9 +24,9 @@ const Predictions = props => {
           }
 
           if(!prediction1 ){
-            prediction1 = (<div className = "prediction cell small-12 large-6">{timeTilArrival}</div>);
+            prediction1 = (<div className = "prediction cell small-24 large-12">{timeTilArrival}</div>);
           }else if (!prediction2) {
-            prediction2 = (<div className = "prediction cell small-12 large-6">{timeTilArrival}</div>);
+            prediction2 = (<div className = "prediction cell small-24 large-12">{timeTilArrival}</div>);
           }
         }
       }
