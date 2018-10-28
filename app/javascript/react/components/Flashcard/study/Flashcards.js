@@ -75,6 +75,7 @@ class Flashcards extends Component {
 
     return(
       <div className="cell small-20">
+        <h1 className="flashcard-deck-name">{this.props.deckName}</h1>
         <div className = "flashcards">
           <Card
             key = {activeIdx}
