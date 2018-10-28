@@ -59,7 +59,7 @@ class Flashcards extends Component {
         <Card
           key={def.id}
           type={"Definition"}
-          title={"Definition"}
+          title={def.definition_title}
           definition = {def.definition}
           show = {this.state.showAll}
         />
@@ -79,7 +79,7 @@ class Flashcards extends Component {
           <Card
             key = {activeIdx}
             type={"Term"}
-            title={"Term"}
+            title={this.props.activeCard.term_title}
             definition = {this.props.term}
             show = {true}
             mastery = {this.state.mastery}
