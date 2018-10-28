@@ -58,8 +58,9 @@ class Study extends Component {
     .then(data => {
       let cards = data.cards
       let len = cards.length -1
+      let deckName = data.deck_name
 
-      this.setState({cards: cards, lastIdx: len})
+      this.setState({cards: cards, lastIdx: len, deckName: deckName})
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -86,6 +87,7 @@ class Study extends Component {
       cardsPage = (
         <Flashcards
           term = {term}
+          deckName = {this.state.deckName}
           definitions = {definitions}
           activeCard = {activeCard}
           mastery = {mastery}
