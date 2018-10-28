@@ -77,6 +77,7 @@ class Study extends Component {
       let term = activeCard.term
       let definitions = activeCard.definitions
       let cardId = activeCard.id
+
       let mastery
       if(activeCard.masteries.length){
         mastery = activeCard.masteries[0].mastery
@@ -86,6 +87,7 @@ class Study extends Component {
         <Flashcards
           term = {term}
           definitions = {definitions}
+          activeCard = {activeCard}
           mastery = {mastery}
           cardId = {cardId}
           deckId = {Number(this.props.params.id)}
