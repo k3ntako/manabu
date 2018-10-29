@@ -6,36 +6,40 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-deck_names = ["Numbers","Days of the Week", "JavaScript"]
-
-deck_names.each do |name|
-  Deck.create(name: name)
-end
-
-definition_titles = ["Number", "English", "French"]
+definition_titles = ["Number", "English", "French", "JavaScript"]
 
 definition_titles.each do |def_t|
   DefinitionTitle.create(title: def_t)
 end
 
+deck_attributes = [
+  {name: "Numbers", definition_title_id: 1},
+  {name: "Days of the Week", definition_title_id: 1},
+  {name: "JavaScript", definition_title_id: 4}
+]
+
+deck_attributes.each do |attributes|
+  Deck.create(attributes)
+end
+
 card_attributes = [
-  {term: "1", deck_id: 1, definition_title_id: 1},
-  {term: "2", deck_id: 1, definition_title_id: 1},
-  {term: "3", deck_id: 1, definition_title_id: 1},
-  {term: "4", deck_id: 1, definition_title_id: 1},
-  {term: "5", deck_id: 1, definition_title_id: 1},
-  {term: "6", deck_id: 1, definition_title_id: 1},
-  {term: "7", deck_id: 1, definition_title_id: 1},
-  {term: "8", deck_id: 1, definition_title_id: 1},
-  {term: "9", deck_id: 1, definition_title_id: 1},
-  {term: "10", deck_id: 1, definition_title_id: 1},
-  {term: "Sunday", deck_id: 2, definition_title_id: 2},
-  {term: "Monday", deck_id: 2, definition_title_id: 2},
-  {term: "Tuesday", deck_id: 2, definition_title_id: 2},
-  {term: "Wednesday", deck_id: 2, definition_title_id: 2},
-  {term: "Thursday", deck_id: 2, definition_title_id: 2},
-  {term: "Friday", deck_id: 2, definition_title_id: 2},
-  {term: "Saturday", deck_id: 2, definition_title_id: 2}
+  {term: "1", deck_id: 1},
+  {term: "2", deck_id: 1},
+  {term: "3", deck_id: 1},
+  {term: "4", deck_id: 1},
+  {term: "5", deck_id: 1},
+  {term: "6", deck_id: 1},
+  {term: "7", deck_id: 1},
+  {term: "8", deck_id: 1},
+  {term: "9", deck_id: 1},
+  {term: "10", deck_id: 1},
+  {term: "Sunday", deck_id: 2},
+  {term: "Monday", deck_id: 2},
+  {term: "Tuesday", deck_id: 2},
+  {term: "Wednesday", deck_id: 2},
+  {term: "Thursday", deck_id: 2},
+  {term: "Friday", deck_id: 2},
+  {term: "Saturday", deck_id: 2}
 ]
 
 card_attributes.each do |attributes|

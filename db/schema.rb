@@ -20,15 +20,15 @@ ActiveRecord::Schema.define(version: 2018_10_27_223226) do
     t.bigint "deck_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "definition_title_id", null: false
     t.index ["deck_id"], name: "index_cards_on_deck_id"
-    t.index ["definition_title_id"], name: "index_cards_on_definition_title_id"
   end
 
   create_table "decks", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "definition_title_id", null: false
+    t.index ["definition_title_id"], name: "index_decks_on_definition_title_id"
   end
 
   create_table "definition_titles", force: :cascade do |t|
@@ -87,6 +87,6 @@ ActiveRecord::Schema.define(version: 2018_10_27_223226) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "cards", "definition_titles"
+  add_foreign_key "decks", "definition_titles"
   add_foreign_key "definitions", "definition_titles"
 end

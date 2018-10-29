@@ -9,7 +9,9 @@ class Study extends Component {
     this.state = {
       activeCardIdx: 0,
       cards: [],
-      lastIdx: 0
+      lastIdx: 0,
+      deckName: "",
+      termTitle: ""
     };
 
     this.next = this.next.bind(this);
@@ -59,8 +61,9 @@ class Study extends Component {
       let cards = data.cards
       let len = cards.length -1
       let deckName = data.deck_name
+      let termTitle = data.term_title
 
-      this.setState({cards: cards, lastIdx: len, deckName: deckName})
+      this.setState({cards: cards, lastIdx: len, deckName: deckName, termTitle: termTitle})
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -88,6 +91,7 @@ class Study extends Component {
         <Flashcards
           term = {term}
           deckName = {this.state.deckName}
+          termTitle = {this.state.termTitle}
           definitions = {definitions}
           activeCard = {activeCard}
           mastery = {mastery}
