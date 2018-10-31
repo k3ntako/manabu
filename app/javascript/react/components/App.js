@@ -3,6 +3,7 @@ import { Router, browserHistory, Route, IndexRoute, Link, Redirect } from 'react
 
 import Flashcard from './Flashcard/Flashcard';
 import Study from './Flashcard/study/Study';
+import Edit from './Flashcard/Edit/Edit';
 import DailyUpdate from './DailyUpdate/DailyUpdate'
 
 class App extends Component {
@@ -29,7 +30,7 @@ constructor(props) {
         <Route path='/flashcard'>
           <IndexRoute component={Flashcard} />
           <Route path="/flashcard/study/:id" component={Study}/>
-          <Route path="/flashcard/edit" component={Flashcard}/>
+          <Route path="/flashcard/edit/:id" component={Edit}/>
           <Redirect from='/flashcard/*' to="/flashcard" />
         </Route>
         <Route path="daily_update" component={DailyUpdate} />

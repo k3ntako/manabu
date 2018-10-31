@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :decks, only: :index do
-        resources :cards, only: :index do
+      resources :decks, only: [:index, :update] do
+        resources :cards, only: [:index, :update] do
           resources :masteries, only: :create
         end
       end
