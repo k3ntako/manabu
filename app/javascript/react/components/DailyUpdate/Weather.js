@@ -102,7 +102,6 @@ constructor(props) {
   }
 
   render(){
-    console.log(parseInt(this.state.temp), );
     return(
       <div className="weather cell small-24 medium-12">
         <canvas id="icon1"></canvas>

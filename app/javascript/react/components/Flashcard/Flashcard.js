@@ -55,26 +55,33 @@ constructor(props) {
       )
     })
 
-    let startButton = (
-      <div className="startCards deck-tile cell small-12" id="start-study-flashcards">
-        <Link to={`/flashcard/study/${this.state.selectedDeck}`}>Start</Link>
+    let startEditButtons = (
+      <div className="grid-x grid-margin-x">
+        <div className="startCards deck-tile cell small-12" id="start-study-flashcards">
+          <Link to={`/flashcard/study/${this.state.selectedDeck}`}>Start</Link>
+        </div>
+        <div className="startCards deck-tile cell small-12 " id="edit-flashcards">
+          <Link to={`/flashcard/edit/${this.state.selectedDeck}`}>Edit</Link>
+        </div>
       </div>
     )
     if(!this.state.selectedDeck){
-      startButton = (
-        <div className="startCards deck-tile cell small-12"><Link to={`/flashcard/study/${this.state.selectedDeck}`}>Start</Link></div>
+      startEditButtons = (
+        <div className="grid-x grid-margin-x">
+          <div className="startCards deck-tile cell small-12">
+            Start
+          </div>
+          <div className="startCards deck-tile cell small-12 ">
+            Edit
+          </div>
+        </div>
       )
     }
 
     return(
       <div>
         {deckList}
-        <div className="grid-x grid-margin-x">
-          {startButton}
-          <div className="startCards deck-tile cell small-12 " id="edit-flashcards">
-            <Link to="/edit">Edit</Link>
-          </div>
-        </div>
+        {startEditButtons}
       </div>
     )
   }

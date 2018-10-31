@@ -1,0 +1,55 @@
+.flashcard-edit{
+  width: 80vw;
+  margin: 0 auto 20px auto;
+}
+
+.edit-card{
+  background-color: var(--bg-color);
+  margin-bottom: 50px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+// textarea{
+//   line-height:35px;;
+//   height: 70px;
+//
+// }
+.edit-input{
+font-size: 1.5rem;
+}
+textarea.edit-input{
+  height: auto;
+}
+
+.edit-term{
+  font-weight: 900;;
+}
+
+.edit-def{
+  display: inline-block;
+}
+
+.flashcard-save-edit{
+  margin-left: 80%;
+  width:20%;
+  background-color: limegreen;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: white;
+}
+
+
+
+
+
+#darkModeToggle {
+
+  margin-left: var(--palatte-padding-left);
+  background-color: var(--footer-color);
+  border-radius: 15px;
+}
