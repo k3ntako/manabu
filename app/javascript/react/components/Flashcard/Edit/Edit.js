@@ -22,6 +22,7 @@ class Edit extends Component {
     this.findFromArray = this.findFromArray.bind(this)
     this.noBlankFieldArrOfObj = this.noBlankFieldArrOfObj.bind(this)
     this.saveNewTitlesToDatabase = this.saveNewTitlesToDatabase.bind(this)
+    this.deleteDefinitionsInDatabase = this.deleteDefinitionsInDatabase.bind(this)
   }
 
   noBlankFieldArrOfObj(arr, field){
@@ -193,19 +194,50 @@ class Edit extends Component {
     }
   }
 
+  deleteDefinitionsInDatabase(deletedDefTitles) {
+    if(!this.state.formDisabled){
+      let deckJSON = {
+        deck_name: this.state.deckName,
+        term_title: this.state.termTitle,
+        definition_titles: this.state.definitionTitles,
+        number_of_definitions: this.state.numOfDefs,
+        deleted_definition_titles: deletedDefTitles
+      }
+
+      let jsonStringInfo = JSON.stringify(deckJSON)
+      fetch(`/api/v1/decks/${this.props.params.id}/definition_titles/${this.state.numOfDefs-1}`, {
+        method: 'DELETE',
+        body: jsonStringInfo,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json' },
+          credentials: 'same-origin'
+        })
+        .then(data => data.json())
+        .then(newDefinitions => {
+          debugger
+        }
+      )
+    }else{
+      //error message on screen
+      this.setState({errors: ["Need to figure out how to deal with deleting titles while already editing."]})
+      console.log("NAHHHH");
+    }
+  }
+
   defNumChangeHandler(event){
     let newNum = Number(event.target.value)
     if(this.state.numOfDefs > newNum){
       if (confirm("This will delete any definitions defined in the boxes deleted. Are you sure you would like to reduce the number of definitions.")) {
-        let def_titles = this.state.definitionTitles
-        def_titles.length = newNum
+        let defTitles = this.state.definitionTitles
+        let remainingDefTitles = defTitles.splice(0,newNum)
 
         let cards = this.state.cards
         cards.forEach(card => {
           card.definitions.length = newNum
         })
-        this.setState({numOfDefs: newNum, definitionTitles: def_titles, cards: cards})
-        // this.saveDeckToDatabase()
+        this.setState({numOfDefs: newNum, definitionTitles: remainingDefTitles, cards: cards})
+        this.deleteDefinitionsInDatabase(defTitles)
       }
     }else {
       let newDefTitles = []
@@ -347,9 +379,9 @@ class Edit extends Component {
     }
 
     let errors = []
-    this.state.errors.forEach(error => {
+    this.state.errors.forEach((error, idx) => {
       errors.push(
-        <div>{error}</div>
+        <div key={idx}>{error}</div>
       )
     })
 
