@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_223226) do
 
   create_table "cards", force: :cascade do |t|
     t.string "term", null: false
+    t.integer "sequence", null: false
     t.bigint "deck_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 2018_10_27_223226) do
 
   create_table "definitions", force: :cascade do |t|
     t.text "definition", default: "No Definition", null: false
+    t.integer "sequence", null: false
     t.bigint "card_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -1,5 +1,5 @@
 class CardSerializer < ActiveModel::Serializer
-  attributes :id, :term
+  attributes :id, :term, :sequence
 
   has_many :definitions
   has_many :masteries
