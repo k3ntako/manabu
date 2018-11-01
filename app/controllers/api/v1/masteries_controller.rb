@@ -8,6 +8,8 @@ class Api::V1::MasteriesController < ApplicationController
       mastery.user_id = 1
     end
 
+    binding.pry
+
     if mastery.save
       render json: mastery
     else
