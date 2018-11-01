@@ -9,7 +9,10 @@ class Edit extends Component {
       deckName: "",
       termTitle: "",
       definitionTitles: [],
-      numOfDefs: 0
+      numOfDefs: 0,
+      oldNumOfDefs: 0,
+      formDisabled: false,
+      errors: []
     };
     this.saveToDatabase = this.saveToDatabase.bind(this)
     this.saveDeckToDatabase = this.saveDeckToDatabase.bind(this)
@@ -17,6 +20,18 @@ class Edit extends Component {
     this.updateDefinition = this.updateDefinition.bind(this)
     this.updateTitle = this.updateTitle.bind(this)
     this.findFromArray = this.findFromArray.bind(this)
+    this.noBlankFieldArrOfObj = this.noBlankFieldArrOfObj.bind(this)
+    this.saveNewTitlesToDatabase = this.saveNewTitlesToDatabase.bind(this)
+  }
+
+  noBlankFieldArrOfObj(arr, field){
+    let valid = true
+    arr.forEach(item => {
+      if(!item[field].replace(/\s/g,'')){
+        valid = false
+      }
+    })
+    return valid
   }
 
   findFromArray(arr, id){
@@ -79,15 +94,14 @@ class Edit extends Component {
       let deckName = data.deck_name
       let definitionTitles = data.definition_titles
 
-
-      console.log(definitionTitles);
       let termTitle = data.term_title
       this.setState({
         cards: cards,
         deckName: deckName,
         definitionTitles: definitionTitles,
         termTitle: termTitle,
-        numOfDefs: definitionTitles.length
+        numOfDefs: definitionTitles.length,
+        oldNumOfDefs: definitionTitles.length
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -106,19 +120,20 @@ class Edit extends Component {
       })
       .then(data => data.json())
       .then(card => {
-        console.log("fetch post", card);
-        console.log("state", cardJSON);
-      })
-    }
+      }
+    )
+  }
 
-    saveDeckToDatabase() {
+  saveDeckToDatabase() {
+    let noBlanks = this.noBlankFieldArrOfObj(this.state.definitionTitles, "title")
+    if(noBlanks && !this.state.formDisabled){
       let deckJSON = {
         deck_name: this.state.deckName,
         term_title: this.state.termTitle,
         definition_titles: this.state.definitionTitles,
         number_of_definitions: this.state.numOfDefs
       }
-      console.log(deckJSON);
+
       let jsonStringInfo = JSON.stringify(deckJSON)
       fetch(`/api/v1/decks/${this.props.params.id}/`, {
         method: 'PATCH',
@@ -129,145 +144,236 @@ class Edit extends Component {
           credentials: 'same-origin'
         })
         .then(data => data.json())
-        .then(card => {
-          console.log("fetch post", card);
-          console.log("state", deckJSON);
-        })
-      }
+        .then(deck => {
 
-    defNumChangeHandler(event){
-      this.setState({numOfDefs: Number(event.target.value)})
-    }
+          this.setState({definitionTitles: deck.definition_titles})
 
-    componentDidMount(){
-      this.fetchDeck(this.props.params.id)
-    }
-
-    render(){
-      function sortById(a,b) {
-        if (a.id < b.id){
-          return -1;
         }
-        return 1;
+      )
+    }else{
+      //error message on screen
+      console.log("NAHHHH");
+    }
+  }
+
+  saveNewTitlesToDatabase() {
+    let noBlanks = this.noBlankFieldArrOfObj(this.state.definitionTitles, "title")
+    if(noBlanks && this.state.formDisabled){
+      let deckJSON = {
+        deck_name: this.state.deckName,
+        term_title: this.state.termTitle,
+        definition_titles: this.state.definitionTitles,
+        number_of_definitions: this.state.numOfDefs
       }
 
-      let onChangeHandler = (event) => {
-        this.setState({termTitle: event.target.value})
+      let jsonStringInfo = JSON.stringify(deckJSON)
+      fetch(`/api/v1/decks/${this.props.params.id}/definitions`, {
+        method: 'POST',
+        body: jsonStringInfo,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json' },
+          credentials: 'same-origin'
+        })
+        .then(data => data.json())
+        .then(newDefinitions => {
+
+
+          this.setState({
+            definitionTitles: newDefinitions.definition_titles,
+            cards: newDefinitions.cards,
+            formDisabled: false
+          })
+        }
+      )
+    }else{
+      //error message on screen
+      this.setState({errors: ["Definition titles can't be blank."]})
+      console.log("NAHHHH");
+    }
+  }
+
+  defNumChangeHandler(event){
+    let newNum = Number(event.target.value)
+    if(this.state.numOfDefs > newNum){
+      if (confirm("This will delete any definitions defined in the boxes deleted. Are you sure you would like to reduce the number of definitions.")) {
+        let def_titles = this.state.definitionTitles
+        def_titles.length = newNum
+
+        let cards = this.state.cards
+        cards.forEach(card => {
+          card.definitions.length = newNum
+        })
+        this.setState({numOfDefs: newNum, definitionTitles: def_titles, cards: cards})
+        // this.saveDeckToDatabase()
+      }
+    }else {
+      let newDefTitles = []
+      for(let i=0; i < newNum - this.state.numOfDefs; i++){
+        newDefTitles.push({id: `new${i}`, title: ""})
+      }
+      this.setState({
+        numOfDefs: newNum,
+        formDisabled: true,
+        definitionTitles: this.state.definitionTitles.concat(newDefTitles)})
+    }
+  }
+
+  componentDidMount(){
+    this.fetchDeck(this.props.params.id)
+  }
+
+  render(){
+
+    function sortById(a,b) {
+      // debugger
+      if (a.id.toString() < b.id.toString()){
+        return -1;
+      }
+      return 1;
+    }
+
+    let onChangeHandler = (event) => {
+      this.setState({termTitle: event.target.value})
+    }
+
+    let front = [(
+      <input
+        key = {"term-front"}
+        className = "edit-front edit-input edit-term"
+        type="text"
+        value={this.state.termTitle}
+        onChange={onChangeHandler}
+        onBlur={this.saveDeckToDatabase}
+        />
+    )];
+
+    let sortedTitles = this.state.definitionTitles.sort(sortById)
+    console.log(sortedTitles);
+    for(let i=0; i<this.state.numOfDefs;i++){
+      let title = sortedTitles[i]
+      // if(!title){
+      //   title = {id:"front"+i, title:""}
+      // }
+
+      onChangeHandler = (event) => {
+        console.log(event.target.id);
+        this.updateTitle(title.id, event.target.value)
       }
 
-      let front = [(
+      front.push(
         <input
-          key = {"term-front"}
-          className = "edit-front edit-input edit-term"
+          key = {title.id+"dt"}
+          id={title.id}
+          className = "edit-front edit-input"
           type="text"
-          value={this.state.termTitle}
+          value={title.title}
           onChange={onChangeHandler}
           onBlur={this.saveDeckToDatabase}
           />
-      )];
+      )
+    }
 
-      let sortedTitles = this.state.definitionTitles.sort(sortById)
-      for(let i=0; i<this.state.numOfDefs;i++){
-        let title = sortedTitles[i]
-        if(!title){
-          title = {id:"front"+i, title:""}
-        }
 
-        onChangeHandler = (event) => {
-          this.updateTitle(title.id, event.target.value)
-        }
 
-        front.push(
-          <input
-            key = {title.id+"dt"}
-            className = "edit-front edit-input"
-            type="text"
-            value={title.title}
-            onChange={onChangeHandler}
-            onBlur={this.saveDeckToDatabase}
-          />
-        )
+    let sortedCards = this.state.cards.sort(sortById)
+    let deck = sortedCards.map((card,idx) => {
+      let handleOnBlur = () => {
+        this.saveToDatabase(card.id)
       }
 
-
-
-      let sortedCards = this.state.cards.sort(sortById)
-      let deck = sortedCards.map((card,idx) => {
-        let handleOnBlur = () => {
-          this.saveToDatabase(card.id)
+      let defTextArea = []
+      for(let i=0; i<this.state.numOfDefs;i++){
+        let sortedDefinitions = card.definitions.sort(sortById)
+        let def = sortedDefinitions[i]
+        if(!def){
+          def = {id:"new"+idx+i, definition:""}
         }
-
-        let defTextArea = []
-        for(let i=0; i<this.state.numOfDefs;i++){
-          let sortedDefinitions = card.definitions.sort(sortById)
-          let def = sortedDefinitions[i]
-          if(!def){
-            def = {id:"100"+idx+i, definition:""}
-          }
-
-          let defChangeHandler = (event) => {
-            this.updateDefinition(card.id, def.id, event.target.value)
-          }
-
-          defTextArea.push(
-            <textarea
-              key={def.id+"def"+idx}
-              className={"edit-def edit-input"}
-              type="text"
-              value={def.definition}
-              onChange={defChangeHandler}
-              placeholder={def.definition_title}
-              onBlur={handleOnBlur}
-            />
-          )
-        };
 
         let defChangeHandler = (event) => {
-          this.updateDefinition(card.id, null, event.target.value)
+          this.updateDefinition(card.id, def.id, event.target.value)
         }
 
-        return(
-          <div key={card.id + "cards"} className="edit-card cell small-24 medium-12 large-8">
-            <input
-              className="edit-term edit-input"
-              type="text"
-              value={card.term}
-              onBlur={handleOnBlur}
-              onChange={defChangeHandler}
-              />
-            {defTextArea}
-          </div>
+        let defVal = ""
+        if(def.definition != "No Definition"){
+          defVal = def.definition
+        }
+
+        defTextArea.push(
+          <textarea
+            key={def.id+"def"+idx}
+            className={"edit-def edit-input"}
+            type="text"
+            value={defVal}
+            onChange={defChangeHandler}
+            placeholder={def.definition_title}
+            onBlur={handleOnBlur}
+            disabled={this.state.formDisabled}
+            />
         )
-      })
+      };
 
-      let dropdownOptions = []
-      for(let i=1; i < 11; i++){
-        if(i === this.state.numOfDefs){
-          dropdownOptions.push(<option key={i} value={i} selected>{i}</option>)
-        }else{
-          dropdownOptions.push(<option key={i} value={i}>{i}</option>)
-        }
+      let defChangeHandler = (event) => {
+        this.updateDefinition(card.id, null, event.target.value)
       }
 
       return(
-        <div className="flashcard-edit">
-          <form>
-            <h2><span className="flashcard-deck-name">{this.state.deckName}</span> - Edit Cards</h2>
-            <h3>Front of Card</h3>
-            <select onChange={this.defNumChangeHandler}>
-              {dropdownOptions}
-            </select>
-            <div className="edit-card">
-              {front}
-            </div>
-            <h3>Back of Card</h3>
-            <div className="grid-x grid-margin-x">
-            {deck}
-            </div>
-          </form>
+        <div key={card.id + "cards"} className="edit-card cell small-24 medium-12 large-8">
+          <input
+            className="edit-term edit-input"
+            type="text"
+            value={card.term}
+            onBlur={handleOnBlur}
+            onChange={defChangeHandler}
+            disabled={this.state.formDisabled}
+            />
+          {defTextArea}
         </div>
-      );
-    }
-  };
+      )
+    })
 
-  export default Edit
+    let dropdownOptions = []
+    for(let i=1; i < 11; i++){
+      if(i === this.state.numOfDefs){
+        dropdownOptions.push(<option key={i} value={i} selected>{i}</option>)
+      }else{
+        dropdownOptions.push(<option key={i} value={i}>{i}</option>)
+      }
+    }
+
+    let addTitlesButton;
+    if(this.state.formDisabled){
+      addTitlesButton = (<div className="flashcard-save-edit" onClick={this.saveNewTitlesToDatabase}>Add New Titles</div>)
+    }
+
+    let errors = []
+    this.state.errors.forEach(error => {
+      errors.push(
+        <div>{error}</div>
+      )
+    })
+
+    return(
+      <div className="flashcard-edit">
+        {errors}
+        <form>
+          <h2><span className="flashcard-deck-name">{this.state.deckName}</span> - Edit Cards</h2>
+          <h3>Titles</h3>
+          <select onChange={this.defNumChangeHandler}>
+            {dropdownOptions}
+          </select>
+          <div className="edit-card edit-title">
+            {front}
+            {addTitlesButton}
+          </div>
+          <h3>Cards</h3>
+          <div className="grid-x grid-margin-x grid-margin-y grid-padding-x">
+            {deck}
+          </div>
+        </form>
+      </div>
+    );
+  }
+};
+
+export default Edit

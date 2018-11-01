@@ -32,13 +32,13 @@ ActiveRecord::Schema.define(version: 2018_10_27_223226) do
   end
 
   create_table "definition_titles", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "definitions", force: :cascade do |t|
-    t.text "definition", null: false
+    t.text "definition", default: "No Definition", null: false
     t.bigint "card_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

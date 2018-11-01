@@ -23,7 +23,6 @@ class Api::V1::CardsController < ApplicationController
     card_params[:definitions].each do |defi|
       definition = Definition.find(defi[:id])
       definition.update(definition: defi[:definition])
-
     end
 
     render json: {
@@ -35,7 +34,7 @@ class Api::V1::CardsController < ApplicationController
   end
 
   private
-  
+
   def card_params
     params.permit(:id, :term, :deck_id, :definitions => [:id, :definition, :definition_title], :masteries => [], :card => [:id, :term])
   end
