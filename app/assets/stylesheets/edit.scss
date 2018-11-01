@@ -5,10 +5,14 @@
 
 .edit-card{
   background-color: var(--bg-color);
-  margin-bottom: 50px;
+  // margin-bottom: 50px;
   border: 1px solid black;
   border-radius: 10px;
   padding: 10px;
+}
+
+.edit-title{
+  margin-bottom: 50px;
 }
 
 // textarea{
@@ -17,14 +21,16 @@
 //
 // }
 .edit-input{
-font-size: 1.5rem;
+  font-size: 1.5rem;
+  margin: 10px 0;
 }
+
 textarea.edit-input{
   height: auto;
 }
 
 .edit-term{
-  font-weight: 900;;
+  font-weight: 900;
 }
 
 .edit-def{
