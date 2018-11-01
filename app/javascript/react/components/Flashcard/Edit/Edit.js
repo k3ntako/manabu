@@ -256,10 +256,10 @@ class Edit extends Component {
   }
 
   render(){
-
+    console.log(this.state);
     function sortById(a,b) {
       // debugger
-      if (a.id.toString() < b.id.toString()){
+      if (a.sequence < b.sequence){
         return -1;
       }
       return 1;
