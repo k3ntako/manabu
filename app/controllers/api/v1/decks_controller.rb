@@ -16,7 +16,6 @@ class Api::V1::DecksController < ApplicationController
       defTitle = DefinitionTitle.find(dt[:id])
       defTitle.attributes = {title: dt[:title]}
       if !defTitle.save
-        binding.pry
         def_titles_saved = false
       end
     end
@@ -30,7 +29,6 @@ class Api::V1::DecksController < ApplicationController
         definition_titles: ActiveModel::Serializer::ArraySerializer.new(def_titles)
       }
     else
-      binding.pry
       render json: { :errors => definition_title.errors.full_messages }
     end
   end
