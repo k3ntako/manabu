@@ -36,7 +36,8 @@ class Flashcards extends Component {
     .then(data => data.json())
     .then(mastery => {
       console.log(mastery, "fetch post");
-      console.log(this.state.mastery);
+      console.log(this.state);
+      debugger
       this.setState({
         mastery: mastery.mastery.mastery
       })

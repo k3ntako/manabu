@@ -104,7 +104,7 @@ class Study extends Component {
     }
 
     return(
-      <div className="cards-page grid-x">
+      <div className="grid-x">
         <NextBackButton clickFunc={this.back} side="left"/>
         {cardsPage}
         <NextBackButton clickFunc={this.next} side="right"/>
