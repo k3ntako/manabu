@@ -30,11 +30,11 @@ constructor(props) {
     return(
       <Router history={browserHistory}>
         <Route path='/' component={DailyUpdate} />
-        <Route path='/flashcard'>
+        <Route path='/flashcards'>
           <IndexRoute component={Flashcard} />
-          <Route path="/flashcard/study/:id" component={Study}/>
-          <Route path="/flashcard/edit/:id" component={Edit}/>
-          <Redirect from='/flashcard/*' to="/flashcard" />
+          <Route path="/flashcards/study/:id" component={Study}/>
+          <Route path="/flashcards/edit/:id" component={Edit}/>
+          <Redirect from='/flashcards/*' to="/flashcards" />
         </Route>
         <Route path='/notes'>
           <IndexRoute component={Notes} />
@@ -42,7 +42,6 @@ constructor(props) {
         </Route>
         <Route path="daily_update" component={DailyUpdate} />
         <Route path="*" component={ErrorPage}/>
-
       </Router>
     )
   }

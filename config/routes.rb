@@ -17,9 +17,9 @@ Rails.application.routes.draw do
   end
 
   root 'homes#index'
-  get '/flashcard', to: 'homes#index'
-  get '/flashcard/study/', to: redirect('/flashcard')
-  get '/flashcard/study/:id', to: 'homes#index'
+  get '/flashcards', to: 'homes#index'
+  get '/flashcards/study/', to: redirect('/flashcards')
+  get '/flashcards/study/:id', to: 'homes#index'
   get '/notes', to: 'homes#index'
   get '/notes/:id', to: 'homes#index'
   get '*path', to: redirect('/')
