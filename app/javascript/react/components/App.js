@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Router, browserHistory, Route, IndexRoute, Link, Redirect } from 'react-router';
 
+import NavBar from './NavBar';
 import Flashcard from './Flashcard/Flashcard';
 import Study from './Flashcard/study/Study';
 import Edit from './Flashcard/Edit/Edit';
@@ -29,19 +30,21 @@ constructor(props) {
   render(){
     return(
       <Router history={browserHistory}>
-        <Route path='/' component={DailyUpdate} />
-        <Route path='/flashcards'>
-          <IndexRoute component={Flashcard} />
-          <Route path="/flashcards/study/:id" component={Study}/>
-          <Route path="/flashcards/edit/:id" component={Edit}/>
-          <Redirect from='/flashcards/*' to="/flashcards" />
+        <Route path='/' component={NavBar} >
+          <IndexRoute component={DailyUpdate} />
+          <Route path='/flashcards'>
+            <IndexRoute component={Flashcard} />
+            <Route path="/flashcards/study/:id" component={Study}/>
+            <Route path="/flashcards/edit/:id" component={Edit}/>
+            <Redirect from='/flashcards/*' to="/flashcards" />
+          </Route>
+          <Route path='/notes'>
+            <IndexRoute component={Notes} />
+              <Route path="/notes/:id" component={Note}/>
+          </Route>
+          <Route path="daily_update" component={DailyUpdate} />
+          <Route path="*" component={ErrorPage}/>
         </Route>
-        <Route path='/notes'>
-          <IndexRoute component={Notes} />
-            <Route path="/notes/:id" component={Note}/>
-        </Route>
-        <Route path="daily_update" component={DailyUpdate} />
-        <Route path="*" component={ErrorPage}/>
       </Router>
     )
   }

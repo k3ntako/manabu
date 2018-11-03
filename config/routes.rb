@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :users
       resources :notes, only: [:index, :update, :show]
       resources :decks, only: [:index, :update] do
         resources :definitions, only: [:create]
