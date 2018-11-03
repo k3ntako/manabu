@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :notes, only: [:index, :update, :show]
       resources :decks, only: [:index, :update] do
         resources :definitions, only: [:create]
         resources :definition_titles, only: [:destroy]
@@ -16,5 +17,10 @@ Rails.application.routes.draw do
   end
 
   root 'homes#index'
-  get '*path', to: 'homes#index'
+  get '/flashcard', to: 'homes#index'
+  get '/flashcard/study/', to: redirect('/flashcard')
+  get '/flashcard/study/:id', to: 'homes#index'
+  get '/notes', to: 'homes#index'
+  get '/notes/:id', to: 'homes#index'
+  get '*path', to: redirect('/')
 end

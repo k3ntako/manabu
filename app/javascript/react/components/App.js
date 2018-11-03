@@ -5,6 +5,9 @@ import Flashcard from './Flashcard/Flashcard';
 import Study from './Flashcard/study/Study';
 import Edit from './Flashcard/Edit/Edit';
 import DailyUpdate from './DailyUpdate/DailyUpdate'
+import Notes from './Notes/Notes'
+import Note from './Notes/Note'
+
 
 class App extends Component {
 constructor(props) {
@@ -32,6 +35,10 @@ constructor(props) {
           <Route path="/flashcard/study/:id" component={Study}/>
           <Route path="/flashcard/edit/:id" component={Edit}/>
           <Redirect from='/flashcard/*' to="/flashcard" />
+        </Route>
+        <Route path='/notes'>
+          <IndexRoute component={Notes} />
+            <Route path="/notes/:id" component={Note}/>
         </Route>
         <Route path="daily_update" component={DailyUpdate} />
         <Route path="*" component={ErrorPage}/>

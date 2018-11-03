@@ -375,7 +375,7 @@ class Edit extends Component {
 
     let addTitlesButton;
     if(this.state.formDisabled){
-      addTitlesButton = (<div className="flashcard-save-edit" onClick={this.saveNewTitlesToDatabase}>Add New Titles</div>)
+      addTitlesButton = (<div className="standard-green-button" onClick={this.saveNewTitlesToDatabase}>Add New Titles</div>)
     }
 
     let errors = []
