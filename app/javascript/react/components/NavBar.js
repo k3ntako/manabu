@@ -30,20 +30,19 @@ class NavBar extends Component {
   }
 
   signOut(){
-    let jsonStringInfo = JSON.stringify(this.state.currentUser)
     fetch(`/users/sign_out`, {
       method: 'DELETE',
-      body: jsonStringInfo,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json' },
-        credentials: 'same-origin'
-      })
-      .then(data => data.json())
-      .then(newDefinitions => {
-        console.log(newDefinitions);
-      }
-    )
+      credentials: 'same-origin'
+    })
+    .then(data => data.json())
+    .then(newDefinitions => {
+      debugger
+      console.log(newDefinitions);
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   componentDidMount(){
