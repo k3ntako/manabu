@@ -16,7 +16,6 @@ class Api::V1::DefinitionsController < ApplicationController
       end
     end
 
-
     deck.cards.each do |card|
       new_def_titles.each do |dt|
         new_def = Definition.new(card: card, definition_title: dt, sequence: Definition.def_next_sequence(card))
