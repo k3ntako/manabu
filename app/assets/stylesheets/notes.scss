@@ -1,0 +1,37 @@
+.notes{
+  height: calc(100vh - 70px);
+}
+
+input.notes-name{
+  font-size: 3rem;
+  height: 70px;
+  border:1px solid white;
+  box-shadow: none;
+}
+
+input.notes-name:focus{
+  color: #555;
+}
+
+.DraftEditor-editorContainer > div{
+  width: 100%;
+}
+
+.notes-editor{
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border: 2px solid #e1e1e1;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.notes-style-button{
+  padding: 0 10px;
+  margin: 5px 5px;
+}
+
+.notes-style-button-active{
+  color: steelblue;
+  text-shadow: 0 0 4px #ccdcea;
+}

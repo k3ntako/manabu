@@ -16,7 +16,9 @@ class Api::V1::DefinitionTitlesController < ApplicationController
 
     render json: {cards: deck.cards, definition_titles: definition_titles}
   end
+
   private
+  
   def df_params
     params.permit(:deck_id, :deleted_definition_titles => [:title, :id])
   end
