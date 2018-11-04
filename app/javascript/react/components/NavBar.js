@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+
+import FullNavBar from './NavBar/FullNavBar'
+import SmallNavBar from './NavBar/SmallNavBar'
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null
+      currentUser: null,
+      smallNavBar: false
     };
     this.fetchUser = this.fetchUser.bind(this)
     this.signOut = this.signOut.bind(this)
+    this.windowResizeHandler = this.windowResizeHandler.bind(this)
   }
 
   fetchUser(){
@@ -37,55 +41,48 @@ class NavBar extends Component {
         'Content-Type': 'application/json' },
       credentials: 'same-origin'
     })
-    .then(data => data.json())
-    .then(newDefinitions => {
-      debugger
-      console.log(newDefinitions);
-    })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
+  };
+
+  windowResizeHandler(){
+    if(this.state.smallNavBar && window.innerWidth > 640){
+      this.setState({smallNavBar: false})
+    }else if(!this.state.smallNavBar && window.innerWidth <= 640){
+      this.setState({smallNavBar: true})
+    }
   }
 
   componentDidMount(){
-    this.fetchUser()
-  }
+    window.addEventListener("resize", this.windowResizeHandler);
+    this.windowResizeHandler();
+    this.fetchUser();
+  };
 
   render(){
-    let userSignInHTML = [
-      (<li key="1"><a href="/users/sign_up">Sign Up</a></li>),
-      (<li key="2"><a href="/users/sign_in">Sign In</a></li>)
-    ]
-
-    if(this.state.currentUser){
-      userSignInHTML = (<li onClick={this.signOut}><a href="/users/sign_out">Sign Out</a></li>)
-    }
-
     const children = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         currentUser: this.state.currentUser,
       });
     });
 
+    let navBarHTML = <FullNavBar
+      currentUser={this.state.currentUser}
+      children={children}
+      pathname={this.props.location.pathname}
+    />
+    if(this.state.smallNavBar){
+      navBarHTML = (
+        <SmallNavBar
+          currentUser={this.state.currentUser}
+          children={children}
+          signOut= {this.signOut}
+        />
+      )
+    }
+
     return(
       <div>
-        <div className="top-bar">
-          <div className="top-bar-left">
-            <ul className="dropdown menu" data-dropdown-menu>
-              <li className="menu-text"><Link id="title-link" to="/">Manabu</Link></li>
-              <li><Link to="/flashcards">Flashcards</Link></li>
-              <li><Link to="/notes">Notes</Link></li>
-            </ul>
-          </div>
-          <div className="top-bar-right">
-            <ul className="menu">
-              {userSignInHTML}
-            </ul>
-          </div>
-        </div>
-        <div className="grid-x">
-          <div className="cell small-22 small-offset-1 medium-20 medium-offset-2">
-            {children}
-          </div>
-        </div>
+        {navBarHTML}
       </div>
     )
   }
