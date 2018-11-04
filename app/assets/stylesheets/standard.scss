@@ -47,18 +47,26 @@ a{
   height: 50px;
   position: fixed;
   top: 0;
+  padding:0 8px;
 }
 
 .top-bar ul{
   background-color: rgba(255,255,255,0);
 }
 
-ul.menu > li > a, #title-link {
+li.nav-list-item{
+  height: 50px;
+  min-width: 25px;
+}
+
+ul.menu > li > a, #title-link, .nav-dropdown-item > a {
   font-size: 1.2rem;
   color: white;
   -webkit-font-smoothing: antialiased;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
-  line-height: 22px;
+  height: 50px;
+  line-height: 28px;
+  vertical-align: bottom;
 }
 
 #title-link{
@@ -66,10 +74,29 @@ ul.menu > li > a, #title-link {
   font-size: 1.5rem;
 }
 
-ul.menu > li > a:hover, #title-link:hover {
+ul.menu > li > a:hover, #title-link:hover, .nav-dropdown-item > a:hover {
   color: steelblue;
 }
 
+.nav-active-link{
+  border-bottom: 3px solid white;
+}
+
+.nav-dropdown{
+  width: 100vw;
+  background-color: #093145;
+  text-align: center;
+  position: fixed;
+  top: 50px;
+}
+.nav-dropdown-item{
+  border-top: 1px solid white;
+  padding: 10px 0;
+}
+
+.nav-user-options{
+  border-top: 3px solid white;
+}
 /////////Error Page/////////
 div.error-page{
   width: 60vw;
@@ -99,4 +126,19 @@ h3.error-message > a:hover{
   font-weight: 900;
   color: white;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+/////////Flash Message/////////
+.flash{
+  width: 100vw;
+  padding: 10px;
+  text-align: center;
+  background-color: green;
+  font-weight: bold;
+  color: white;
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.flash-alert{
+  background-color: red;
 }
