@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :weather only: :index
+      resources :weather, only: :index
       resources :users
       resources :notes, only: [:index, :update, :show]
       resources :decks, only: [:index, :update] do
