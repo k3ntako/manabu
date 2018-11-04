@@ -36,8 +36,8 @@ class SmallNavBar extends Component {
     if(this.state.iconClassName === "css-icon-close"){
       navDropDown = (
         <div className="grid-y nav-dropdown">
-          <div className="nav-dropdown-item"><a href="/">Flashcards</a></div>
-          <div className="nav-dropdown-item"><a href="/">Notes</a></div>
+          <div className="nav-dropdown-item"><Link to="/flashcards">Flashcards</Link></div>
+          <div className="nav-dropdown-item"><Link to="/notes">Notes</Link></div>
           {userSignInHTML}
         </div>
       )
