@@ -25,7 +25,7 @@ describe('Game Index Page', () => {
       body: currentUser
     });
     wrapper = mount(
-      <NavBar />
+      <NavBar location= {{pathname: "/"}}/>
     )
   })
 
@@ -34,12 +34,16 @@ describe('Game Index Page', () => {
   describe('NavBar', () => {
     it('renders a nav bar with a user logged in.', (done) => {
       setTimeout(() => {
-        expect(wrapper.find('li').at(0).text()).toEqual("Manabu")
-        expect(wrapper.find('li').at(1).text()).toEqual("Flashcards")
-        expect(wrapper.find('li').at(2).text()).toEqual("Notes")
+        expect(wrapper.find('div.nav-dropdown-item').length).toEqual(0)
+        expect(wrapper.find('a').at(0).text()).toEqual("Manabu")
 
-        expect(wrapper.find('li').length).toEqual(4)
-        expect(wrapper.find('li').at(3).text()).toEqual("Sign Out")
+        wrapper.find('.css-icon-menu').simulate('click')
+
+        let dropdown = wrapper.find('div.nav-dropdown-item')
+        expect(dropdown.length).toEqual(3)
+        expect(dropdown.at(0).text()).toEqual("Flashcards")
+        expect(dropdown.at(1).text()).toEqual("Notes")
+        expect(dropdown.at(2).text()).toEqual("Sign Out")
         done()
       })
     })
