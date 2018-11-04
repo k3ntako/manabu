@@ -15,7 +15,6 @@ constructor(props) {
     this.error = this.error.bind(this)
     this.fetchWeather = this.fetchWeather.bind(this)
     this.showPosition = this.showPosition.bind(this)
-    this.fetchLocation = this.fetchLocation.bind(this)
   }
 
   getLocation(){
@@ -38,10 +37,8 @@ constructor(props) {
   }
 
   fetchWeather() {
-    let weatherURL = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/c89e5685e5401ac3737c71e59af42160/${this.state.latitude},${this.state.longitude}?units=auto`;
-    //Issue with cors, originally:
-    // `https://api.darksky.net/forecast/c89e5685e5401ac3737c71e59af42160/${this.state.latitude},${this.state.longitude}?units=auto`
-    fetch(weatherURL, {mode: 'cors'})
+    let weatherURL = `http://localhost:3000/api/v1/weather/?latitude=${this.state.latitude}&longitude=${this.state.longitude}&units=auto`;
+    fetch(weatherURL)
     .then(response => {
       if (response.ok) {
         return response;
@@ -51,50 +48,24 @@ constructor(props) {
         throw(error);
       }
     })
-    .then(response => {
-      return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-      let temperature = data.currently.temperature.toFixed(0)
+      console.log(data);
+      let temperature = data.temperature.toFixed(0)
       this.setState({
-        summary: data.currently.summary,
-        temp: `${temperature}˚F`
+        summary: data.summary,
+        temp: `${temperature}˚F`,
+        location: data.location
       })
-      return data.currently.icon.toUpperCase().replace(/-/g,"_");
+      return data.icon.toUpperCase().replace(/-/g,"_");
     })
     .then(icon => {
       var skycons = new Skycons({"color": "steelblue"});
       skycons.add("icon1", Skycons[icon]);
       skycons.play();
-      return true
-    })
-    .then(t =>{
-      this.fetchLocation()
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
-
-  fetchLocation() {
-    fetch(`http://dev.virtualearth.net/REST/v1/Locations/${this.state.latitude},${this.state.longitude}\?o\=json\&key\=AsbQAbgVHnzwtssxSVoDItRquUjYSnZaHNAOFCRRTZzuJ0l6oBJBM89W5aVd1gza`)
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-        error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => {
-      return response.json()
-    })
-    .then(data => {
-      this.setState({
-        location: data.resourceSets[0].resources[0].name
-      })
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
-  };
 
   componentDidMount(){
     this.fetchWeather()
