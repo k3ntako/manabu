@@ -41,6 +41,7 @@ constructor(props) {
           <Route path='/notes'>
             <IndexRoute component={Notes} />
               <Route path="/notes/:id" component={Note}/>
+              <Route path="/notes/new" component={Note}/>
           </Route>
           <Route path="daily_update" component={DailyUpdate} />
           <Route path="*" component={ErrorPage}/>

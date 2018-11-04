@@ -44,6 +44,7 @@ class Notes extends Component {
     return(
       <div>
         <h1>Notes</h1>
+        <div><Link to="/notes/new/">New Note</Link></div>
         {notesHTML}
       </div>
     );

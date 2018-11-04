@@ -58,10 +58,10 @@ constructor(props) {
     let startEditButtons = (
       <div className="grid-x grid-margin-x">
         <div className="startCards deck-tile cell small-12" id="start-study-flashcards">
-          <Link to={`/flashcard/study/${this.state.selectedDeck}`}>Start</Link>
+          <Link to={`/flashcards/study/${this.state.selectedDeck}`}>Start</Link>
         </div>
         <div className="startCards deck-tile cell small-12 " id="edit-flashcards">
-          <Link to={`/flashcard/edit/${this.state.selectedDeck}`}>Edit</Link>
+          <Link to={`/flashcards/edit/${this.state.selectedDeck}`}>Edit</Link>
         </div>
       </div>
     )
