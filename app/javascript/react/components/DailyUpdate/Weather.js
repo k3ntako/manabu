@@ -50,7 +50,6 @@ constructor(props) {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       let temperature = data.temperature.toFixed(0)
       this.setState({
         summary: data.summary,

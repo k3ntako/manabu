@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import MBTADropdown from './MBTADropdown';
 import Predictions from './Predictions';
 
-
 class MBTA extends Component {
-constructor(props) {
+  constructor(props) {
     super(props);
 
     this.state = {
-      routes: this.props.routes,
+      routes: [],
       selectedRoute: "Green-C",
-      stops : this.props.stops,
+      stops: [],
       selectedStation: "place-stpul",
-      stationPrediction: this.props.prediction,
+      stationPrediction: [],
       directions: ["Eastbound","Westbound"],
       selectedDirection: "Eastbound"
     };
@@ -26,111 +25,123 @@ constructor(props) {
     this.getStops = this.getStops.bind(this);
   }
 
-  fetchData(url,fetchType){
-      fetch(url)
-      .then(response => {
-        if (response.ok) {return response;}
-      })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({[fetchType]: data});
-      })
-      .catch(error => console.error(`Error in fetch: ${error.message}`));
-    };
-
-    getDirections(){
-      if (this.state.routes){
-        this.state.routes.data.forEach(route =>{
-          if(route.id === this.state.selectedRoute){
-            this.setState({directions: route.attributes.direction_names.sort()})
-          }
-        })
-      }
-      this.getStops();
-    }
-
-    getPredictions(stopName){
-      console.log(stopName, this.state.selectedRoute,this.state.selectedDirection)
-      this.fetchData(
-        `https://api-v3.mbta.com/predictions?filter[stop]=${stopName}&filter[direction_id]=${this.state.selselectedDirection}&filter[route]=${this.state.selectedRoute}&sort=departure_time&page[limit]=90&api_key=64a5296bc7e84128b2605d9d355a1d94`,
-        `stationPrediction`
-      );
-    }
-
-    getStops(){
-      this.fetchData(`https://api-v3.mbta.com/stops?filter[route]=${this.state.selectedRoute}`,`stops`);
-      this.getPredictions();
-    }
-
-    stopsChangeHandler(event){
-      this.setState({selectedStation: event.target.value})
-      this.getPredictions(event.target.value);
-    }
-
-    directionsChangeHandler(event){
-      this.getStops();
-    }
-
-    routesChangeHandler(event){
+  fetchData(url,fetchType, callback = () => {}){
+    fetch(url)
+    .then(response => {
+      if (response.ok) {return response;}
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
       this.setState(
-        {selectedRoute : event.target.value},
-        () => {this.getDirections()}
+        {[fetchType]: data},
+        () => {callback()}
       );
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
+  };
+
+  getDirections(){
+    if (this.state.routes){
+      this.state.routes.forEach(route =>{
+        if(route.id === this.state.selectedRoute){
+          this.setState(
+            {directions: route.direction_names.sort()},
+            () => {this.getStops()}
+          )
+        }
+      })
     }
+  }
+
+  getStops(){
+    this.fetchData(`http://localhost:3000/api/v1/mbta/stops/?route=${this.state.selectedRoute}&direction=${this.state.selectedDirection}`,`stops`, this.getPredictions);
+  }
+
+  getPredictions(){
+    this.fetchData(
+      `http://localhost:3000/api/v1/mbta/predictions/?stop=${this.state.selectedStation}&direction=${this.state.selectedDirection}&route=${this.state.selectedRoute}`,
+      `stationPrediction`
+    );
+  }
+
+  routesChangeHandler(event){
+    this.setState(
+      {selectedRoute : event.target.value},
+      () => {this.getDirections()}
+    );
+  }
+
+  directionsChangeHandler(event){
+    this.setState(
+      {selectedDirection: event.target.value},
+      () => {this.getStops()}
+    );
+  }
+
+  stopsChangeHandler(event){
+    this.setState(
+      {selectedStation: event.target.value},
+      () => {this.getPredictions()}
+    );
+  }
+
+  componentDidMount(){
+    this.fetchData("http://localhost:3000/api/v1/mbta/routes","routes",this.getDirections);
+  }
 
   render(){
     let routesHTML
-    if(this.state.routes && Object.keys(this.state.routes).length != 0){
+    if(this.state.routes.length){
       routesHTML = (
         <MBTADropdown
-          data={this.state.routes.data}
+          data={this.state.routes}
           default={this.state.selectedRoute}
-          displayedAttribute = {"long_name"}
+          displayedAttribute = {"name"}
           changeHandler = {this.routesChangeHandler}
-        />
+          />
       )
     }
 
     let stopsHTML;
-    if(this.state.stops && Object.keys(this.state.stops).length != 0){
+    if(this.state.stops.length){
       stopsHTML = (<MBTADropdown
-        data={this.state.stops.data}
+        data={this.state.stops}
         default={this.selectedStation}
         displayedAttribute = {"name"}
         changeHandler = {this.stopsChangeHandler}
         />
-      )
-    }
-
-    let directionsHTML;
-    if(this.state.directions){
-      directionsHTML = (
-        <MBTADropdown
-          data={[
-            {attributes: {directions: this.state.directions[0]},
-            id: this.state.directions[0]},
-            {attributes: {directions: this.state.directions[1]},
-            id: this.state.directions[1]}
-          ]}
-          default={this.selectedDirection}
-          displayedAttribute = {"directions"}
-          changeHandler = {this.directionsChangeHandler}
-        />
-      )
-    }
-
-    return(
-      <div className="cell small-24 medium-12">
-        {routesHTML}
-        {directionsHTML}
-        {stopsHTML}
-
-        <Predictions stationPrediction={this.state.stationPrediction}/>
-      </div>
     )
   }
-}
 
-export default MBTA
+  let directionsHTML;
+  if(this.state.directions.length){
+    directionsHTML = (
+      <MBTADropdown
+        data={[
+          {directions: this.state.directions[0],
+            id: this.state.directions[0]},
+            {directions: this.state.directions[1],
+              id: this.state.directions[1]}
+            ]}
+            default={this.selectedDirection}
+            displayedAttribute = {"directions"}
+            changeHandler = {this.directionsChangeHandler}
+            />
+        )
+      }
+
+      return(
+        <div className="cell small-24 medium-12">
+          {routesHTML}
+          {directionsHTML}
+          {stopsHTML}
+
+          <Predictions stationPrediction={this.state.stationPrediction}/>
+        </div>
+      )
+    }
+  }
+
+  export default MBTA
