@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import DeckListItem from './DeckListItem'
 
 class Flashcard extends Component {
@@ -11,11 +11,11 @@ constructor(props) {
     };
     this.clickHandler = this.clickHandler.bind(this)
     this.fetchDecks = this.fetchDecks.bind(this)
+    this.onClickButton = this.onClickButton.bind(this)
   }
 
   clickHandler(id){
     this.setState({selectedDeck: id})
-    console.log(id)
   }
 
   fetchDecks(){
@@ -38,6 +38,10 @@ constructor(props) {
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
+  onClickButton(type){
+    browserHistory.push(`/flashcards/${type}/${this.state.selectedDeck}`)
+  }
+
   componentDidMount(){
     this.fetchDecks()
   }
@@ -56,18 +60,26 @@ constructor(props) {
     })
 
     let startEditButtons = (
-      <div className="grid-x grid-margin-x">
-        <div className="startCards deck-tile cell small-12" id="start-study-flashcards">
-          <Link to={`/flashcards/study/${this.state.selectedDeck}`}>Start</Link>
+      <div className="cell medium-24 large-offset-6 large-12 grid-x grid-margin-x">
+        <div
+            className="startCards deck-tile cell small-12"
+            id="start-study-flashcards"
+            onClick={() => {this.onClickButton("study")}}
+          >
+          Start
         </div>
-        <div className="startCards deck-tile cell small-12 " id="edit-flashcards">
-          <Link to={`/flashcards/edit/${this.state.selectedDeck}`}>Edit</Link>
+        <div
+            className="startCards deck-tile cell small-12 "
+            id="edit-flashcards"
+            onClick={() => {this.onClickButton("edit")}}
+          >
+          Edit
         </div>
       </div>
     )
     if(!this.state.selectedDeck){
       startEditButtons = (
-        <div className="grid-x grid-margin-x">
+        <div className="cell medium-24 large-offset-6 large-12 grid-x grid-margin-x">
           <div className="startCards deck-tile cell small-12">
             Start
           </div>
@@ -79,8 +91,12 @@ constructor(props) {
     }
 
     return(
-      <div>
+      <div className="grid-x grid-margin-x">
+        <div className="cell small-24"><h1>Flashcards</h1></div>
         {deckList}
+        <div className="deck-tile cell medium-24 large-12 flashcard-add-new">
+          <i className="far fa-plus-square flashcard-add-new-icon"></i>
+        </div>
         {startEditButtons}
       </div>
     )
