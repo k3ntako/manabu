@@ -3,7 +3,7 @@ import React from 'react'
 const MBTADropdown = props => {
   let information = props.data
   let outputHTML = information.map(info => {
-    let showText = info.attributes[props.displayedAttribute]
+    let showText = info[props.displayedAttribute]
 
     let selected;
     if(info.id === props.default){

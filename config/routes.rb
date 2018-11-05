@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :weather, only: :index
+      get '/mbta/routes', to: 'mbta#routes'
+      get '/mbta/stops', to: 'mbta#stops'
+      get '/mbta/predictions', to: 'mbta#predictions'
       resources :users
       resources :notes, only: [:index, :update, :show]
       resources :decks, only: [:index, :update] do
