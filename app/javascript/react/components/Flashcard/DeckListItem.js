@@ -11,7 +11,7 @@ const DeckListItem = props => {
   }
 
   return(
-    <div className="deck-tile" id={divId} onClick={handleClick}>
+    <div className="deck-tile cell medium-24 large-12 xlarge-8" id={divId} onClick={handleClick}>
       <h2>{props.deckName}</h2>
     </div>
   );

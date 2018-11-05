@@ -9,6 +9,7 @@ class SmallNavBar extends Component {
       iconClassName: "css-icon-menu"
     };
     this.onClickHandler = this.onClickHandler.bind(this)
+    this.bodyClickHandler = this.bodyClickHandler.bind(this)
   }
   onClickHandler(){
     if(this.state.iconClassName === "css-icon-menu"){
@@ -18,7 +19,16 @@ class SmallNavBar extends Component {
     }
   }
 
+  bodyClickHandler(){
+    this.setState({iconClassName: "css-icon-menu"})
+  }
+
   render(){
+    console.log(document.getElementById('nav-child'));
+    if(document.getElementById('nav-child')){
+      document.getElementById('nav-child').addEventListener('click', this.bodyClickHandler);
+    }
+
     let userSignInHTML = [
       (<div key="1" className="nav-dropdown-item nav-user-options"><a href="/users/sign_up">Sign Up</a></div>),
       (<div key="2" className="nav-dropdown-item"><a href="/users/sign_in">Sign In</a></div>)
@@ -36,8 +46,12 @@ class SmallNavBar extends Component {
     if(this.state.iconClassName === "css-icon-close"){
       navDropDown = (
         <div className="grid-y nav-dropdown">
-          <div className="nav-dropdown-item"><Link to="/flashcards">Flashcards</Link></div>
-          <div className="nav-dropdown-item"><Link to="/notes">Notes</Link></div>
+          <div className="nav-dropdown-item">
+            <Link to="/flashcards" className="nav-dropdown-link">Flashcards</Link>
+          </div>
+          <div className="nav-dropdown-item">
+            <Link to="/notes" className="nav-dropdown-link">Notes</Link>
+          </div>
           {userSignInHTML}
         </div>
       )
@@ -56,7 +70,7 @@ class SmallNavBar extends Component {
           </div>
         </div>
         {navDropDown}
-        <div className="grid-x">
+        <div className="grid-x" id="nav-child">
           <div className="cell small-22 small-offset-1 medium-20 medium-offset-2">
             {this.props.children}
           </div>

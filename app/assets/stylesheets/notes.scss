@@ -13,6 +13,12 @@ input.notes-name:focus{
   color: #555;
 }
 
+@media only screen and (max-width: 640px) {
+    input.notes-name {
+        font-size: 2rem;
+    }
+}
+
 .DraftEditor-editorContainer > div{
   width: 100%;
 }

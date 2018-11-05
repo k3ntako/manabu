@@ -3,10 +3,13 @@ div.startCards{
   width: 25%;
   text-align: center;
   font-weight: 900;
+  font-size: 1.4rem;
+  color: lightgray;
   // border-radius: 10px;
   // border: 8px solid black;
   // background-color: steelblue;
 }
+
 
 .deck-tile{
   margin: 10px auto;
@@ -14,10 +17,8 @@ div.startCards{
   padding: 10px;
   text-align: center;
 
-  border: 8px solid black;
+  border: 2px solid lightgray;
   border-radius: 10px;
-
-  background-color: lightgray;
 }
 
 #deck-selected{
@@ -27,6 +28,15 @@ div.startCards{
 
 #start-study-flashcards{
   background-color: limegreen;
+  color: white;
+}
+
+#edit-flashcards{
+  color: black;
+}
+
+#start-study-flashcards:hover, #edit-flashcards:hover{
+  color: steelblue;
 }
 
 .flashcard-deck-name{
@@ -35,14 +45,25 @@ div.startCards{
   font-size: 4rem;
 }
 
+.flashcard-add-new-icon{
+  font-size: 4em;
+  color: inherit;
+}
+
+.flashcard-add-new{
+  background-color: lightgray;
+  color:black;
+}
+
+.flashcard-add-new:hover{
+  color:steelblue;
+}
 
 //////OLD STYLE IMPORTED
 
 /////////Naxt and Back Buttons/////////
 div.card-control{
   height:90vh;
-  // width:9vw;
-  // float:left;
   padding-top: 10vh;
   font-size: 10vw;
 }
