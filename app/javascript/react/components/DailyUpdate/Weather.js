@@ -37,7 +37,7 @@ constructor(props) {
   }
 
   fetchWeather() {
-    let weatherURL = `http://localhost:3000/api/v1/weather/?latitude=${this.state.latitude}&longitude=${this.state.longitude}&units=auto`;
+    let weatherURL = `/api/v1/weather/?latitude=${this.state.latitude}&longitude=${this.state.longitude}&units=auto`;
     fetch(weatherURL)
     .then(response => {
       if (response.ok) {

@@ -56,12 +56,12 @@ class MBTA extends Component {
   }
 
   getStops(){
-    this.fetchData(`http://localhost:3000/api/v1/mbta/stops/?route=${this.state.selectedRoute}&direction=${this.state.selectedDirection}`,`stops`, this.getPredictions);
+    this.fetchData(`/api/v1/mbta/stops/?route=${this.state.selectedRoute}&direction=${this.state.selectedDirection}`,`stops`, this.getPredictions);
   }
 
   getPredictions(){
     this.fetchData(
-      `http://localhost:3000/api/v1/mbta/predictions/?stop=${this.state.selectedStation}&direction=${this.state.selectedDirection}&route=${this.state.selectedRoute}`,
+      `/api/v1/mbta/predictions/?stop=${this.state.selectedStation}&direction=${this.state.selectedDirection}&route=${this.state.selectedRoute}`,
       `stationPrediction`
     );
   }
@@ -88,7 +88,7 @@ class MBTA extends Component {
   }
 
   componentDidMount(){
-    this.fetchData("http://localhost:3000/api/v1/mbta/routes","routes",this.getDirections);
+    this.fetchData("/api/v1/mbta/routes","routes",this.getDirections);
   }
 
   render(){
