@@ -38,3 +38,14 @@ textarea.edit-input{
   background-color: var(--footer-color);
   border-radius: 15px;
 }
+
+.grid-x > .add-card-button{
+  margin: 10px 0;
+  height: 39px;
+  padding: 8px 0;
+}
+
+.deck-name:not(:focus){
+  margin: 0;
+  padding-left: 0
+}

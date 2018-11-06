@@ -35,6 +35,3 @@ class Api::V1::DefinitionsController < ApplicationController
     params.permit(:deck_id, :definition_titles => [:title, :id])
   end
 end
-
-
-# {"deck_name"=>"Numbers", "term_title"=>"Number", "definition_titles"=>[{"id"=>2, "title"=>"English"}, {"id"=>3, "title"=>"French"}, {"id"=>22, "title"=>"Pokemon"}, {"id"=>"new0", "title"=>"Monster"}], "number_of_definitions"=>4, "controller"=>"api/v1/definitions", "action"=>"create", "deck_id"=>"1", "definition"=>{}} permitted: false>

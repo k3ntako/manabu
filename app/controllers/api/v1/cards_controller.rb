@@ -12,8 +12,27 @@ class Api::V1::CardsController < ApplicationController
       deck_name: deck_name,
       term_title: term_title,
       definition_titles: ActiveModel::Serializer::ArraySerializer.new(definition_titles),
-      cards: ActiveModel::Serializer::ArraySerializer.new(cards)
+      cards: ActiveModel::Serializer::CollectionSerializer.new(cards, each_serializer: CardSerializer)
     }
+  end
+
+  def create
+    deck = Deck.find(new_card_params[:deck_id])
+    definition_titles = deck.definition_titles
+    def_titles = definition_titles.uniq { |dt| dt.id }
+
+    new_sequence = deck.cards.order("sequence DESC").limit(1)[0][:sequence] + 1
+    new_card = Card.new(term: new_card_params[:new_term], sequence: new_sequence, deck: deck)
+
+    if new_card.save
+      def_titles.length.times do |i|
+        Definition.create(sequence: i + 1, card_id: new_card[:id], definition_title: def_titles[i])
+      end
+      
+      render json: new_card
+    else
+      render json: {error: "Could not save new card to database."}
+    end
   end
 
   def update
@@ -37,5 +56,9 @@ class Api::V1::CardsController < ApplicationController
 
   def card_params
     params.permit(:id, :term, :deck_id, :definitions => [:id, :definition, :definition_title], :masteries => [], :card => [:id, :term])
+  end
+
+  def new_card_params
+    params.permit(:new_term, :deck_id, :number_of_definitions)
   end
 end
