@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get '/mbta/stops', to: 'mbta#stops'
       get '/mbta/predictions', to: 'mbta#predictions'
       resources :users
+      resources :news, only: [:index]
       resources :notes, only: [:index, :update, :show]
       resources :decks, only: [:index, :update] do
         resources :definitions, only: [:create]
