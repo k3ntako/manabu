@@ -12,7 +12,8 @@ class Edit extends Component {
       numOfDefs: 0,
       oldNumOfDefs: 0,
       formDisabled: false,
-      errors: []
+      errors: [],
+      newCardTerm: ""
     };
     this.saveToDatabase = this.saveToDatabase.bind(this)
     this.saveDeckToDatabase = this.saveDeckToDatabase.bind(this)
@@ -23,6 +24,9 @@ class Edit extends Component {
     this.noBlankFieldArrOfObj = this.noBlankFieldArrOfObj.bind(this)
     this.saveNewTitlesToDatabase = this.saveNewTitlesToDatabase.bind(this)
     this.deleteDefinitionsInDatabase = this.deleteDefinitionsInDatabase.bind(this)
+    this.newCardChangeHandler = this.newCardChangeHandler.bind(this)
+    this.saveNewCardToDatabase = this.saveNewCardToDatabase.bind(this)
+    this.handleDeckNameChange = this.handleDeckNameChange.bind(this)
   }
 
   noBlankFieldArrOfObj(arr, field){
@@ -121,6 +125,7 @@ class Edit extends Component {
       })
       .then(data => data.json())
       .then(card => {
+        console.log(card);
       }
     )
   }
@@ -146,9 +151,7 @@ class Edit extends Component {
         })
         .then(data => data.json())
         .then(deck => {
-
           this.setState({definitionTitles: deck.definition_titles})
-
         }
       )
     }else{
@@ -215,7 +218,7 @@ class Edit extends Component {
         })
         .then(data => data.json())
         .then(newDefinitions => {
-          debugger
+
         }
       )
     }else{
@@ -251,14 +254,43 @@ class Edit extends Component {
     }
   }
 
+  newCardChangeHandler(event){
+    this.setState({newCardTerm: event.target.value})
+  }
+
+  handleDeckNameChange(event){
+    this.setState({deckName: event.target.value})
+  }
+
+  saveNewCardToDatabase(event){
+    event.preventDefault()
+    let newTerm = this.state.newCardTerm.replace(/\s+/g,'');
+    if(newTerm){
+      fetch(`/api/v1/decks/${this.props.params.id}/cards/?new_term=${newTerm}&number_of_definitions=${this.state.numOfDefs}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+      })
+      .then(data => data.json())
+      .then(newCard => {
+        this.setState({
+          cards: [...this.state.cards, newCard.card],
+          newCardTerm: ""
+        })
+      })
+    }
+  }
+
   componentDidMount(){
     this.fetchDeck(this.props.params.id)
   }
 
   render(){
-    console.log(this.state);
-    function sortById(a,b) {
-      // debugger
+
+    function sortBySequence(a,b) {
       if (a.sequence < b.sequence){
         return -1;
       }
@@ -280,8 +312,7 @@ class Edit extends Component {
         />
     )];
 
-    let sortedTitles = this.state.definitionTitles.sort(sortById)
-    console.log(sortedTitles);
+    let sortedTitles = this.state.definitionTitles.sort(sortBySequence)
     for(let i=0; i<this.state.numOfDefs;i++){
       let title = sortedTitles[i]
       // if(!title){
@@ -289,7 +320,6 @@ class Edit extends Component {
       // }
 
       onChangeHandler = (event) => {
-        console.log(event.target.id);
         this.updateTitle(title.id, event.target.value)
       }
 
@@ -306,9 +336,7 @@ class Edit extends Component {
       )
     }
 
-
-
-    let sortedCards = this.state.cards.sort(sortById)
+    let sortedCards = this.state.cards.sort(sortBySequence)
     let deck = sortedCards.map((card,idx) => {
       let handleOnBlur = () => {
         this.saveToDatabase(card.id)
@@ -316,7 +344,7 @@ class Edit extends Component {
 
       let defTextArea = []
       for(let i=0; i<this.state.numOfDefs;i++){
-        let sortedDefinitions = card.definitions.sort(sortById)
+        let sortedDefinitions = card.definitions.sort(sortBySequence)
         let def = sortedDefinitions[i]
         if(!def){
           def = {id:"new"+idx+i, definition:""}
@@ -378,18 +406,47 @@ class Edit extends Component {
       addTitlesButton = (<div className="standard-green-button" onClick={this.saveNewTitlesToDatabase}>Add New Titles</div>)
     }
 
+    let addCardButtonClass = " inactive";
+    let addCardDisabled = true;
+    let newTerm = this.state.newCardTerm.replace(/\s+/g,'');
+    if(!this.state.formDisabled && newTerm){
+      addCardButtonClass = "";
+      addCardDisabled = false;
+    }
+    let addNewCardTextarea
+    addNewCardTextarea = this.state.definitionTitles.map(title =>{
+      return(
+        <textarea
+          key={title.id}
+          className={"edit-def edit-input"}
+          type="text"
+          placeholder={title.title}
+          disabled={true}
+        />
+      )
+    })
+
+
     let errors = []
     this.state.errors.forEach((error, idx) => {
       errors.push(
         <div key={idx}>{error}</div>
       )
     })
+    // <h2><span className="flashcard-deck-name">{this.state.deckName}</span> - Edit Cards</h2>
 
     return(
       <div className="flashcard-edit">
         {errors}
         <form>
-          <h2><span className="flashcard-deck-name">{this.state.deckName}</span> - Edit Cards</h2>
+          <input
+            placeholder="Click to edit name of deck"
+            value={this.state.deckName}
+            className="notes-name deck-name"
+            type="text"
+            onChange={this.handleDeckNameChange}
+            onBlur={this.saveDeckToDatabase}
+          />
           <h3>Titles</h3>
           <select onChange={this.defNumChangeHandler}>
             {dropdownOptions}
@@ -401,6 +458,28 @@ class Edit extends Component {
           <h3>Cards</h3>
           <div className="grid-x grid-margin-x grid-margin-y grid-padding-x">
             {deck}
+            <div className="edit-card cell flashcard-new-card small-24 medium-12 large-8">
+              <form onSubmit={this.saveNewCardToDatabase}>
+                <div className="grid-x grid-margin-x">
+                  <input
+                    className="edit-term edit-input cell small-19"
+                    type="text"
+                    value={this.state.newCardTerm}
+                    onChange={this.newCardChangeHandler}
+                    disabled={this.state.formDisabled}
+                  />
+                  <input
+                    type="submit"
+                    className={"standard-green-button add-card-button cell small-5" + addCardButtonClass}
+                    value="Add"
+                    disabled={this.state.formDisabled || addCardDisabled}
+                    />
+                </div>
+
+                {addNewCardTextarea}
+
+              </form>
+            </div>
           </div>
         </form>
       </div>
