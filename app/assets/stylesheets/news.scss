@@ -1,0 +1,42 @@
+.news{
+  margin-top: 50px;
+}
+
+.news-header{
+  border-top: 5px black solid;
+}
+
+
+.news-card{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.news-title{
+  background-color: #ececec;
+  padding: 20px
+}
+
+.news-image{
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%
+}
+
+.news-description{
+  padding: 10px;
+}
+
+.news-image-container{
+  max-width: 100%;
+  max-height: 25vw;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1024px) {
+    .news-image-container {
+      max-height: 50vw;
+    }
+}
