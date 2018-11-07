@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   get '/flashcards/study/', to: redirect('/flashcards')
   get '/flashcards/study/:id', to: 'homes#index'
   get '/flashcards/edit/:id', to: 'homes#index'
+  get '/flashcards/new/:id', to: 'homes#index'
   get '/notes', to: 'homes#index'
   get '/notes/:id', to: 'homes#index'
-  get '*path', to: redirect('/')
+  get '/not-found', to: 'homes#index'
+  get '*path', to: redirect('/not-found')
 end

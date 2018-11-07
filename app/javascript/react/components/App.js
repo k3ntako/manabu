@@ -36,6 +36,7 @@ constructor(props) {
             <IndexRoute component={Flashcard} />
             <Route path="/flashcards/study/:id" component={Study}/>
             <Route path="/flashcards/edit/:id" component={Edit}/>
+            <Route path="/flashcards/new/:id" component={Edit}/>
             <Redirect from='/flashcards/*' to="/flashcards" />
           </Route>
           <Route path='/notes'>
@@ -44,7 +45,8 @@ constructor(props) {
               <Route path="/notes/new" component={Note}/>
           </Route>
           <Route path="daily_update" component={DailyUpdate} />
-          <Route path="*" component={ErrorPage}/>
+          <Route path="/not-found" component={ErrorPage}/>
+          <Redirect from='/*' to="/not-found" />
         </Route>
       </Router>
     )
@@ -57,7 +59,7 @@ const ErrorPage = props => {
   return(
     <div className="error-page">
       <h1>Error 404</h1>
-      <h3 className="error-message">Page was not found. Go back to <Link to="/">K3ntako Flashcards</Link>.</h3>
+      <h3 className="error-message">Page was not found. Go back to <Link to="/">Manabu</Link>.</h3>
     </div>
   )
 }

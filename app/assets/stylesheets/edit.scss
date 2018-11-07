@@ -33,16 +33,22 @@ textarea.edit-input{
 }
 
 #darkModeToggle {
-
   margin-left: var(--palatte-padding-left);
   background-color: var(--footer-color);
   border-radius: 15px;
 }
 
-.grid-x > .add-card-button{
+ input#add-card-button{
   margin: 10px 0;
   height: 39px;
+  width: 25%;
   padding: 8px 0;
+  float: right;
+}
+
+.add-card-input{
+  float: left;
+  width: 72%;
 }
 
 .deck-name:not(:focus){
