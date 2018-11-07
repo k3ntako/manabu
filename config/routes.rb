@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       resources :users
       resources :news, only: [:index]
       resources :notes, only: [:index, :update, :show]
-      resources :decks, only: [:index, :update] do
+      resources :decks, only: [:index, :update, :create] do
         resources :definitions, only: [:create]
         resources :definition_titles, only: [:destroy]
         resources :cards, only: [:index, :update, :create] do
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   get '/flashcards/study/', to: redirect('/flashcards')
   get '/flashcards/study/:id', to: 'homes#index'
   get '/flashcards/edit/:id', to: 'homes#index'
-  get '/flashcards/new/:id', to: 'homes#index'
+  get '/flashcards/new', to: 'homes#index'
   get '/notes', to: 'homes#index'
   get '/notes/:id', to: 'homes#index'
   get '/not-found', to: 'homes#index'

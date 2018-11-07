@@ -173,19 +173,16 @@ class Edit extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json' },
-          credentials: 'same-origin'
+        credentials: 'same-origin'
+      })
+      .then(data => data.json())
+      .then(newDefinitions => {
+        this.setState({
+          definitionTitles: newDefinitions.definition_titles,
+          cards: newDefinitions.cards,
+          formDisabled: false
         })
-        .then(data => data.json())
-        .then(newDefinitions => {
-
-
-          this.setState({
-            definitionTitles: newDefinitions.definition_titles,
-            cards: newDefinitions.cards,
-            formDisabled: false
-          })
-        }
-      )
+      })
     }else{
       //error message on screen
       this.setState({errors: ["Definition titles can't be blank."]})
@@ -247,112 +244,113 @@ class Edit extends Component {
         numOfDefs: newNum,
         formDisabled: true,
         definitionTitles: this.state.definitionTitles.concat(newDefTitles)})
-    }
-  }
-
-  newCardChangeHandler(event){
-    this.setState({newCardTerm: event.target.value})
-  }
-
-  handleDeckNameChange(event){
-    this.setState({deckName: event.target.value})
-  }
-
-  saveNewCardToDatabase(event){
-    event.preventDefault()
-    let newTerm = this.state.newCardTerm.replace(/\s+/g,'');
-    if(newTerm){
-      fetch(`/api/v1/decks/${this.props.params.id}/cards/?new_term=${newTerm}&number_of_definitions=${this.state.numOfDefs}`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: 'same-origin'
-      })
-      .then(data => data.json())
-      .then(newCard => {
-        this.setState({
-          cards: [...this.state.cards, newCard.card],
-          newCardTerm: ""
-        })
-      })
-    }
-  }
-
-  sortBySequence(a,b){
-    if (a.sequence < b.sequence){
-      return -1;
-    }
-    return 1;
-  }
-
-  componentDidMount(){
-    this.fetchDeck(this.props.params.id)
-  }
-
-  render(){
-    let dropdownOptions = []
-    for(let i=1; i < 11; i++){
-      if(i === this.state.numOfDefs){
-        dropdownOptions.push(<option key={i} value={i} selected>{i}</option>)
-      }else{
-        dropdownOptions.push(<option key={i} value={i}>{i}</option>)
       }
     }
 
-    let errors = []
-    this.state.errors.forEach((error, idx) => {
-      errors.push(
-        <div key={idx}>{error}</div>
-      )
-    })
+    newCardChangeHandler(event){
+      this.setState({newCardTerm: event.target.value})
+    }
 
-    return(
-      <div className="flashcard-edit">
-        {errors}
-        <form>
-          <input
-            placeholder="Click to edit name of deck"
-            value={this.state.deckName}
-            className="notes-name deck-name"
-            type="text"
-            onChange={this.handleDeckNameChange}
-            onBlur={this.saveDeckToDatabase}
-          />
-          <h3>Titles</h3>
-          <select onChange={this.defNumChangeHandler}>
-            {dropdownOptions}
-          </select>
-          <DeckInfo
-            sortedTitles={this.state.definitionTitles.sort(this.sortBySequence)}
-            numOfDefs={this.state.numOfDefs}
-            termTitle={this.state.termTitle}
-            saveDeckToDatabase={this.saveDeckToDatabase}
-            formDisabled={this.state.formDisabled}
-            saveNewTitlesToDatabase={this.saveNewTitlesToDatabase}
-            updateTitle={this.updateTitle}
-            termChangeHandler={(term) => {this.setState({termTitle: term})}}
+    handleDeckNameChange(event){
+      this.setState({deckName: event.target.value})
+    }
 
-          />
-          <h3>Cards</h3>
+    saveNewCardToDatabase(event){
+      event.preventDefault()
+      let newTerm = this.state.newCardTerm.replace(/\s+/g,'');
+      if(newTerm){
+        fetch(`/api/v1/decks/${this.props.params.id}/cards/?new_term=${newTerm}&number_of_definitions=${this.state.numOfDefs}`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'same-origin'
+        })
+        .then(data => data.json())
+        .then(newCard => {
+          this.setState({
+            cards: [...this.state.cards, newCard.card],
+            newCardTerm: ""
+          })
+        })
+      }
+    }
 
-          <Cards
-            numOfDefs={this.state.numOfDefs}
-            definitionTitles={this.state.definitionTitles}
-            sortedCards={this.state.cards.sort(this.sortBySequence)}
-            sortFunc={this.sortBySequence}
-            formDisabled={this.state.formDisabled}
-            saveToDatabase={this.saveToDatabase}
-            newCardTerm={this.state.newCardTerm}
-            newCardChangeHandler={this.newCardChangeHandler}
-            saveNewCardToDatabase={this.saveNewCardToDatabase}
-          />
+    sortBySequence(a,b){
+      if (a.sequence < b.sequence){
+        return -1;
+      }
+      return 1;
+    }
 
-        </form>
-      </div>
-    );
-  }
-};
+    componentDidMount(){
+      this.fetchDeck(this.props.params.id)
+    }
 
-export default Edit
+    render(){
+      let dropdownOptions = []
+      for(let i=1; i < 11; i++){
+        if(i === this.state.numOfDefs){
+          dropdownOptions.push(<option key={i} value={i} selected>{i}</option>)
+        }else{
+          dropdownOptions.push(<option key={i} value={i}>{i}</option>)
+        }
+      }
+
+      let errors = []
+      this.state.errors.forEach((error, idx) => {
+        errors.push(
+          <div key={idx}>{error}</div>
+        )
+      })
+
+      return(
+        <div className="flashcard-edit">
+          {errors}
+          <form>
+            <input
+              placeholder="Click to edit name of deck"
+              value={this.state.deckName}
+              className="notes-name deck-name"
+              type="text"
+              onChange={this.handleDeckNameChange}
+              onBlur={this.saveDeckToDatabase}
+              />
+            <h3>Titles</h3>
+            <select onChange={this.defNumChangeHandler}>
+              {dropdownOptions}
+            </select>
+            <DeckInfo
+              sortedTitles={this.state.definitionTitles.sort(this.sortBySequence)}
+              numOfDefs={this.state.numOfDefs}
+              termTitle={this.state.termTitle}
+              saveDeckToDatabase={this.saveDeckToDatabase}
+              formDisabled={this.state.formDisabled}
+              saveNewTitlesToDatabase={this.saveNewTitlesToDatabase}
+              updateTitle={this.updateTitle}
+              termChangeHandler={(term) => {this.setState({termTitle: term})}}
+
+              />
+            <h3>Cards</h3>
+
+            <Cards
+              numOfDefs={this.state.numOfDefs}
+              definitionTitles={this.state.definitionTitles}
+              sortedCards={this.state.cards.sort(this.sortBySequence)}
+              sortFunc={this.sortBySequence}
+              formDisabled={this.state.formDisabled}
+              saveToDatabase={this.saveToDatabase}
+              newCardTerm={this.state.newCardTerm}
+              newCardChangeHandler={this.newCardChangeHandler}
+              saveNewCardToDatabase={this.saveNewCardToDatabase}
+              updateDefinition={this.updateDefinition}
+              />
+
+          </form>
+        </div>
+      );
+    }
+  };
+
+  export default Edit

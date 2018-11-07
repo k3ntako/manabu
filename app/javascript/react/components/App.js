@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import Flashcard from './Flashcard/Flashcard';
 import Study from './Flashcard/study/Study';
 import Edit from './Flashcard/Edit/Edit';
+import NewDeck from './Flashcard/Edit/NewDeck';
 import DailyUpdate from './DailyUpdate/DailyUpdate'
 import Notes from './Notes/Notes'
 import Note from './Notes/Note'
@@ -36,7 +37,7 @@ constructor(props) {
             <IndexRoute component={Flashcard} />
             <Route path="/flashcards/study/:id" component={Study}/>
             <Route path="/flashcards/edit/:id" component={Edit}/>
-            <Route path="/flashcards/new/:id" component={Edit}/>
+            <Route path="/flashcards/new" component={NewDeck}/>
             <Redirect from='/flashcards/*' to="/flashcards" />
           </Route>
           <Route path='/notes'>

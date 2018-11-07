@@ -9,14 +9,15 @@ const Cards = props => {
 
     let defTextArea = []
     for(let i=0; i < props.numOfDefs;i++){
-      let sortedDefinitions = card.definitions.sort(props.sortBySequence)
+      let sortedDefinitions = card.definitions.sort(props.sortFunc)
+
       let def = sortedDefinitions[i]
       if(!def){
         def = {id:"new"+idx+i, definition:""}
       }
 
       let defChangeHandler = (event) => {
-        this.updateDefinition(card.id, def.id, event.target.value)
+        props.updateDefinition(card.id, def.id, event.target.value)
       }
 
       let defVal = ""
@@ -39,7 +40,7 @@ const Cards = props => {
     };
 
     let defChangeHandler = (event) => {
-      this.updateDefinition(card.id, null, event.target.value)
+      props.updateDefinition(card.id, null, event.target.value)
     }
 
     return(

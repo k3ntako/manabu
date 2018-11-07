@@ -12,6 +12,7 @@ constructor(props) {
     this.clickHandler = this.clickHandler.bind(this)
     this.fetchDecks = this.fetchDecks.bind(this)
     this.onClickButton = this.onClickButton.bind(this)
+    this.addNewDeck = this.addNewDeck.bind(this)
   }
 
   clickHandler(id){
@@ -40,6 +41,10 @@ constructor(props) {
 
   onClickButton(type){
     browserHistory.push(`/flashcards/${type}/${this.state.selectedDeck}`)
+  }
+
+  addNewDeck(){
+    browserHistory.push(`/flashcards/new`)
   }
 
   componentDidMount(){
@@ -94,7 +99,10 @@ constructor(props) {
       <div className="grid-x grid-margin-x">
         <div className="cell small-24"><h1>Flashcards</h1></div>
         {deckList}
-        <div className="deck-tile cell medium-24 large-12 flashcard-add-new">
+        <div
+          className="deck-tile cell medium-24 large-12 flashcard-add-new"
+          onClick={this.addNewDeck}
+          >
           <i className="far fa-plus-square flashcard-add-new-icon"></i>
         </div>
         {startEditButtons}

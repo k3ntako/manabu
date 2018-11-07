@@ -4,6 +4,27 @@ class Api::V1::DecksController < ApplicationController
     render json: Deck.all
   end
 
+  def create
+    term_title = DefinitionTitle.create(title: new_deck_params[:term_title])
+    deck = Deck.new(name: new_deck_params[:deck_name], definition_title: term_title)
+
+    UserDeck.create(deck: deck, user: current_user)
+
+    all_new_def_titles = []
+    new_deck_params[:definition_titles].each do |def_title|
+      new_def_title = DefinitionTitle.create(title: def_title)
+      all_new_def_titles << new_def_title
+    end
+
+    card = Card.create(sequence: 1, deck: deck, term: "First Term")
+
+    all_new_def_titles.each_with_index do |def_title, idx|
+      new_def = Definition.create(sequence: idx + 1, card: card, definition_title: def_title)
+    end
+
+    render json: {"message": "success", deck: deck}
+  end
+
   def update
     deck = Deck.find(params[:id])
     deck.attributes = {name: deck_params[:deck_name]}
@@ -37,5 +58,9 @@ class Api::V1::DecksController < ApplicationController
 
   def deck_params
     params.permit(:id, :deck_name, :term_title, :number_of_definitions, :definition_titles => [:title, :id])
+  end
+
+  def new_deck_params
+    params.permit(:deck_name, :term_title, :definition_titles => [])
   end
 end
