@@ -24,9 +24,9 @@ const AddCard = props => {
   return(
     <div className="edit-card cell flashcard-new-card small-24 medium-12 large-8">
       <form onSubmit={props.saveNewCardToDatabase}>
-        <div className="grid-x grid-margin-x">
+        <div>
           <input
-            className="edit-term edit-input cell small-19"
+            className="edit-term edit-input add-card-input"
             type="text"
             value={props.newCardTerm}
             onChange={props.newCardChangeHandler}
@@ -34,7 +34,8 @@ const AddCard = props => {
             />
           <input
             type="submit"
-            className={"standard-green-button add-card-button cell small-5" + addCardButtonClass}
+            className={"standard-green-button add-card-button " + addCardButtonClass}
+            id="add-card-button"
             value="Add"
             disabled={props.formDisabled || addCardDisabled}
             />
