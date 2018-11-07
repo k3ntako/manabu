@@ -37,14 +37,14 @@ class Notes extends Component {
   render(){
     let notesHTML = this.state.notes.map(note => {
         return(
-          <li key={note.id}><Link to={`/notes/${note.id}`}>{note.name}</Link></li>
+          <li key={note.id} className="note-name"><Link to={`/notes/${note.id}`}>{note.name}</Link></li>
         )
     })
 
     return(
       <div>
         <h1>Notes</h1>
-        <div><Link to="/notes/new/">New Note</Link></div>
+        <div><Link to="/notes/new/" className="note-name">New Note</Link></div>
         {notesHTML}
       </div>
     );

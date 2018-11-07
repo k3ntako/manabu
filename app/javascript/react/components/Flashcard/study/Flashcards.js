@@ -69,9 +69,9 @@ class Flashcards extends Component {
 
     let toggleClass = "far "
     if(this.state.showAll){
-      toggleClass += "fa-eye-slash"
-    }else{
       toggleClass += "fa-eye"
+    }else{
+      toggleClass += "fa-eye-slash"
     }
 
     return(
