@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import DeckInfo from './DeckInfo'
+import Cards from './Cards'
 
 class Edit extends Component {
   constructor(props) {
@@ -27,6 +29,7 @@ class Edit extends Component {
     this.newCardChangeHandler = this.newCardChangeHandler.bind(this)
     this.saveNewCardToDatabase = this.saveNewCardToDatabase.bind(this)
     this.handleDeckNameChange = this.handleDeckNameChange.bind(this)
+    this.sortBySequence = this.sortBySequence.bind(this)
   }
 
   noBlankFieldArrOfObj(arr, field){
@@ -91,22 +94,15 @@ class Edit extends Component {
         throw(error);
       }
     })
-    .then(response => {
-      return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-      let cards = data.cards
-      let deckName = data.deck_name
-      let definitionTitles = data.definition_titles
-
-      let termTitle = data.term_title
+      let numOfDefs = data.definition_titles.length
       this.setState({
-        cards: cards,
-        deckName: deckName,
-        definitionTitles: definitionTitles,
-        termTitle: termTitle,
-        numOfDefs: definitionTitles.length,
-        oldNumOfDefs: definitionTitles.length
+        cards: data.cards,
+        deckName: data.deck_name,
+        definitionTitles: data.definition_titles,
+        termTitle: data.term_title,
+        numOfDefs: numOfDefs
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -284,114 +280,18 @@ class Edit extends Component {
     }
   }
 
+  sortBySequence(a,b){
+    if (a.sequence < b.sequence){
+      return -1;
+    }
+    return 1;
+  }
+
   componentDidMount(){
     this.fetchDeck(this.props.params.id)
   }
 
   render(){
-
-    function sortBySequence(a,b) {
-      if (a.sequence < b.sequence){
-        return -1;
-      }
-      return 1;
-    }
-
-    let onChangeHandler = (event) => {
-      this.setState({termTitle: event.target.value})
-    }
-
-    let front = [(
-      <input
-        key = {"term-front"}
-        className = "edit-front edit-input edit-term"
-        type="text"
-        value={this.state.termTitle}
-        onChange={onChangeHandler}
-        onBlur={this.saveDeckToDatabase}
-        />
-    )];
-
-    let sortedTitles = this.state.definitionTitles.sort(sortBySequence)
-    for(let i=0; i<this.state.numOfDefs;i++){
-      let title = sortedTitles[i]
-      // if(!title){
-      //   title = {id:"front"+i, title:""}
-      // }
-
-      onChangeHandler = (event) => {
-        this.updateTitle(title.id, event.target.value)
-      }
-
-      front.push(
-        <input
-          key = {title.id+"dt"}
-          id={title.id}
-          className = "edit-front edit-input"
-          type="text"
-          value={title.title}
-          onChange={onChangeHandler}
-          onBlur={this.saveDeckToDatabase}
-          />
-      )
-    }
-
-    let sortedCards = this.state.cards.sort(sortBySequence)
-    let deck = sortedCards.map((card,idx) => {
-      let handleOnBlur = () => {
-        this.saveToDatabase(card.id)
-      }
-
-      let defTextArea = []
-      for(let i=0; i<this.state.numOfDefs;i++){
-        let sortedDefinitions = card.definitions.sort(sortBySequence)
-        let def = sortedDefinitions[i]
-        if(!def){
-          def = {id:"new"+idx+i, definition:""}
-        }
-
-        let defChangeHandler = (event) => {
-          this.updateDefinition(card.id, def.id, event.target.value)
-        }
-
-        let defVal = ""
-        if(def.definition != "No Definition"){
-          defVal = def.definition
-        }
-
-        defTextArea.push(
-          <textarea
-            key={def.id+"def"+idx}
-            className={"edit-def edit-input"}
-            type="text"
-            value={defVal}
-            onChange={defChangeHandler}
-            placeholder={def.definition_title}
-            onBlur={handleOnBlur}
-            disabled={this.state.formDisabled}
-            />
-        )
-      };
-
-      let defChangeHandler = (event) => {
-        this.updateDefinition(card.id, null, event.target.value)
-      }
-
-      return(
-        <div key={card.id + "cards"} className="edit-card cell small-24 medium-12 large-8">
-          <input
-            className="edit-term edit-input"
-            type="text"
-            value={card.term}
-            onBlur={handleOnBlur}
-            onChange={defChangeHandler}
-            disabled={this.state.formDisabled}
-            />
-          {defTextArea}
-        </div>
-      )
-    })
-
     let dropdownOptions = []
     for(let i=1; i < 11; i++){
       if(i === this.state.numOfDefs){
@@ -401,39 +301,12 @@ class Edit extends Component {
       }
     }
 
-    let addTitlesButton;
-    if(this.state.formDisabled){
-      addTitlesButton = (<div className="standard-green-button" onClick={this.saveNewTitlesToDatabase}>Add New Titles</div>)
-    }
-
-    let addCardButtonClass = " inactive";
-    let addCardDisabled = true;
-    let newTerm = this.state.newCardTerm.replace(/\s+/g,'');
-    if(!this.state.formDisabled && newTerm){
-      addCardButtonClass = "";
-      addCardDisabled = false;
-    }
-    let addNewCardTextarea
-    addNewCardTextarea = this.state.definitionTitles.map(title =>{
-      return(
-        <textarea
-          key={title.id}
-          className={"edit-def edit-input"}
-          type="text"
-          placeholder={title.title}
-          disabled={true}
-        />
-      )
-    })
-
-
     let errors = []
     this.state.errors.forEach((error, idx) => {
       errors.push(
         <div key={idx}>{error}</div>
       )
     })
-    // <h2><span className="flashcard-deck-name">{this.state.deckName}</span> - Edit Cards</h2>
 
     return(
       <div className="flashcard-edit">
@@ -451,36 +324,31 @@ class Edit extends Component {
           <select onChange={this.defNumChangeHandler}>
             {dropdownOptions}
           </select>
-          <div className="edit-card edit-title">
-            {front}
-            {addTitlesButton}
-          </div>
+          <DeckInfo
+            sortedTitles={this.state.definitionTitles.sort(this.sortBySequence)}
+            numOfDefs={this.state.numOfDefs}
+            termTitle={this.state.termTitle}
+            saveDeckToDatabase={this.saveDeckToDatabase}
+            formDisabled={this.state.formDisabled}
+            saveNewTitlesToDatabase={this.saveNewTitlesToDatabase}
+            updateTitle={this.updateTitle}
+            termChangeHandler={(term) => {this.setState({termTitle: term})}}
+
+          />
           <h3>Cards</h3>
-          <div className="grid-x grid-margin-x grid-margin-y grid-padding-x">
-            {deck}
-            <div className="edit-card cell flashcard-new-card small-24 medium-12 large-8">
-              <form onSubmit={this.saveNewCardToDatabase}>
-                <div className="grid-x grid-margin-x">
-                  <input
-                    className="edit-term edit-input cell small-19"
-                    type="text"
-                    value={this.state.newCardTerm}
-                    onChange={this.newCardChangeHandler}
-                    disabled={this.state.formDisabled}
-                  />
-                  <input
-                    type="submit"
-                    className={"standard-green-button add-card-button cell small-5" + addCardButtonClass}
-                    value="Add"
-                    disabled={this.state.formDisabled || addCardDisabled}
-                    />
-                </div>
 
-                {addNewCardTextarea}
+          <Cards
+            numOfDefs={this.state.numOfDefs}
+            definitionTitles={this.state.definitionTitles}
+            sortedCards={this.state.cards.sort(this.sortBySequence)}
+            sortFunc={this.sortBySequence}
+            formDisabled={this.state.formDisabled}
+            saveToDatabase={this.saveToDatabase}
+            newCardTerm={this.state.newCardTerm}
+            newCardChangeHandler={this.newCardChangeHandler}
+            saveNewCardToDatabase={this.saveNewCardToDatabase}
+          />
 
-              </form>
-            </div>
-          </div>
         </form>
       </div>
     );
