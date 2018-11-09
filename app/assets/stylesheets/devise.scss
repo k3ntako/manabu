@@ -12,12 +12,12 @@
 .devise-content{
   width:80vw;
   height: 90vh;
+  max-width: 1200px;
   overflow-y: scroll;
-  padding: 20px 20px 50px 20px;
+  padding: 50px;
   background-color: rgba(255,255,255,0.95);
   box-shadow: 0px 10px 100px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
   margin:auto;
-
 }
 
 .devise-title{
@@ -25,8 +25,59 @@
 }
 
 .devise-description{
-  margin-bottom: 30px;
+  margin-bottom: 60px;
   display: block;
   overflow: auto;
   border-bottom: 1px solid gray;
+  padding-bottom: 30px;
+}
+
+.devise-log-in-sign-up-toggle{
+  width: 100%;
+  text-align: center;
+}
+
+.devise-log-in-sign-up{
+
+  margin: 50px auto 0 auto;
+}
+
+#devise-log-in-button, #devise-sign-up-button{
+  font-weight: bold;
+  font-size: 1.3rem;
+  padding: 10px 20px;
+  color: white;
+}
+
+@media only screen and (max-width: 640px) {
+    #devise-log-in-button, #devise-sign-up-button {
+        font-size: 1rem;
+    }
+    .devise-description{
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+
+    .devise-content{
+      padding: 20px;
+    }
+
+}
+
+#devise-log-in-button{
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  background-image: linear-gradient(#5eabd8,#3797CF);
+  border-right: 1px solid white;
+}
+
+#devise-sign-up-button{
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-image: linear-gradient(#808080,#AEAEAE);
+  border-left: 1px solid white;
+}
+
+#devise-sign-up{
+  display: none;
 }

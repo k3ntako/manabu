@@ -1,12 +1,20 @@
 <div class="devise-wrapper">
-  <div class="devise-content grid-x grid-margin-x grid-margin-y">
-    <div class="cell small-24 devise-description">
+  <div class="devise-content">
+    <div class="devise-description">
       <h1 class="devise-title">Manabu</h1>
       <p>
         Manabu is an app that allows students to use flashcards and notes in one place.
       </p>
     </div>
-    <div class="cell small-24 large-12">
+    <div class="devise-log-in-sign-up-toggle">
+      <span id="devise-log-in-button">
+        Log in
+      </span>
+      <span id="devise-sign-up-button">
+        Sign up
+      </span>
+    </div>
+    <div class="devise-log-in-sign-up" id="devise-log-in">
       <h2>Log in</h2>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -33,9 +41,8 @@
       <% end %>
     </div>
 
-    <div class="cell small-24 large-12">
+    <div class="devise-log-in-sign-up" id="devise-sign-up">
       <h2>Sign up</h2>
-
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= devise_error_messages! %>

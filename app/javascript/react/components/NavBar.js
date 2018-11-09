@@ -33,7 +33,6 @@ class NavBar extends Component {
   }
 
   signOut(){
-    console.log("signOut");
     fetch(`/users/sign_out`, {
       method: 'DELETE',
       headers: {
