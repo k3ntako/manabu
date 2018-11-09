@@ -3,7 +3,7 @@ class Api::V1::NotesController < ApplicationController
   # serialization_scope :current_user
 
   def index
-    notes = Note.where("user = current_user")
+    notes = current_user.notes.order("updated_at DESC")
     render json: notes
   end
 

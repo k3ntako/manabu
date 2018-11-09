@@ -2,7 +2,7 @@ require 'httparty'
 
 class NewsParser
   def get_news
-    response = HTTParty.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=#{ENV["NEWS_API_KEY"]}")
+    response = HTTParty.get("https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=#{ENV["NEWS_API_KEY"]}")
 
     response
   end

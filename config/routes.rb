@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
+  get '/users/sign_up', to: redirect('/users/sign_in')
+  get '/users', to: redirect('/users/sign_in')
   devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do
     namespace :v1 do
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
       get '/mbta/routes', to: 'mbta#routes'
       get '/mbta/stops', to: 'mbta#stops'
       get '/mbta/predictions', to: 'mbta#predictions'
-      resources :users
+      resources :users, only: [:index]
       resources :news, only: [:index]
       resources :notes, only: [:index, :update, :show]
       resources :decks, only: [:index, :update, :create] do
@@ -31,5 +32,5 @@ Rails.application.routes.draw do
   get '/notes', to: 'homes#index'
   get '/notes/:id', to: 'homes#index'
   get '/not-found', to: 'homes#index'
-  get '*path', to: redirect('/not-found')
+
 end

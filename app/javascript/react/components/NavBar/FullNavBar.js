@@ -23,7 +23,7 @@ const FullNavBar = (props) => {
   ];
 
   if(props.currentUser){
-    userSignInHTML = (<li onClick={this.signOut}><a href="/users/sign_out">Sign Out</a></li>)
+    userSignInHTML = (<li className="nav-list-item" onClick={props.signOut}>Sign Out</li>)
   };
 
   return(

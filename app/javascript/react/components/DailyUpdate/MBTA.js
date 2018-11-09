@@ -133,7 +133,7 @@ class MBTA extends Component {
       }
 
       return(
-        <div className="cell small-24 medium-12">
+        <div className="cell small-24 medium-12 mbta">
           {routesHTML}
           {directionsHTML}
           {stopsHTML}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import FullNavBar from './NavBar/FullNavBar'
 import SmallNavBar from './NavBar/SmallNavBar'
 
@@ -34,12 +33,16 @@ class NavBar extends Component {
   }
 
   signOut(){
+    console.log("signOut");
     fetch(`/users/sign_out`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json' },
       credentials: 'same-origin'
+    })
+    .then(reponse => {
+      window.location.assign(`/users/sign_in`)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   };
@@ -68,6 +71,7 @@ class NavBar extends Component {
     let navBarHTML = <FullNavBar
       currentUser={this.state.currentUser}
       children={children}
+      signOut= {this.signOut}
       pathname={this.props.location.pathname}
     />
     if(this.state.smallNavBar){

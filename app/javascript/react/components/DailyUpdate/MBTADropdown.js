@@ -11,7 +11,7 @@ const MBTADropdown = props => {
     }
 
     return(
-      <option key={info.id} id={info.id} value={info.id} selected={selected}>{showText}</option>
+      <option key={info.id} className="mbta-option" id={info.id} value={info.id} selected={selected}>{showText}</option>
     )
   })
 
