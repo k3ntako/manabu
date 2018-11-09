@@ -3,7 +3,6 @@ import Card from "./Card"
 import MasteryButton from './MasteryButton';
 
 class Flashcards extends Component {
-  debugger
   constructor(props) {
     super(props);
 
@@ -15,6 +14,7 @@ class Flashcards extends Component {
     };
     this.setMastery = this.setMastery.bind(this);
     this.toggleShow = this.toggleShow.bind(this);
+    this.sortBySequence = this.sortBySequence.bind(this);
   }
 
   setMastery(event) {
@@ -24,7 +24,6 @@ class Flashcards extends Component {
     let cardId = this.props.cardId
 
     let jsonStringInfo = JSON.stringify(newMasteryJSON)
-    console.log("jsonStringInfo",jsonStringInfo);
     fetch(`/api/v1/decks/${this.props.deckId}/cards/${cardId}/masteries`, {
       method: 'POST',
       body: jsonStringInfo,
@@ -35,9 +34,6 @@ class Flashcards extends Component {
     })
     .then(data => data.json())
     .then(mastery => {
-      console.log(mastery, "fetch post");
-      console.log(this.state);
-      debugger
       this.setState({
         mastery: mastery.mastery.mastery
       })
@@ -49,13 +45,21 @@ class Flashcards extends Component {
     this.setState({showAll: !this.state.showAll})
   }
 
+  sortBySequence(a,b){
+    if (a.sequence < b.sequence){
+      return -1;
+    }
+    return 1;
+  }
+
   componentWillReceiveProps(nextProps){
     this.setState({mastery: nextProps.mastery})
   }
 
   render(){
     let activeIdx = this.props.activeIdx
-    let definitionCards = this.props.definitions.map(def => {
+    let sortedDefs = this.props.definitions.sort(this.sortBySequence)
+    let definitionCards = sortedDefs.map(def => {
       return(
         <Card
           key={def.id}
