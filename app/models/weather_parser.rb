@@ -1,10 +1,13 @@
 require 'httparty'
 
 class WeatherParser
-  def current_conditions(query)
+  def current_conditions(query, ip)
     latitude = query[:latitude]
     longitude = query[:longitude]
 
+    if (latitude + longitude).include?("null")
+      latitude, longitude = Geocoder.search(ip).first.coordinates
+    end
 
     response = HTTParty.get("https://api.darksky.net/forecast/#{ENV["DARK_SKY_KEY"]}/#{latitude},#{longitude}?units=auto&exclude=[minutely,hourly,daily,flags]")
 
@@ -25,6 +28,9 @@ class WeatherParser
   def get_address(latitude, longitude)
     response = HTTParty.get("http://dev.virtualearth.net/REST/v1/Locations/#{latitude},#{longitude}\?o\=json\&key\=#{ENV["BING_MAP_KEY"]}")
 
-    response["resourceSets"][0]["resources"][0]["address"]["formattedAddress"]
+    locality = response["resourceSets"][0]["resources"][0]["address"]["locality"]
+    adminDistrict = response["resourceSets"][0]["resources"][0]["address"]["adminDistrict"]
+
+    locality + ", " + adminDistrict
   end
 end
