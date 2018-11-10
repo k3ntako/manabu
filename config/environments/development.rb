@@ -1,4 +1,17 @@
 Rails.application.configure do
+  config.action_mailer.perform_deliveries = true
+
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "example.com",
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV["GMAIL_USERNAME"],
+    password:ENV["GMAIL_PASSWORD"]
+  }
+  config.action_mailer.default_url_options = { :host => 'localhost' }
+
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = true
   # Settings specified here will take precedence over those in config/application.rb.
@@ -53,6 +66,10 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+
+
+
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

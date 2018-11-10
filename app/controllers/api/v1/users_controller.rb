@@ -6,14 +6,7 @@ class Api::V1::UsersController < ApplicationController
     is_signed_in?
   end
 
-  def destroy
-    binding.pry
-    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-
-    yield if block_given?
-    respond_to_on_destroy
-  end
-
+  private
 
   def is_signed_in?
     if user_signed_in?

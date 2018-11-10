@@ -4,9 +4,7 @@ $green: #84CE15;
 $grey: #777777;
 $light-blue: #E5F3F4;
 
-// @import url('https://fonts.googleapis.com/css?family=Quicksand');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,700');
-// @import url('https://fonts.googleapis.com/css?family=Exo|Gloria+Hallelujah|Indie+Flower|KoHo|Ubuntu:300,400,700');
 
 :root {
   --bg-color: #FFF;
@@ -19,8 +17,9 @@ body{
   user-select: none;
   font-family: 'Ubuntu', sans-serif;
   font-weight: 400;
-
-  background-color: $background;
+  background-size: cover;
+  padding-right: 17px;
+  overflow-x: hidden;
 }
 
 div{
@@ -54,19 +53,26 @@ a{
   background-color: rgba(255,255,255,0);
 }
 
+.top-bar-right > .menu > li {
+  padding: 0.7rem 1.2rem;
+}
+
 li.nav-list-item{
   height: 50px;
   min-width: 30px;
 }
 
-ul.menu > li > a, #title-link, .nav-dropdown-item > a {
+ul.menu > li > a, #title-link,.nav-list-item, .nav-dropdown-item {
   font-size: 1.2rem;
   color: white;
   -webkit-font-smoothing: antialiased;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
   height: 50px;
   line-height: 28px;
-  vertical-align: bottom;
+}
+
+.nav-dropdown-item > a{
+  color: inherit;
 }
 
 #title-link{
@@ -74,7 +80,7 @@ ul.menu > li > a, #title-link, .nav-dropdown-item > a {
   font-size: 1.5rem;
 }
 
-ul.menu > li > a:hover, #title-link:hover, .nav-dropdown-item > a:hover {
+ul.menu > li > a:hover, #title-link:hover, .nav-dropdown-item:hover,  .nav-list-item:hover{
   color: steelblue;
 }
 
@@ -96,13 +102,6 @@ ul.menu > li > a:hover, #title-link:hover, .nav-dropdown-item > a:hover {
 
 .nav-user-options{
   border-top: 3px solid white;
-}
-
-a.nav-dropdown-link{
-  display: block;
-  margin: 0;
-  line-height: 28px;
-  height: 28px;
 }
 
 #nav-child{
@@ -137,6 +136,10 @@ h3.error-message > a:hover{
   font-weight: 900;
   color: white;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.standard-green-button:hover{
+  color: steelblue;
 }
 
 /////////Flash Message/////////

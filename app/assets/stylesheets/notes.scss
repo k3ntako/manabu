@@ -42,6 +42,21 @@ input.notes-name:focus{
   text-shadow: 0 0 4px #ccdcea;
 }
 
+.notes-new{
+  font-size: 1.5rem;
+}
+
 .note-name{
   font-size: 1.5rem;
+  border: 1px solid #cccccc;
+  padding: 20px;
+}
+
+.note-name:hover{
+  color: steelblue;
+}
+
+p.note-date{
+  font-size: 1rem;
+  color: #666;
 }

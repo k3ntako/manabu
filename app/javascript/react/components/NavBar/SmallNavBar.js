@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-
+import { Link, browserHistory } from 'react-router';
 
 class SmallNavBar extends Component {
   constructor(props) {
@@ -10,6 +9,8 @@ class SmallNavBar extends Component {
     };
     this.onClickHandler = this.onClickHandler.bind(this)
     this.bodyClickHandler = this.bodyClickHandler.bind(this)
+    this.clickLink = this.clickLink.bind(this)
+    this.clickHome = this.clickHome.bind(this)
   }
   onClickHandler(){
     if(this.state.iconClassName === "css-icon-menu"){
@@ -23,8 +24,18 @@ class SmallNavBar extends Component {
     this.setState({iconClassName: "css-icon-menu"})
   }
 
+  clickLink(event){
+    let link = event.target.innerHTML.toLowerCase()
+    this.setState({iconClassName: "css-icon-menu"},
+      () => {browserHistory.push(`/${link}`)}
+    )
+  }
+
+  clickHome(){
+    this.setState({iconClassName: "css-icon-menu"})
+  }
+
   render(){
-    console.log(document.getElementById('nav-child'));
     if(document.getElementById('nav-child')){
       document.getElementById('nav-child').addEventListener('click', this.bodyClickHandler);
     }
@@ -37,7 +48,7 @@ class SmallNavBar extends Component {
     if(this.props.currentUser){
       userSignInHTML = (
         <div className="nav-dropdown-item nav-user-options" onClick={this.props.signOut}>
-          <a href="/users/sign_out">Sign Out</a>
+          Sign Out
         </div>
       )
     };
@@ -46,11 +57,11 @@ class SmallNavBar extends Component {
     if(this.state.iconClassName === "css-icon-close"){
       navDropDown = (
         <div className="grid-y nav-dropdown">
-          <div className="nav-dropdown-item">
-            <Link to="/flashcards" className="nav-dropdown-link">Flashcards</Link>
+          <div className="nav-dropdown-item" onClick={this.clickLink}>
+            Flashcards
           </div>
-          <div className="nav-dropdown-item">
-            <Link to="/notes" className="nav-dropdown-link">Notes</Link>
+          <div className="nav-dropdown-item" onClick={this.clickLink}>
+            Notes
           </div>
           {userSignInHTML}
         </div>
@@ -65,7 +76,9 @@ class SmallNavBar extends Component {
               <li className="nav-list-item" onClick={this.onClickHandler}>
                 <div className={`${this.state.iconClassName} css-icon-icon`}></div>
               </li>
-              <li className="menu-text nav-list-item"><Link id="title-link" to="/">Manabu</Link></li>
+              <li className="menu-text nav-list-item" onClick={this.clickHome}>
+                <Link id="title-link" to="/">Manabu</Link>
+              </li>
             </ul>
           </div>
         </div>

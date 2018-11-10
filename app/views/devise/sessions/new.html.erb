@@ -1,26 +1,96 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="devise-wrapper">
+  <div class="devise-content">
+    <div class="devise-description">
+      <h1 class="devise-title">Manabu</h1>
+      <p>
+        Manabu is an app that allows students to use flashcards and notes in one place.
+      </p>
     </div>
-  <% end -%>
+    <div class="devise-log-in-sign-up-toggle">
+      <span id="devise-log-in-button">
+        Log in
+      </span>
+      <span id="devise-sign-up-button">
+        Sign up
+      </span>
+    </div>
+    <div class="devise-log-in-sign-up" id="devise-log-in">
+      <h2>Log in</h2>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="field">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'devise-log-in-input' %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password %><br />
+          <%= f.password_field :password, autocomplete: "current-password", class: 'devise-log-in-input' %>
+        </div>
+
+        <% if devise_mapping.rememberable? -%>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end -%>
+
+        <div class="actions">
+          <%= f.submit "Log in" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="devise-log-in-sign-up" id="devise-sign-up">
+      <h2>Sign up</h2>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= devise_error_messages! %>
+
+        <div class="field">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'devise-sign-up-input', disabled: true %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password %>
+          <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%= f.password_field :password, autocomplete: "new-password", class: 'devise-sign-up-input', disabled: true %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'devise-sign-up-input', disabled: true %>
+        </div>
+
+        <div class="field">
+          <%= f.label :first_name %><br />
+          <%= f.text_field :first_name, autocomplete: "given-name", class: 'devise-sign-up-input', disabled: true %>
+        </div>
+
+        <div class="field">
+          <%= f.label :last_name %><br />
+          <%= f.text_field :last_name, autocomplete: "family-name", class: 'devise-sign-up-input', disabled: true %>
+        </div>
+
+        <div class="field">
+          <%= f.label :birthday %><br />
+          <%= f.date_field :birthday,
+            value: f.object.try(:strftime,"%d/%m/%Y"),
+            min: 150.years.ago,
+            max: 13.year.ago,
+            autocomplete: "bday",
+            class: 'devise-sign-up-input',
+            disabled: true
+          %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Sign up", class: 'devise-sign-up-input' %>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
