@@ -9,7 +9,7 @@ Rails.application.configure do
     password:ENV["GMAIL_PASSWORD"]
   }
 
-  config.action_mailer.default_url_options = { :host => 'https://www.manabu.page/' }
+  config.action_mailer.default_url_options = { :host => 'https://www.manabu.page' }
 
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = false
