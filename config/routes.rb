@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
-
-  get '/users/sign_up', to: redirect('/users/sign_in')
-  # get '/users', to: redirect('/users/sign_in')
   devise_for :users
+  get '/users/sign_up', to: redirect('/users/sign_in')
 
   namespace :api do
     namespace :v1 do
