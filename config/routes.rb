@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => {:passwords => 'passwords'}
+  devise_for :users, :controllers => {:passwords => 'users/passwords'}
   get '/users/sign_up', to: redirect('/users/sign_in')
 
   namespace :api do
