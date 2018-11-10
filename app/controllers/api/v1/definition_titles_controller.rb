@@ -1,5 +1,4 @@
 class Api::V1::DefinitionTitlesController < ApplicationController
-  # serialization_scope :current_user
   def destroy
     deck = Deck.find(df_params[:deck_id])
     binding.pry
@@ -18,7 +17,7 @@ class Api::V1::DefinitionTitlesController < ApplicationController
   end
 
   private
-  
+
   def df_params
     params.permit(:deck_id, :deleted_definition_titles => [:title, :id])
   end
