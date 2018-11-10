@@ -4,28 +4,22 @@ class Weather extends Component {
 constructor(props) {
     super(props);
     this.state = {
-      latitude: 42.354046,
-      longitude: -71.058831,
+      latitude: null,
+      longitude: null,
       temp: "weather",
       summary: "loading",
       locatiion: ""
     };
 
     this.getLocation = this.getLocation.bind(this)
-    this.error = this.error.bind(this)
     this.fetchWeather = this.fetchWeather.bind(this)
     this.showPosition = this.showPosition.bind(this)
   }
 
   getLocation(){
-    if (!navigator.geolocation){
-      alert("Geolocation is not supported by this browser!");
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(this.showPosition);
     }
-    navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
-  }
-
-  error() {
-    alert("Unable to retrieve your location! Allow the browser to track your location!");
   }
 
   showPosition(position) {

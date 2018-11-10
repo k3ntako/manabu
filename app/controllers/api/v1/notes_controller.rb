@@ -1,7 +1,4 @@
-require 'date'
 class Api::V1::NotesController < ApplicationController
-  # serialization_scope :current_user
-
   def index
     notes = current_user.notes.order("updated_at DESC")
     render json: notes

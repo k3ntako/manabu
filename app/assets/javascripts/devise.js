@@ -29,10 +29,12 @@ function clickSignUp(){
   }
 }
 
-var logInButton = document.getElementById("devise-log-in-button")
-logInButton.addEventListener("click", clickLogIn);
+if(logInButton && signUpButton){
+  var logInButton = document.getElementById("devise-log-in-button")
+  logInButton.addEventListener("click", clickLogIn);
 
-var signUpButton = document.getElementById("devise-sign-up-button")
-signUpButton.addEventListener("click", clickSignUp);
+  var signUpButton = document.getElementById("devise-sign-up-button")
+  signUpButton.addEventListener("click", clickSignUp);
 
-clickLogIn()
+  clickLogIn()
+}
