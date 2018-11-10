@@ -7,11 +7,9 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
   <%= stylesheet_link_tag 'application', media: 'all' %>
-
-
-
   <%= csrf_meta_tags %>
 </head>
+
 <body>
   <%- flash.each do |key, value| -%>
     <div class="flash flash-<%= key %>">
@@ -19,17 +17,17 @@
     </div>
   <%- end -%>
 
-      <%= yield %>
-
-  <%= javascript_include_tag 'application' %>
+  <%= yield %>
 
   <%- if Rails.env.development? || Rails.env.test? -%>
     <%= javascript_tag do %>
       window.railsEnv = '<%= Rails.env %>'
     <%- end -%>
   <%- end -%>
-  <%= javascript_pack_tag 'application' %>
 
   <%= yield :extra_footer %>
+
+  <%= javascript_include_tag 'application' %>
+  <%= javascript_pack_tag 'application' %>
 </body>
 </html>

@@ -12,23 +12,6 @@ feature 'user registers', %Q{
   # * If I don't specify the required information, I am presented with
   #   an error message
 
-  scenario 'provide valid registration information' do
-    visit new_user_registration_path
-
-    fill_in 'Email', with: 'john@example.com'
-    fill_in 'Password', with: 'password'
-    fill_in 'Password confirmation', with: 'password'
-    fill_in 'First name', with: 'password'
-    fill_in 'Last name', with: 'password'
-    fill_in 'Birthday', with: '11/11/1994'
-
-
-
-    click_button 'Sign up'
-
-    expect(page).to have_content('Welcome! You have signed up successfully.')
-  end
-
   scenario 'provide invalid registration information' do
     visit new_user_registration_path
 
