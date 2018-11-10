@@ -20,6 +20,7 @@ Devise.setup do |config|  config.secret_key = Rails.application.secret_key_base
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'manabu.page@gmail.com'
+  config.authentication_keys = [ :email ]
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
