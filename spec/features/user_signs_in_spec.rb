@@ -7,6 +7,8 @@ feature 'user signs in', %Q{
 } do
   scenario 'specify valid credentials' do
     user = FactoryBot.create(:user)
+    user.skip_confirmation!
+    user.save
 
     visit new_user_session_path
 
