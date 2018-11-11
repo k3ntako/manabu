@@ -14,8 +14,9 @@ class Api::V1::DefinitionTitlesController < ApplicationController
       definition_titles = duplicate_def_titles.uniq{|title| title.id}
 
       render json: {cards: deck.cards, definition_titles: definition_titles}
+    else
+      render json: {error: "Example user cannot delete a definition title."}
     end
-    render json: {error: "Example user cannot delete a definition title."}
   end
 
   private

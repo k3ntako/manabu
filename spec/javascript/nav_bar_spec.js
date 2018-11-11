@@ -40,10 +40,11 @@ describe('Game Index Page', () => {
         wrapper.find('.css-icon-menu').simulate('click')
 
         let dropdown = wrapper.find('div.nav-dropdown-item')
-        expect(dropdown.length).toEqual(3)
+        expect(dropdown.length).toEqual(4)
         expect(dropdown.at(0).text()).toEqual("Flashcards")
         expect(dropdown.at(1).text()).toEqual("Notes")
-        expect(dropdown.at(2).text()).toEqual("Sign Out")
+        expect(dropdown.at(2).text()).toEqual("")
+        expect(dropdown.at(3).text()).toEqual("Sign Out")
         done()
       })
     })

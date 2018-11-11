@@ -28,8 +28,9 @@ class Api::V1::DefinitionsController < ApplicationController
         definition_titles: existing_def_titles + new_def_titles,
         cards: ActiveModel::Serializer::ArraySerializer.new(deck.cards)
       }
+    else
+      render json: {error: "Example user cannot create a definition."}
     end
-    render json: {error: "Example user cannot create a definition."}
   end
 
   private

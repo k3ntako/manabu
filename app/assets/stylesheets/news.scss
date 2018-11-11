@@ -4,10 +4,11 @@
 
 .news-header{
   border-top: 5px black solid;
+  border-color: var(--header-font-color);
 }
 
-
 .news-card{
+  background-color: var(--card-bg-color);
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
@@ -17,7 +18,12 @@
 }
 
 .news-title > a{
+  color: black;
   user-select: text;
+}
+
+.news-title > a:hover{
+  color: var(--steelblue);
 }
 
 .news-image{
@@ -41,7 +47,7 @@
 }
 
 @media only screen and (max-width: 1024px) {
-    .news-image-container {
-      max-height: 50vw;
-    }
+  .news-image-container {
+    max-height: 50vw;
+  }
 }

@@ -4,9 +4,8 @@
 }
 
 .edit-card{
-  background-color: var(--bg-color);
-  // margin-bottom: 50px;
-  border: 1px solid black;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--flashcard-border-color);
   border-radius: 10px;
   padding: 10px;
 }
@@ -30,12 +29,6 @@ textarea.edit-input{
 
 .edit-def{
   display: inline-block;
-}
-
-#darkModeToggle {
-  margin-left: var(--palatte-padding-left);
-  background-color: var(--footer-color);
-  border-radius: 15px;
 }
 
  input#add-card-button{

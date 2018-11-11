@@ -34,8 +34,9 @@ class Api::V1::CardsController < ApplicationController
       else
         render json: {error: "Could not save new card to database."}
       end
+    else
+      render json: {error: "Example user cannot create a new card."}
     end
-    render json: {error: "Example user cannot create a new card."}
   end
 
   def update

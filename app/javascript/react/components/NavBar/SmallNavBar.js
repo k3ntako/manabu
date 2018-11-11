@@ -11,6 +11,7 @@ class SmallNavBar extends Component {
     this.bodyClickHandler = this.bodyClickHandler.bind(this)
     this.clickLink = this.clickLink.bind(this)
     this.clickHome = this.clickHome.bind(this)
+    this.clickToggleDarkMode = this.clickToggleDarkMode.bind(this)
   }
   onClickHandler(){
     if(this.state.iconClassName === "css-icon-menu"){
@@ -35,9 +36,19 @@ class SmallNavBar extends Component {
     this.setState({iconClassName: "css-icon-menu"})
   }
 
+  clickToggleDarkMode(){
+    this.setState({iconClassName: "css-icon-menu"})
+    this.props.toggleDarkMode()
+  }
+
   render(){
     if(document.getElementById('nav-child')){
       document.getElementById('nav-child').addEventListener('click', this.bodyClickHandler);
+    }
+
+    let darkModeToggle = (<i className="far fa-sun"></i>)
+    if(this.props.darkMode){
+      darkModeToggle = (<i className="far fa-moon"></i>)
     }
 
     let navDropDown
@@ -49,6 +60,9 @@ class SmallNavBar extends Component {
           </div>
           <div className="nav-dropdown-item" onClick={this.clickLink}>
             Notes
+          </div>
+          <div className="nav-dropdown-item" onClick={this.clickToggleDarkMode}>
+            {darkModeToggle}
           </div>
           <div className="nav-dropdown-item nav-user-options" onClick={this.props.signOut}>
             Sign Out

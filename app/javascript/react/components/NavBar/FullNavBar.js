@@ -17,6 +17,11 @@ const FullNavBar = (props) => {
     )
   })
 
+  let darkModeToggle = (<i className="far fa-sun"></i>)
+  if(props.darkMode){
+    darkModeToggle = (<i className="far fa-moon"></i>)
+  }
+
   return(
     <div>
       <div className="top-bar">
@@ -28,6 +33,9 @@ const FullNavBar = (props) => {
         </div>
         <div className="top-bar-right">
           <ul className="menu">
+            <li className="nav-list-item" onClick={props.toggleDarkMode}>
+              {darkModeToggle}
+            </li>
             <li className="nav-list-item" onClick={props.signOut}>Sign Out</li>
           </ul>
         </div>

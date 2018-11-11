@@ -8,7 +8,8 @@ constructor(props) {
       longitude: null,
       temp: "weather",
       summary: "loading",
-      locatiion: ""
+      location: "",
+      icon: null
     };
 
     this.getLocation = this.getLocation.bind(this)
@@ -26,8 +27,9 @@ constructor(props) {
     this.setState({
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
+    }, () =>{
+      this.fetchWeather()
     })
-    this.fetchWeather()
   }
 
   fetchWeather() {
@@ -53,9 +55,7 @@ constructor(props) {
       return data.icon.toUpperCase().replace(/-/g,"_");
     })
     .then(icon => {
-      var skycons = new Skycons({"color": "steelblue"});
-      skycons.add("icon1", Skycons[icon]);
-      skycons.play();
+      this.setState({icon: icon})
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -66,6 +66,17 @@ constructor(props) {
   }
 
   render(){
+    if(this.state.icon){
+      let color = "steelblue";
+      if(this.props.darkMode){
+        color = "white";
+      }
+
+      let skycons = new Skycons({"color": color});
+      let icon = this.state.icon;
+      skycons.add("icon1", Skycons[icon]);
+      skycons.play();
+    }
     return(
       <div className="weather cell small-24 medium-12">
         <canvas id="icon1"></canvas>

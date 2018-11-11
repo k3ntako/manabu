@@ -5,8 +5,10 @@
 input.notes-name{
   font-size: 3rem;
   height: 70px;
-  border:1px solid white;
+  border:1px solid var(--bg-color);
   box-shadow: none;
+  background-color: var(--bg-color);
+  color: var(--header-font-color);
 }
 
 input.notes-name:focus{
@@ -14,9 +16,9 @@ input.notes-name:focus{
 }
 
 @media only screen and (max-width: 640px) {
-    input.notes-name {
-        font-size: 2rem;
-    }
+  input.notes-name {
+    font-size: 2rem;
+  }
 }
 
 .DraftEditor-editorContainer > div{
@@ -29,10 +31,11 @@ input.notes-name:focus{
 }
 
 .notes-editor{
+  background-color: var(--card-bg-color);
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: scroll;
-  border: 2px solid #e1e1e1;
+  border: 2px solid var(--notes-editor-border-color);
   padding: 10px;
   margin-top: 5px;
 }
@@ -81,4 +84,8 @@ p.note-date{
 .RichEditor-code-block:last-child{
   padding-bottom: 10px;
   border-bottom: 1px solid  #cccccc;
+}
+
+.public-DraftStyleDefault-block{
+  color: black;
 }

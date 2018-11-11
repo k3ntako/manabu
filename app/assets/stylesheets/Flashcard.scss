@@ -9,12 +9,15 @@ div.startCards{
 
 .deck-tile{
   margin: 10px auto;
-
   padding: 10px;
   text-align: center;
-
-  border: 2px solid lightgray;
+  border: 2px solid var(--notes-editor-border-color);
   border-radius: 10px;
+  background-color: var(--card-bg-color);
+}
+
+div.deck-tile, .deck-tile > h2 {
+  color: black;
 }
 
 #deck-selected{
@@ -62,6 +65,7 @@ div.card-control{
   height:90vh;
   padding-top: 10vh;
   font-size: 10vw;
+  color: var(--header-font-color);
 }
 
 i.card-control{
@@ -85,7 +89,7 @@ i.card-control:hover{
 }
 
 .flashcard{
-  border: 2px solid black;
+  border: 2px solid var(--flashcard-border-color);
   border-radius: 10px;
   display: grid;
   text-align: center;
@@ -99,6 +103,7 @@ h1.card-text{
   font-size: 1.5rem;
   padding: 0 10px;
   user-select: text;
+  color: black;
 }
 
 .term{
@@ -135,10 +140,10 @@ h1#term{
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.card-control-button{
+.mastery-button{
   background-color: white;
   margin: auto;
-  font-size: 6vmin;
+  font-size: 5vmin;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -149,10 +154,10 @@ h1#term{
   width: 100%;
   user-select: none;
 }
-.card-control-button:hover{
+.mastery-button:hover{
   color:black;
 }
-.card-control-button:active{
+.mastery-button:active{
   color:#dddddd;
 }
 
@@ -175,4 +180,16 @@ h1#term{
   top:50px;
   color:black;
   font-size: 5vw;
+  color: var(--toggle-eye-color);
+}
+
+@media only screen and (max-width: 640px) {
+  .flashcard-deck-name {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+
+  div.card-control {
+    font-size: 12vw;
+  }
 }
