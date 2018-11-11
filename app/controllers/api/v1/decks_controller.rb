@@ -28,8 +28,9 @@ class Api::V1::DecksController < ApplicationController
       end
 
       render json: {"message": "success", deck: deck}
+    else
+      render json: {error: "Example user cannot create a new deck."}
     end
-    render json: {error: "Example user cannot create a new deck."}
   end
 
   def update
@@ -64,8 +65,9 @@ class Api::V1::DecksController < ApplicationController
       else
         render json: { :errors => "Could not update deck." }
       end
+    else
+      render json: {error: "Example user cannot update a deck."}
     end
-    render json: {error: "Example user cannot update a deck."}
   end
 
   private

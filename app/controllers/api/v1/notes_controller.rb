@@ -48,8 +48,9 @@ class Api::V1::NotesController < ApplicationController
           render json: {error: "Error saving note."}
         end
       end
+    else
+      render json: {error: "Example user cannot update a note."}
     end
-    render json: {error: "Example user cannot update a note."}
   end
 
   private
