@@ -8,7 +8,8 @@ class Note extends React.Component {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      name: ""
+      name: "",
+      errors: []
     };
 
     this.focus = this.focus.bind(this)
@@ -42,6 +43,7 @@ class Note extends React.Component {
   getBlockStyle(block) {
     switch (block.getType()) {
       case 'blockquote': return 'RichEditor-blockquote';
+      case 'code-block': return 'RichEditor-code-block';
       default: return null;
     }
   }
@@ -67,11 +69,13 @@ class Note extends React.Component {
     })
     .then(response => response.json())
     .then(data => {
-      let contentState = convertFromRaw(JSON.parse(data.note))
-      this.setState({
-        editorState: EditorState.createWithContent(contentState),
-        name: data.name
-      })
+      if(data.note){
+        let contentState = convertFromRaw(JSON.parse(data.note))
+        this.setState({
+          editorState: EditorState.createWithContent(contentState),
+          name: data.name
+        })
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -94,7 +98,9 @@ class Note extends React.Component {
       })
       .then(data => data.json())
       .then(note => {
-        console.log(note);
+        if(note.error){
+          this.setState({errors: this.state.errors.concat(note.error)})
+        }
       }
     )
   }
@@ -110,14 +116,18 @@ class Note extends React.Component {
   render() {
     let styleMap = {
       CODE: {
-        backgroundColor: "rgba(0, 0, 0, 0.15)",
+        backgroundColor: "#f1f1f1",
+        border: "1px solid #cccccc",
         fontWeight: "bold",
         padding: 2,
-      },
+      }
     };
+
+    let errorsHTML = this.props.renderErrors(this.state.errors)
 
     return (
       <div className="notes grid-y">
+        {errorsHTML}
         <input
           placeholder="Click to edit title"
           value={this.state.name}

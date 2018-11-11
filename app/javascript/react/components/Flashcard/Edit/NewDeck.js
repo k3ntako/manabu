@@ -58,8 +58,11 @@ class Edit extends Component {
     .then(data => {
       if(data.message === "success"){
         browserHistory.push(`/flashcards/edit/${data.deck.id}`)
+      }else if(data.error){
+        this.setState({errors: [...this.state.errors, data.error]})
+      }else{
+        this.setState({errors: [...this.state.errors, "Could not save deck."]})
       }
-      this.setState({errors: [...this.state.errors, "Could not save deck."]})
     })
   }
 
@@ -92,8 +95,12 @@ class Edit extends Component {
     if(emptyTitles.length){
       addDeckButtonDisabled = true
     }
+
+    let errorsHTML = this.props.renderErrors(this.state.errors)
+
     return(
       <div>
+        {errorsHTML}
         <h1>Add a Deck</h1>
         <form onSubmit={this.submitHandler}>
           <h3>Name of Deck:</h3>

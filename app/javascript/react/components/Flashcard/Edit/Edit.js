@@ -121,7 +121,11 @@ class Edit extends Component {
       })
       .then(data => data.json())
       .then(card => {
-        console.log(card);
+        if(card.error){
+          this.setState({
+            errors: this.state.errors.concat(card.error)
+          })
+        }
       }
     )
   }
@@ -147,12 +151,15 @@ class Edit extends Component {
         })
         .then(data => data.json())
         .then(deck => {
-          this.setState({definitionTitles: deck.definition_titles})
+          if(deck.error){
+            this.setState({errors: this.state.errors.concat(deck.error)})
+          }else{
+            this.setState({definitionTitles: deck.definition_titles})
+          }
         }
       )
     }else{
-      //error message on screen
-      console.log("NAHHHH");
+      this.setState({errors: this.state.errors.concat("Inputs cannot be blank.")})
     }
   }
 
@@ -177,16 +184,19 @@ class Edit extends Component {
       })
       .then(data => data.json())
       .then(newDefinitions => {
-        this.setState({
-          definitionTitles: newDefinitions.definition_titles,
-          cards: newDefinitions.cards,
-          formDisabled: false
-        })
+        if(newDefinitions.error){
+          this.setState({errors: this.state.errors.concat(newDefinitions.error)})
+        }else{
+          this.setState({
+            definitionTitles: newDefinitions.definition_titles,
+            cards: newDefinitions.cards,
+            formDisabled: false
+          })
+        }
       })
     }else{
       //error message on screen
-      this.setState({errors: ["Definition titles can't be blank."]})
-      console.log("NAHHHH");
+      this.setState({errors: this.state.errors.concat("Definition titles can't be blank.")})
     }
   }
 
@@ -210,14 +220,14 @@ class Edit extends Component {
           credentials: 'same-origin'
         })
         .then(data => data.json())
-        .then(newDefinitions => {
-
+        .then(data => {
+          if(data.error){
+            this.setState({errors: this.state.errors.concat(card.error)})
+          }
         }
       )
     }else{
-      //error message on screen
       this.setState({errors: ["Need to figure out how to deal with deleting titles while already editing."]})
-      console.log("NAHHHH");
     }
   }
 
@@ -259,7 +269,7 @@ class Edit extends Component {
       event.preventDefault()
       let newTerm = this.state.newCardTerm.replace(/\s+/g,'');
       if(newTerm){
-        fetch(`/api/v1/decks/${this.props.params.id}/cards/?new_term=${newTerm}&number_of_definitions=${this.state.numOfDefs}`, {
+        fetch(`/api/v1/decks/${this.props.params.id}/cards/?new_term=${newTerm}`, {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -269,10 +279,14 @@ class Edit extends Component {
         })
         .then(data => data.json())
         .then(newCard => {
-          this.setState({
-            cards: [...this.state.cards, newCard.card],
-            newCardTerm: ""
-          })
+          if(newCard.error){
+            this.setState({errors: this.state.errors.concat(newCard.error)})
+          }else{
+            this.setState({
+              cards: [...this.state.cards, newCard.card],
+              newCardTerm: ""
+            })
+          }
         })
       }
     }
@@ -298,56 +312,48 @@ class Edit extends Component {
         }
       }
 
-      let errors = []
-      this.state.errors.forEach((error, idx) => {
-        errors.push(
-          <div key={idx}>{error}</div>
-        )
-      })
+      let errorsHTML = this.props.renderErrors(this.state.errors)
 
       return(
         <div className="flashcard-edit">
-          {errors}
-          <form>
-            <input
-              placeholder="Click to edit name of deck"
-              value={this.state.deckName}
-              className="notes-name deck-name"
-              type="text"
-              onChange={this.handleDeckNameChange}
-              onBlur={this.saveDeckToDatabase}
-              />
-            <h3>Titles</h3>
-            <select onChange={this.defNumChangeHandler}>
-              {dropdownOptions}
-            </select>
-            <DeckInfo
-              sortedTitles={this.state.definitionTitles.sort(this.sortBySequence)}
-              numOfDefs={this.state.numOfDefs}
-              termTitle={this.state.termTitle}
-              saveDeckToDatabase={this.saveDeckToDatabase}
-              formDisabled={this.state.formDisabled}
-              saveNewTitlesToDatabase={this.saveNewTitlesToDatabase}
-              updateTitle={this.updateTitle}
-              termChangeHandler={(term) => {this.setState({termTitle: term})}}
+          {errorsHTML}
+          <input
+            placeholder="Click to edit name of deck"
+            value={this.state.deckName}
+            className="notes-name deck-name"
+            type="text"
+            onChange={this.handleDeckNameChange}
+            onBlur={this.saveDeckToDatabase}
+            />
+          <h3>Titles</h3>
+          <select onChange={this.defNumChangeHandler}>
+            {dropdownOptions}
+          </select>
+          <DeckInfo
+            sortedTitles={this.state.definitionTitles.sort(this.sortBySequence)}
+            numOfDefs={this.state.numOfDefs}
+            termTitle={this.state.termTitle}
+            saveDeckToDatabase={this.saveDeckToDatabase}
+            formDisabled={this.state.formDisabled}
+            saveNewTitlesToDatabase={this.saveNewTitlesToDatabase}
+            updateTitle={this.updateTitle}
+            termChangeHandler={(term) => {this.setState({termTitle: term})}}
 
-              />
-            <h3>Cards</h3>
+            />
+          <h3>Cards</h3>
 
-            <Cards
-              numOfDefs={this.state.numOfDefs}
-              definitionTitles={this.state.definitionTitles}
-              sortedCards={this.state.cards.sort(this.sortBySequence)}
-              sortFunc={this.sortBySequence}
-              formDisabled={this.state.formDisabled}
-              saveToDatabase={this.saveToDatabase}
-              newCardTerm={this.state.newCardTerm}
-              newCardChangeHandler={this.newCardChangeHandler}
-              saveNewCardToDatabase={this.saveNewCardToDatabase}
-              updateDefinition={this.updateDefinition}
-              />
-
-          </form>
+          <Cards
+            numOfDefs={this.state.numOfDefs}
+            definitionTitles={this.state.definitionTitles}
+            sortedCards={this.state.cards.sort(this.sortBySequence)}
+            sortFunc={this.sortBySequence}
+            formDisabled={this.state.formDisabled}
+            saveToDatabase={this.saveToDatabase}
+            newCardTerm={this.state.newCardTerm}
+            newCardChangeHandler={this.newCardChangeHandler}
+            saveNewCardToDatabase={this.saveNewCardToDatabase}
+            updateDefinition={this.updateDefinition}
+            />
         </div>
       );
     }

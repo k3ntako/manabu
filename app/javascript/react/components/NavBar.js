@@ -12,6 +12,7 @@ class NavBar extends Component {
     this.fetchUser = this.fetchUser.bind(this)
     this.signOut = this.signOut.bind(this)
     this.windowResizeHandler = this.windowResizeHandler.bind(this)
+    this.renderErrors = this.renderErrors.bind(this)
   }
 
   fetchUser(){
@@ -54,6 +55,16 @@ class NavBar extends Component {
     }
   }
 
+  renderErrors(errors){
+    let errorsHTML = []
+    errors.forEach((error, idx) => {
+      errorsHTML.push(
+        <div key={idx} className="flash flash-alert flash-alert-under-nav">{error}</div>
+      )
+    })
+    return errorsHTML
+  }
+
   componentDidMount(){
     window.addEventListener("resize", this.windowResizeHandler);
     this.windowResizeHandler();
@@ -64,6 +75,7 @@ class NavBar extends Component {
     const children = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         currentUser: this.state.currentUser,
+        renderErrors: this.renderErrors
       });
     });
 
