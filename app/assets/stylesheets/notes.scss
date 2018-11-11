@@ -23,13 +23,18 @@ input.notes-name:focus{
   width: 100%;
 }
 
+.notes-style-buttons{
+  background-color: #f1f1f1;
+  padding: 5px 0;
+}
+
 .notes-editor{
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: scroll;
   border: 2px solid #e1e1e1;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .notes-style-button{
@@ -59,4 +64,21 @@ input.notes-name:focus{
 p.note-date{
   font-size: 1rem;
   color: #666;
+}
+
+.RichEditor-code-block{
+  background-color: #f1f1f1;
+  padding: 0 20px;
+  border-right: 1px solid  #cccccc;
+  border-left: 1px solid  #cccccc;
+}
+
+.RichEditor-code-block:first-child{
+  padding-top: 10px;
+  border-top: 1px solid  #cccccc;
+}
+
+.RichEditor-code-block:last-child{
+  padding-bottom: 10px;
+  border-bottom: 1px solid  #cccccc;
 }
