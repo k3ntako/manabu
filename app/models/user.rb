@@ -16,4 +16,9 @@ class User < ApplicationRecord
   has_many :decks, through: :user_decks
   has_many :user_notes
   has_many :notes, through: :user_notes
+
+  protected
+  def confirmation_required?
+    true
+  end
 end
