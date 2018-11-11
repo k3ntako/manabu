@@ -17,15 +17,6 @@ const FullNavBar = (props) => {
     )
   })
 
-  let userSignInHTML = [
-    (<li key="1" className="nav-list-item"><a href="/users/sign_up">Sign Up</a></li>),
-    (<li key="2" className="nav-list-item"><a href="/users/sign_in">Sign In</a></li>)
-  ];
-
-  if(props.currentUser){
-    userSignInHTML = (<li className="nav-list-item" onClick={props.signOut}>Sign Out</li>)
-  };
-
   return(
     <div>
       <div className="top-bar">
@@ -37,7 +28,7 @@ const FullNavBar = (props) => {
         </div>
         <div className="top-bar-right">
           <ul className="menu">
-            {userSignInHTML}
+            <li className="nav-list-item" onClick={props.signOut}>Sign Out</li>
           </ul>
         </div>
       </div>

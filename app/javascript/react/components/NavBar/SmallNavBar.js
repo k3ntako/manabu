@@ -40,19 +40,6 @@ class SmallNavBar extends Component {
       document.getElementById('nav-child').addEventListener('click', this.bodyClickHandler);
     }
 
-    let userSignInHTML = [
-      (<div key="1" className="nav-dropdown-item nav-user-options"><a href="/users/sign_up">Sign Up</a></div>),
-      (<div key="2" className="nav-dropdown-item"><a href="/users/sign_in">Sign In</a></div>)
-    ];
-
-    if(this.props.currentUser){
-      userSignInHTML = (
-        <div className="nav-dropdown-item nav-user-options" onClick={this.props.signOut}>
-          Sign Out
-        </div>
-      )
-    };
-
     let navDropDown
     if(this.state.iconClassName === "css-icon-close"){
       navDropDown = (
@@ -63,7 +50,9 @@ class SmallNavBar extends Component {
           <div className="nav-dropdown-item" onClick={this.clickLink}>
             Notes
           </div>
-          {userSignInHTML}
+          <div className="nav-dropdown-item nav-user-options" onClick={this.props.signOut}>
+            Sign Out
+          </div>
         </div>
       )
     }

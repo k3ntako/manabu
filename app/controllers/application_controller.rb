@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
 
   serialization_scope :current_user
 
+  def example_user?(user)
+    if user.email.downcase == "ghopper@example.com"
+      return true
+    end
+    return false
+  end
+
   protected
 
   def configure_permitted_parameters

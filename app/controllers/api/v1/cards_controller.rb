@@ -17,39 +17,46 @@ class Api::V1::CardsController < ApplicationController
   end
 
   def create
-    deck = Deck.find(new_card_params[:deck_id])
-    definition_titles = deck.definition_titles
-    def_titles = definition_titles.uniq { |dt| dt.id }
+    if !example_user?(current_user)
+      deck = Deck.find(new_card_params[:deck_id])
+      definition_titles = deck.definition_titles
+      def_titles = definition_titles.uniq { |dt| dt.id }
 
-    new_sequence = deck.cards.order("sequence DESC").limit(1)[0][:sequence] + 1
-    new_card = Card.new(term: new_card_params[:new_term], sequence: new_sequence, deck: deck)
+      new_sequence = deck.cards.order("sequence DESC").limit(1)[0][:sequence] + 1
+      new_card = Card.new(term: new_card_params[:new_term], sequence: new_sequence, deck: deck)
 
-    if new_card.save
-      def_titles.length.times do |i|
-        Definition.create(sequence: i + 1, card_id: new_card[:id], definition_title: def_titles[i])
+      if new_card.save
+        def_titles.length.times do |i|
+          Definition.create(sequence: i + 1, card_id: new_card[:id], definition_title: def_titles[i])
+        end
+
+        render json: new_card
+      else
+        render json: {error: "Could not save new card to database."}
       end
-      
-      render json: new_card
-    else
-      render json: {error: "Could not save new card to database."}
     end
+    render json: {error: "Example user cannot create a new card."}
   end
 
   def update
-    card = Card.find(card_params[:card][:id])
-    card.update(term: card_params[:card][:term])
+    if !example_user?(current_user)
+      card = Card.find(card_params[:card][:id])
+      card.update(term: card_params[:card][:term])
 
-    card_params[:definitions].each do |defi|
-      definition = Definition.find(defi[:id])
-      definition.update(definition: defi[:definition])
+      card_params[:definitions].each do |defi|
+        definition = Definition.find(defi[:id])
+        definition.update(definition: defi[:definition])
+      end
+
+      render json: {
+        id: card_params[:card][:id],
+        term: card_params[:card][:term],
+        definitions: card_params[:definitions],
+        masteries: card_params[:masteries]
+      }
+    else
+      render json: {error: "Example user cannot update a card."}
     end
-
-    render json: {
-      id: card_params[:card][:id],
-      term: card_params[:card][:term],
-      definitions: card_params[:definitions],
-      masteries: card_params[:masteries]
-    }
   end
 
   private
@@ -59,6 +66,6 @@ class Api::V1::CardsController < ApplicationController
   end
 
   def new_card_params
-    params.permit(:new_term, :deck_id, :number_of_definitions)
+    params.permit(:new_term, :deck_id)
   end
 end

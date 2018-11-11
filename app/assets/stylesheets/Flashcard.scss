@@ -5,11 +5,7 @@ div.startCards{
   font-weight: 900;
   font-size: 1.4rem;
   color: lightgray;
-  // border-radius: 10px;
-  // border: 8px solid black;
-  // background-color: steelblue;
 }
-
 
 .deck-tile{
   margin: 10px auto;
@@ -102,6 +98,7 @@ h1.card-text{
   margin: auto;
   font-size: 1.5rem;
   padding: 0 10px;
+  user-select: text;
 }
 
 .term{
@@ -141,8 +138,6 @@ h1#term{
 .card-control-button{
   background-color: white;
   margin: auto;
-  // height: 12vh;
-  // font-size: 3rem;
   font-size: 6vmin;
   text-align: center;
   display: flex;
@@ -152,6 +147,7 @@ h1#term{
   color:white;
   font-weight: 800;
   width: 100%;
+  user-select: none;
 }
 .card-control-button:hover{
   color:black;

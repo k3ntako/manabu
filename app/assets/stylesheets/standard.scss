@@ -14,7 +14,6 @@ $light-blue: #E5F3F4;
 
 body{
   margin:0;
-  user-select: none;
   font-family: 'Ubuntu', sans-serif;
   font-weight: 400;
   background-size: cover;
@@ -33,6 +32,10 @@ a{
 #app{
   padding-top: 70px;
   height: 100vh;
+}
+
+h1, h2, h3, label, a{
+  user-select: none;
 }
 
 /////////Nav Bar/////////
@@ -136,6 +139,7 @@ h3.error-message > a:hover{
   font-weight: 900;
   color: white;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  user-select: none;
 }
 
 .standard-green-button:hover{
@@ -151,8 +155,16 @@ h3.error-message > a:hover{
   font-weight: bold;
   color: white;
   box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  top:0;
+  left: 0;
+  position: fixed;
+  user-select: none;
 }
 
 .flash-alert{
   background-color: red;
+}
+
+.flash-alert-under-nav{
+  top:50px;
 }

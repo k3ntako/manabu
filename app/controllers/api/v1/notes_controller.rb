@@ -1,44 +1,55 @@
 class Api::V1::NotesController < ApplicationController
   def index
     notes = current_user.notes.order("updated_at DESC")
-    render json: notes
+    if notes.length == 0
+      render json: "[]"
+    else
+      render json: notes
+    end
   end
 
   def show
-    render json: Note.find(note_show_params[:id])
+    if note_show_params[:id] == "new"
+      render json: {message: "Creating new note."}
+    else
+      render json: Note.find(note_show_params[:id])
+    end
   end
 
   def update
-    name = note_params[:name].to_s
-    if(name.strip == "")
-      name = DateTime.now
-      name = name.strftime("%m/%d/%Y %H:%M")
-      name = name.to_s + " Notes"
-    end
-
-    if Note.exists?(note_params[:note_id])
-      note = Note.find(note_params[:note_id])
-      note.attributes = {name: name, note: note_params[:note]}
-      if note.save
-        render json: note
-      else
-        render json: {error: "Error updating note."}
+    if !example_user?(current_user)
+      name = note_params[:name].to_s
+      if(name.strip == "")
+        name = DateTime.now
+        name = name.strftime("%m/%d/%Y %H:%M")
+        name = name.to_s + " Notes"
       end
-    else
-      note = Note.new(name: name, note: note_params[:note])
 
-      if note.save
-        user_note = UserNote.new(user: current_user, owner: true, note: note)
-        if user_note.save
+      if Note.exists?(note_params[:note_id])
+        note = Note.find(note_params[:note_id])
+        note.attributes = {name: name, note: note_params[:note]}
+        if note.save
           render json: note
         else
-          note.destroy
-          render json: {error: "Error saving note to user."}
+          render json: {error: "Error updating note."}
         end
       else
-        render json: {error: "Error saving note."}
+        note = Note.new(name: name, note: note_params[:note])
+
+        if note.save
+          user_note = UserNote.new(user: current_user, owner: true, note: note)
+          if user_note.save
+            render json: note
+          else
+            note.destroy
+            render json: {error: "Error saving note to user."}
+          end
+        else
+          render json: {error: "Error saving note."}
+        end
       end
     end
+    render json: {error: "Example user cannot update a note."}
   end
 
   private
