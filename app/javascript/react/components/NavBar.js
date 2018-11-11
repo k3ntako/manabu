@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import FullNavBar from './NavBar/FullNavBar'
 import SmallNavBar from './NavBar/SmallNavBar'
+import DarkMode from './NavBar/DarkMode'
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentUser: null,
-      smallNavBar: false
+      smallNavBar: false,
+      darkMode: false
     };
     this.fetchUser = this.fetchUser.bind(this)
     this.signOut = this.signOut.bind(this)
     this.windowResizeHandler = this.windowResizeHandler.bind(this)
     this.renderErrors = this.renderErrors.bind(this)
+    this.toggleDarkMode = this.toggleDarkMode.bind(this)
   }
 
   fetchUser(){
@@ -31,6 +34,18 @@ class NavBar extends Component {
       this.setState({currentUser: data.user})
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
+  }
+
+  toggleDarkMode(){
+    this.setState({darkMode: !this.state.darkMode},
+    () =>{
+      let darkMode = new DarkMode
+      if(this.state.darkMode){
+        darkMode.turnOnDarkMode()
+      }else{
+        darkMode.turnOffDarkMode()
+      }
+    })
   }
 
   signOut(){
@@ -75,7 +90,8 @@ class NavBar extends Component {
     const children = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         currentUser: this.state.currentUser,
-        renderErrors: this.renderErrors
+        renderErrors: this.renderErrors,
+        darkMode: this.state.darkMode
       });
     });
 
@@ -84,6 +100,8 @@ class NavBar extends Component {
       children={children}
       signOut= {this.signOut}
       pathname={this.props.location.pathname}
+      toggleDarkMode={this.toggleDarkMode}
+      darkMode={this.state.darkMode}
     />
     if(this.state.smallNavBar){
       navBarHTML = (
@@ -91,9 +109,13 @@ class NavBar extends Component {
           currentUser={this.state.currentUser}
           children={children}
           signOut= {this.signOut}
+          toggleDarkMode={this.toggleDarkMode}
+          darkMode={this.state.darkMode}
         />
       )
     }
+
+
 
     return(
       <div>

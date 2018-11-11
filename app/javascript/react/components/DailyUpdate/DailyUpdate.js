@@ -3,10 +3,10 @@ import MBTA from './MBTA';
 import Weather from './Weather';
 import News from './News';
 
-const DailyUpdate = () => {
+const DailyUpdate = (props) => {
   return(
     <div className="grid-x grid-margin-x grid-margin-y">
-      <Weather />
+      <Weather darkMode={props.darkMode} />
       <MBTA />
       <News />
     </div>

@@ -6,8 +6,10 @@
 .prediction{
   text-align: center;
   font-size: 2.1rem;
+  background-color: var(--card-bg-color);
   border-radius: 10px;
-  border: 1px solid black;
+  border: 1px solid var(--flashcard-border-color);
+  color: black;
   user-select: none;
 }
 
@@ -27,6 +29,7 @@ canvas{
 
 .weatherInfoText{
   font-size: 1.8rem;
+  color: var(--header-font-color);
 }
 
 #icon1{
