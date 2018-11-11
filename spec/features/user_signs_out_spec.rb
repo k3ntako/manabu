@@ -12,6 +12,8 @@ feature 'user signs out', %Q{
 
   scenario 'authenticated user signs out' do
     user = FactoryBot.create(:user)
+    user.skip_confirmation!
+    user.save
 
     visit new_user_session_path
 

@@ -1,7 +1,6 @@
 class Api::V1::DefinitionTitlesController < ApplicationController
   def destroy
     deck = Deck.find(df_params[:deck_id])
-    binding.pry
     df_params[:deleted_definition_titles].each do |df|
       definitions = Definition.where(definition_title_id: df[:id])
       definitions.delete_all
