@@ -1,5 +1,6 @@
 class Definition < ApplicationRecord
   validates :definition, presence: true
+  validates :sequence, null: false, numericality: { only_integer: true }
 
   belongs_to :card
   belongs_to :definition_title
