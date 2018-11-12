@@ -1,7 +1,7 @@
 import NavBar from '../../app/javascript/react/components/NavBar'
 import fetchMock from 'fetch-mock'
 
-describe('Game Index Page', () => {
+describe('Nav bar fetch user', () => {
   let wrapper;
   let currentUser;
 
@@ -38,7 +38,6 @@ describe('Game Index Page', () => {
         expect(wrapper.find('a').at(0).text()).toEqual("Manabu")
 
         wrapper.find('.css-icon-menu').simulate('click')
-
         let dropdown = wrapper.find('div.nav-dropdown-item')
         expect(dropdown.length).toEqual(4)
         expect(dropdown.at(0).text()).toEqual("Flashcards")
