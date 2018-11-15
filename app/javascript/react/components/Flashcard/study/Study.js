@@ -11,7 +11,8 @@ class Study extends Component {
       cards: [],
       lastIdx: 0,
       deckName: "",
-      termTitle: ""
+      termTitle: "",
+      settings: this.props.location.state
     };
 
     this.next = this.next.bind(this);
@@ -44,7 +45,17 @@ class Study extends Component {
   }
 
   fetchCards(deckId) {
-    fetch(`/api/v1/decks/${deckId}/cards`)
+    let params = ""
+    if(this.state.settings){
+      Object.keys(this.state.settings).forEach(key => {
+        params += key + "=" + this.state.settings[key] + "&"
+      })
+    }else{
+      params = "noMastery=true&learning=true&almost=true&mastered=true&randomize=false"
+    }
+    console.log(params);
+
+    fetch(`/api/v1/decks/${deckId}/cards?${params.slice(0, -1)}`)
     .then(response => {
       if (response.ok) {
         return response;
@@ -73,7 +84,7 @@ class Study extends Component {
   }
 
   render(){
-    let cardsPage = (<h1>"Loading..."</h1>)
+    let cardsPage = (<div className="cell small-20"></div>)
 
     if(this.state.cards.length){
       let cards = this.state.cards

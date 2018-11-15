@@ -1,5 +1,5 @@
 div.startCards{
-  margin: 50px auto;
+  margin: 20px auto;
   width: 25%;
   text-align: center;
   font-weight: 900;
@@ -23,6 +23,17 @@ div.deck-tile, .deck-tile > h2 {
 #deck-selected{
   background-color: limegreen;
   color:white;
+}
+
+.deck-settings{
+  margin-top:30px;
+  padding: 15px;
+  border: 2px solid var(--notes-editor-border-color);
+  border-width: 2px 0;
+}
+
+.deck-settings > h5{
+  font-weight: bold;
 }
 
 #start-study-flashcards{
@@ -58,8 +69,6 @@ div.deck-tile, .deck-tile > h2 {
   color:steelblue;
 }
 
-//////OLD STYLE IMPORTED
-
 /////////Naxt and Back Buttons/////////
 div.card-control{
   height:90vh;
@@ -74,13 +83,6 @@ i.card-control{
 }
 i.card-control:hover{
   color:steelblue;
-}
-
-/////////Flashcards and Mastery Buttons/////////
-.cards-container{
-  // grid-template-columns:100%;
-  // width: 80vw;
-  // float:left;
 }
 
 /////////Flashcards/////////

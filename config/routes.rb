@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => {:passwords => 'users/passwords', :confirmations => 'users/confirmations'}
+  devise_for :users, :controllers => {:passwords => 'users/passwords', :confirmations => 'users/confirmations', :sessions => 'users/sessions'}
   get '/users/sign_up', to: redirect('/users/sign_in')
 
   namespace :api do
@@ -30,5 +30,5 @@ Rails.application.routes.draw do
   get '/notes', to: 'homes#index'
   get '/notes/:id', to: 'homes#index'
   get '/not-found', to: 'homes#index'
-
+  get '*path', to: redirect('/not-found')
 end

@@ -1,8 +1,25 @@
 class Api::V1::CardsController < ApplicationController
   def index
-    cards = Card.where(deck_id: params[:deck_id])
+    cards = Card.where(deck_id: card_params[:deck_id])
+    masteries = []
+    mastery_params.each do |key, value|
+      if value == "true"
+        masteries << key
+      end
+    end
 
-    deck = Deck.find(params[:deck_id])
+    filteredCards = []
+    if masteries.length < 4
+      filteredCards = Card.filterByMastery(masteries, cards)
+    else
+      filteredCards = cards
+    end
+
+    if mastery_params[:randomize] == "true"
+      filteredCards = filteredCards.shuffle
+    end
+
+    deck = Deck.find(card_params[:deck_id])
     deck_name = deck.name
     term_title = deck.definition_title.title
     duplicate_def_titles = deck.definition_titles
@@ -12,7 +29,7 @@ class Api::V1::CardsController < ApplicationController
       deck_name: deck_name,
       term_title: term_title,
       definition_titles: ActiveModel::Serializer::ArraySerializer.new(definition_titles),
-      cards: ActiveModel::Serializer::CollectionSerializer.new(cards, each_serializer: CardSerializer)
+      cards: ActiveModel::Serializer::CollectionSerializer.new(filteredCards, each_serializer: CardSerializer)
     }
   end
 
@@ -68,5 +85,9 @@ class Api::V1::CardsController < ApplicationController
 
   def new_card_params
     params.permit(:new_term, :deck_id)
+  end
+
+  def mastery_params
+    params.permit(:noMastery, :learning, :almost, :mastered, :randomize)
   end
 end
