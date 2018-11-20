@@ -61,6 +61,9 @@ class SmallNavBar extends Component {
           <div className="nav-dropdown-item" onClick={this.clickLink}>
             Notes
           </div>
+          <div className="nav-dropdown-item" onClick={this.clickLink}>
+            Reminders
+          </div>
           <div className="nav-dropdown-item" onClick={this.clickToggleDarkMode}>
             {darkModeToggle}
           </div>
