@@ -56,7 +56,8 @@
         <%= devise_error_messages! %>
 
         <div class="field">
-          <%= f.label :email %><br />
+          <%= f.label :email %>
+          <label id="confirmation-email-note">We will send you a confiramtion email.</label>
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'devise-sign-up-input', disabled: true %>
         </div>
 
