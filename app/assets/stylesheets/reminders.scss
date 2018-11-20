@@ -59,5 +59,31 @@ h3{
 }
 
 .reminder-item{
-  // border: 1px solid #dadada;
+  border: solid #dadada;
+  border-width: 1px 0 0 0;
+  height: 38px;
+}
+
+.reminder-item > input {
+  margin:0;
+  height: 36px;
+  font-size: 1.2rem;
+}
+
+.reminder-controls{
+  border: solid #dadada;
+  border-width: 1px 0 0 0;
+  padding: 4px 10px;
+  line-height: 30px;
+  height: 38px;
+  text-align: right;
+}
+
+.grid-x:last-of-type > .reminder-item, .grid-x:last-of-type > .reminder-controls{
+border-width: 1px 0;
+}
+
+.first-reminder-category{
+  font-size: 3rem;
+  height: 70px;
 }
