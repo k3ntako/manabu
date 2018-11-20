@@ -42,7 +42,7 @@ describe('Nav bar fetch user', () => {
         expect(dropdown.length).toEqual(5)
         expect(dropdown.at(0).text()).toEqual("Flashcards")
         expect(dropdown.at(1).text()).toEqual("Notes")
-        expect(dropdown.at(1).text()).toEqual("Reminders")
+        expect(dropdown.at(2).text()).toEqual("Reminders")
         expect(dropdown.at(3).text()).toEqual("")
         expect(dropdown.at(4).text()).toEqual("Sign Out")
         done()
