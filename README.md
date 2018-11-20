@@ -21,6 +21,10 @@ $ bundle exec rake:db migrate
 ```
 $ rails server
 ```
+6. In a new command line window run the following.
+```
+$ yarn run start
+```
 
 ## Tests
 - Run RSpec tests by running:
