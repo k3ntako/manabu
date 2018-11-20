@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index]
       resources :news, only: [:index]
       resources :notes, only: [:index, :update, :show]
-      resources :reminders, only: [:create]
+      resources :reminders, only: [:create, :destroy, :update]
       resources :reminder_categories, only: [:index, :show, :create]
       resources :decks, only: [:index, :update, :create] do
         resources :definitions, only: [:create]

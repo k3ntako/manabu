@@ -166,3 +166,11 @@ h3.error-message > a:hover{
 .flash-alert-under-nav{
   top:50px;
 }
+
+/////////Forms/////////
+input.editable-text{
+  border:1px solid var(--bg-color);
+  box-shadow: none;
+  background-color: var(--bg-color);
+  color: var(--header-font-color);
+}

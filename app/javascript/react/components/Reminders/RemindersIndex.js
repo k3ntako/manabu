@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
+import Reminder from './Reminder'
 
 class RemindersIndex extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class RemindersIndex extends Component {
     this.onClickCategory = this.onClickCategory.bind(this);
     this.reminderOnChange = this.reminderOnChange.bind(this);
     this.reminderSubmitForm = this.reminderSubmitForm.bind(this);
+    this.updateReminders = this.updateReminders.bind(this)
   }
 
   fetchCategories() {
@@ -54,13 +56,19 @@ class RemindersIndex extends Component {
     .then(response => response.json())
     .then(data => {
       let sortedReminders = data.reminders.sort(this.props.sortBySequence)
-      let newReminders = this.state.reminders
-      newReminders[this.state.selectedCategory.category] = sortedReminders
+      let newReminders = Object.assign({}, this.state.reminders)
+      newReminders[this.state.selectedCategory.id] = sortedReminders
       this.setState({
         reminders: newReminders
       })
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
+  }
+
+  updateReminders(reminders){
+    let newReminders = Object.assign({}, this.state.reminders)
+    newReminders[this.state.selectedCategory.id] = reminders.reminders
+    this.setState({reminders: newReminders})
   }
 
   saveCategory(newCategory) {
@@ -83,20 +91,20 @@ class RemindersIndex extends Component {
     })
   }
 
-  addReminder(category, reminder){
-    let categoryReminders = this.state.reminders[category];
-    categoryReminders.push({reminder: reminder});
-    let allReminders = this.state.reminders;
-    allReminders[category] = categoryReminders
-    this.setState({reminders: allReminders}, () => {
-      fetch(`/api/v1/reminders`, {
-        method: 'POST',
-        body: JSON.stringify({category: category, reminder: reminder}),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json' },
-          credentials: 'same-origin'
-      })
+  addReminder(categoryId, reminder){
+    fetch(`/api/v1/reminders`, {
+      method: 'POST',
+      body: JSON.stringify({category_id: categoryId, reminder: reminder}),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+        credentials: 'same-origin'
+    })
+    .then(data => data.json())
+    .then(data => {
+      let newReminders = Object.assign({}, this.state.reminders);
+      newReminders[this.state.selectedCategory.id].push(data.reminder)
+      this.setState({reminders: newReminders})
     })
   }
 
@@ -131,7 +139,7 @@ class RemindersIndex extends Component {
 
   reminderSubmitForm(event){
     event.preventDefault()
-    this.addReminder(this.state.selectedCategory.category, this.state.newReminder)
+    this.addReminder(this.state.selectedCategory.id, this.state.newReminder)
     this.setState({newReminder: ""})
   }
 
@@ -141,11 +149,11 @@ class RemindersIndex extends Component {
 
   render(){
     let remindersHTML;
-    if (this.state.selectedCategory && this.state.reminders[this.state.selectedCategory.category]){
-      let remindersArr = this.state.reminders[this.state.selectedCategory.category]
-      remindersHTML = remindersArr.map((reminder,idx) => {
+    if (this.state.selectedCategory && this.state.reminders[this.state.selectedCategory.id]){
+      let remindersArr = this.state.reminders[this.state.selectedCategory.id]
+      remindersHTML = remindersArr.map(reminder => {
         return(
-          <h4 key={idx} className="reminder-item">{reminder.reminder}</h4>
+          <Reminder key={reminder.id} reminder={reminder} updateReminders={this.updateReminders}/>
         )
       })
     }
@@ -163,9 +171,21 @@ class RemindersIndex extends Component {
       )
     })
 
-    let title = "Reminders"
+    let title = (
+      <form onSubmit={this.addCategory}>
+        <input
+          type="text"
+          placeholder="New Category"
+          onChange={this.onChangeCategory}
+          className="first-reminder-category"
+          />
+      </form>
+    )
+    let reminderDisabled = true;
+
     if(this.state.selectedCategory){
-      title = this.state.selectedCategory.category
+      title = this.state.selectedCategory.category;
+      reminderDisabled = false;
     }
 
     return(
@@ -179,6 +199,7 @@ class RemindersIndex extends Component {
              value={this.state.newReminder}
              onChange={this.reminderOnChange}
              placeholder="New Reminder"
+             disabled={reminderDisabled}
              />
          </form>
        </div>
@@ -205,14 +226,3 @@ class RemindersIndex extends Component {
 };
 
 export default RemindersIndex
-//
-// "Biology": [
-//   {reminder: "Talk to prof about final project"},
-//   {reminder: "Look for internships"},
-//   {reminder: "Bring food for study session"},
-// ],
-// "Computer Science": [
-//   {reminder: "Talk to prof about final project"},
-//   {reminder: "Look for internships"},
-//   {reminder: "Bring food for study session"},
-// ]
