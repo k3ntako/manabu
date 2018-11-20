@@ -16,6 +16,9 @@ class User < ApplicationRecord
   has_many :decks, through: :user_decks
   has_many :user_notes
   has_many :notes, through: :user_notes
+  has_many :user_reminders
+  has_many :reminder_categories, through: :user_reminders
+  has_many :reminders, through: :reminder_categories
 
   protected
   def confirmation_required?

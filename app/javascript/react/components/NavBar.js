@@ -16,6 +16,7 @@ class NavBar extends Component {
     this.windowResizeHandler = this.windowResizeHandler.bind(this)
     this.renderErrors = this.renderErrors.bind(this)
     this.toggleDarkMode = this.toggleDarkMode.bind(this)
+    this.sortBySequence = this.sortBySequence.bind(this)
   }
 
   fetchUser(){
@@ -80,6 +81,13 @@ class NavBar extends Component {
     return errorsHTML
   }
 
+  sortBySequence(a,b){
+    if (a.sequence < b.sequence){
+      return -1;
+    }
+    return 1;
+  }
+
   componentDidMount(){
     window.addEventListener("resize", this.windowResizeHandler);
     this.windowResizeHandler();
@@ -91,7 +99,8 @@ class NavBar extends Component {
       return React.cloneElement(child, {
         currentUser: this.state.currentUser,
         renderErrors: this.renderErrors,
-        darkMode: this.state.darkMode
+        darkMode: this.state.darkMode,
+        sortBySequence: this.sortBySequence
       });
     });
 

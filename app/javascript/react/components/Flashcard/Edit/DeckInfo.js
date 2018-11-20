@@ -31,7 +31,7 @@ const DeckInfo = props => {
   if(props.formDisabled){
     addTitlesButton = (
       <div
-        className="standard-green-button"
+        className="standard-green-button new-titles"
         onClick={props.saveNewTitlesToDatabase}>
         Add New Titles
       </div>)

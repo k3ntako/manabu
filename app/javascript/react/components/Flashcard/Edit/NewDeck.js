@@ -127,7 +127,7 @@ class Edit extends Component {
           {definitionTitles}
           <input
             type="submit"
-            className={"standard-green-button add-card-button"}
+            className="standard-green-button add-card-button"
             id="add-card-button"
             value="Add"
             disabled={addDeckButtonDisabled}

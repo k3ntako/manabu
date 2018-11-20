@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => {:passwords => 'users/passwords', :confirmations => 'users/confirmations', :sessions => 'users/sessions'}
+  devise_for :users, :controllers => {:passwords => 'users/passwords', :confirmations => 'users/confirmations', :sessions => 'users/sessions', :registrations => 'users/registrations'}
   get '/users/sign_up', to: redirect('/users/sign_in')
 
   namespace :api do
@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       resources :users, only: [:index]
       resources :news, only: [:index]
       resources :notes, only: [:index, :update, :show]
+      resources :reminders, only: [:create]
+      resources :reminder_categories, only: [:index, :show, :create]
       resources :decks, only: [:index, :update, :create] do
         resources :definitions, only: [:create]
         resources :definition_titles, only: [:destroy]
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
   get '/flashcards/edit/:id', to: 'homes#index'
   get '/flashcards/new', to: 'homes#index'
   get '/notes', to: 'homes#index'
+  get '/reminders', to: 'homes#index'
   get '/notes/:id', to: 'homes#index'
   get '/not-found', to: 'homes#index'
   get '*path', to: redirect('/not-found')

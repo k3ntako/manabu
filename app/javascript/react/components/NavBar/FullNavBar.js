@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 const FullNavBar = (props) => {
-  let destinations = ["flashcards", "notes"]
+  let destinations = ["flashcards", "notes", "reminders"]
   let destinationsHTML = destinations.map(dest =>{
     let className = "nav-link"
     if(props.pathname.includes(dest)){
