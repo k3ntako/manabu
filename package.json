@@ -1,5 +1,5 @@
 {
-  "name": "study_buddy",
+  "name": "manabu",
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
@@ -13,7 +13,8 @@
     "redbox-react": "1.6.0"
   },
   "devDependencies": {
-    "enzyme": "~2.9.1",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
     "fetch-mock": "5",
     "fetch-ponyfill": "^6.0.2",
     "isomorphic-fetch": "^2.2.1",
