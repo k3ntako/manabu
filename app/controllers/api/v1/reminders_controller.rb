@@ -1,3 +1,4 @@
+require "date"
 class Api::V1::RemindersController < ApplicationController
   def create
     category = current_user.reminder_categories.find(reminders_params[:category_id])
@@ -9,7 +10,12 @@ class Api::V1::RemindersController < ApplicationController
 
   def update
     reminder = Reminder.find(update_params[:id])
-    reminder.reminder = update_params[:reminder]
+    if update_params[:reminder]
+      reminder.reminder = update_params[:reminder]
+    elsif update_params[:date]
+      reminder.time_due = DateTime.parse(update_params[:date])
+    end
+
     reminder.save!
 
     render json: reminder
@@ -31,7 +37,7 @@ class Api::V1::RemindersController < ApplicationController
   end
 
   def update_params
-    params.permit(:id, :reminder)
+    params.permit(:id, :reminder, :date)
   end
 
   def delete_params
