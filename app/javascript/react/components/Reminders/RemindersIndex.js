@@ -37,13 +37,15 @@ class RemindersIndex extends Component {
     })
     .then(response => response.json())
     .then(data => {
-      let sortedCategories = data.reminder_categories.sort(this.props.sortBySequence);
+      if(data.reminder_categories.length){
+        let sortedCategories = data.reminder_categories.sort(this.props.sortBySequence);
 
-      this.setState({
-        selectedCategory: sortedCategories[0],
-        categories: sortedCategories
-        }, this.fetchReminders
-      );
+        this.setState({
+          selectedCategory: sortedCategories[0],
+          categories: sortedCategories
+          }, this.fetchReminders
+        );
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
