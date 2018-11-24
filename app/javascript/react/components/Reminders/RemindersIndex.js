@@ -10,7 +10,8 @@ class RemindersIndex extends Component {
       categories: [],
       reminders: {},
       selectedCategory: null,
-      newReminder: ""
+      newReminder: "",
+      selectedDate: null
     };
 
     this.fetchCategories = this.fetchCategories.bind(this);
@@ -24,6 +25,7 @@ class RemindersIndex extends Component {
     this.reminderOnChange = this.reminderOnChange.bind(this);
     this.reminderSubmitForm = this.reminderSubmitForm.bind(this);
     this.updateReminders = this.updateReminders.bind(this)
+    this.clickDate = this.clickDate.bind(this)
   }
 
   fetchCategories() {
@@ -35,13 +37,13 @@ class RemindersIndex extends Component {
     })
     .then(response => response.json())
     .then(data => {
-      let sortedCategories = data.reminder_categories.sort(this.props.sortBySequence)
+      let sortedCategories = data.reminder_categories.sort(this.props.sortBySequence);
 
       this.setState({
         selectedCategory: sortedCategories[0],
         categories: sortedCategories
         }, this.fetchReminders
-      )
+      );
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -60,7 +62,7 @@ class RemindersIndex extends Component {
       newReminders[this.state.selectedCategory.id] = sortedReminders
       this.setState({
         reminders: newReminders
-      })
+      });
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
@@ -68,7 +70,7 @@ class RemindersIndex extends Component {
   updateReminders(reminders){
     let newReminders = Object.assign({}, this.state.reminders)
     newReminders[this.state.selectedCategory.id] = reminders.reminders
-    this.setState({reminders: newReminders})
+    this.setState({reminders: newReminders});
   }
 
   saveCategory(newCategory) {
@@ -137,23 +139,57 @@ class RemindersIndex extends Component {
     this.setState({newReminder: event.target.value});
   }
 
+
   reminderSubmitForm(event){
     event.preventDefault()
     this.addReminder(this.state.selectedCategory.id, this.state.newReminder)
     this.setState({newReminder: ""})
   }
 
+  clickDate(id, date){
+    if(this.state.selectedDate === id){
+      this.setState({selectedDate: null});
+    }else{
+      this.setState({selectedDate: id});
+    }
+
+    const catId = this.state.selectedCategory.id
+    let allReminders = this.state.reminders;
+    let catReminders = allReminders[catId];
+
+    let reminder;
+    for(let i=0; i< catReminders.length; i++){
+      if(catReminders[i].id === id){
+        reminder = catReminders.splice(i,1);
+      }
+    }
+
+    reminder = reminder[0];
+    reminder.time_due = date;
+
+    catReminders.push(reminder);
+    allReminders[catId] = catReminders.sort(this.props.sortBySequence);
+
+    this.setState({reminders: allReminders})
+  }
+
   componentDidMount(){
-    this.fetchCategories()
+    this.fetchCategories();
   }
 
   render(){
     let remindersHTML;
-    if (this.state.selectedCategory && this.state.reminders[this.state.selectedCategory.id]){
-      let remindersArr = this.state.reminders[this.state.selectedCategory.id]
+    if(this.state.selectedCategory && this.state.reminders[this.state.selectedCategory.id]){
+      let remindersArr = this.state.reminders[this.state.selectedCategory.id];
       remindersHTML = remindersArr.map(reminder => {
         return(
-          <Reminder key={reminder.id} reminder={reminder} updateReminders={this.updateReminders}/>
+          <Reminder
+            key={reminder.id}
+            reminder={reminder}
+            updateReminders={this.updateReminders}
+            selectedDate={this.state.selectedDate}
+            clickDate={this.clickDate}
+            />
         )
       })
     }
@@ -189,7 +225,7 @@ class RemindersIndex extends Component {
     }
 
     return(
-      <div>
+      <div className="reminders">
         <h1>{title}</h1>
         <div>
          {remindersHTML}

@@ -1,6 +1,6 @@
 # Manabu
 
-An application that attempts to make learning more efficient by consolidating flashcards and notes. Goal of this application is to reduce the number of applications a user has to maintain. Additionally, a student can check the weather, news and MBTA train times to more efficiently prepare in the mornings. Online demonstration of the app can be found at [manabu.page](https://www.manabu.page).
+An application that attempts to make learning more efficient by consolidating flashcards, notes and reminders. Goal of this application is to reduce the number of applications a user has to maintain. Additionally, a student can check the weather, news and MBTA train times to more efficiently prepare in the mornings. Online demonstration of the app can be found at [manabu.page](https://www.manabu.page).
 
 ## Getting Started
 1. Clone the repository to your computer.
@@ -39,6 +39,7 @@ $ yarn run test
 ## Frameworks
 - [Devise](https://github.com/plataformatec/devise) - User authentications.
 - [Draft.js](https://draftjs.org/) - Rich-text editor.
+- [React Flatpickr](https://github.com/coderhaoxin/react-flatpickr) - Calendar for reminders.
 - [FontAwesome](https://fontawesome.com) - Provides icons.
 - [Foundation](https://foundation.zurb.com/) - A CSS framework.
 - [Geocoder](https://github.com/alexreisner/geocoder) - Geocoding.
@@ -53,12 +54,9 @@ $ yarn run test
 
 ## Potential Additions to Existing Features
 - Flashcards
-  - Ability to study only cards that are not mastered.
   - Reorder cards.
 
 ## Potential New Features
-- Reminders
-  - Categorization of reminders.
 - Classes/subject to assign to flashcards, notes, reminders, and etc.
 - User to user interaction.
   - Sharing flashcards, notes, reminders, and etc with other users.

@@ -18,7 +18,7 @@ body{
   background-size: cover;
   padding-right: 17px;
   overflow-x: hidden;
-  background-color: var(--bg-color)
+  background-color: var(--bg-color);
 }
 
 a{
@@ -83,6 +83,10 @@ ul.menu > li > a, #title-link,.nav-list-item, .nav-dropdown-item {
 
 ul.menu > li > a:hover, #title-link:hover, .nav-dropdown-item:hover,  .nav-list-item:hover, .link:hover{
   color: var(--steelblue);
+}
+
+.link{
+  user-select: none;
 }
 
 .nav-active-link{
