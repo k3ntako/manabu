@@ -14,8 +14,8 @@ class Reminder extends Component {
     this.deleteReminder = this.deleteReminder.bind(this);
     this.roundUpToHour = this.roundUpToHour.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
-    this.formatDate = this.formatDate.bind(this);
     this.clickDate = this.clickDate.bind(this);
+    this.submitReminder = this.submitReminder.bind(this);
   }
 
   roundUpToHour(date) {
@@ -26,51 +26,39 @@ class Reminder extends Component {
     return date;
   }
 
-  formatDate(dateStr) {
-    const date = new Date(dateStr);
-    const monthNames = [
-      "January", "February", "March",
-      "April", "May", "June", "July",
-      "August", "September", "October",
-      "November", "December"
-    ];
-
-    const monthIndex = date.getMonth();
-    const day = date.getDate();
-    const year = date.getFullYear();
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    const ampm = hour <= 12 ? 'AM' : 'PM';
-
-    hour = hour === 0 ? 12 : hour % 12
-    minute = minute < 10 ? '0' + minute : minute;
-
-    return `${monthNames[monthIndex]} ${day}, ${year} ${hour}:${minute} ${ampm}`;
-  }
-
   onChange(event){
     this.setState({reminder: event.target.value})
   }
 
   updateReminder(type){
-    fetch(`/api/v1/reminders/${this.props.reminder.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        [type]: this.state[type]
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' },
-        credentials: 'same-origin'
-    })
+    let data = this.state[type];
+    if(type === "date" || data.replace(/\s+/g,'')){
+      fetch(`/api/v1/reminders/${this.props.reminder.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          [type]: data
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json' },
+          credentials: 'same-origin'
+      })
+    }else{
+      this.deleteReminder()
+    }
+  }
+
+  submitReminder(event){
+    event.preventDefault();
+    document.activeElement.blur();
   }
 
   handleDateChange(date){
     this.setState({date: date[0]})
   }
 
-  deleteReminder(event){
-    fetch(`/api/v1/reminders/${event.target.id}`, {
+  deleteReminder(){
+    fetch(`/api/v1/reminders/${this.props.reminder.id}`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -115,7 +103,7 @@ class Reminder extends Component {
           options={{
             enableTime: true,
             dateFormat: "M. j, Y  h:i K",
-            minDate: "today",
+            minDate: "Jan. 1, 2000 00:00 AM",
             onClose: () => {this.updateReminder("date")}
           }}
         />
@@ -125,7 +113,7 @@ class Reminder extends Component {
     return(
       <div>
         <div className="reminder-row">
-          <form className="reminder-item">
+          <form onSubmit={this.submitReminder} className="reminder-item">
             <input
               type="text"
               className="editable-text"
