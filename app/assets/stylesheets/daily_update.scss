@@ -1,23 +1,4 @@
-/////////MBTA/////////
-.mbta{
-  padding-top: 40px;
-}
-
-.prediction{
-  text-align: center;
-  font-size: 2.1rem;
-  background-color: var(--card-bg-color);
-  border-radius: 10px;
-  border: 1px solid var(--flashcard-border-color);
-  color: black;
-  user-select: none;
-}
-
-select{
-  font-size: 1.5rem;
-  line-height: 1.5rem;
-}
-
+/////////Weather/////////
 .weatherInfo{
   text-align: center;
 }
@@ -36,4 +17,33 @@ canvas{
   height: 12rem;
   margin: auto;
   display: block;
+}
+
+/////////Reminders/////////
+.todays-reminders-container{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-top: 40px;
+  background-color: #fafafa;
+  z-index: 0;
+}
+
+.todays-reminders-container > h4{
+  margin-left: 20px;
+}
+
+.todays-reminders{
+  border-top: 1px solid #dadada;
+  width: 100%;
+  height: calc(100% - 40px);
+  padding: 10px 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: absolute;
+  display: block;
+
+  font-size: 1.3rem;
+  list-style: none;
 }

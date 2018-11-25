@@ -30,6 +30,12 @@ class Api::V1::RemindersController < ApplicationController
     render json: reminders
   end
 
+  def today
+    tomorrow = DateTime.now().beginning_of_day + 1.day
+    reminders = current_user.reminders.where("time_due < ?", tomorrow).order("time_due DESC")
+    render json: reminders
+  end
+
   private
 
   def reminders_params

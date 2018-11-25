@@ -75,26 +75,6 @@ class RemindersIndex extends Component {
     this.setState({reminders: newReminders});
   }
 
-  saveCategory(newCategory) {
-    fetch(`/api/v1/reminder_categories`, {
-      method: 'POST',
-      body: JSON.stringify({category: newCategory}),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' },
-        credentials: 'same-origin'
-    })
-    .then(data => data.json())
-    .then(data => {
-      let categories = this.state.categories
-      categories.push(data.reminder_category)
-      this.setState({
-        selectedCategory: data.reminder_category,
-        categories: categories
-      })
-    })
-  }
-
   addReminder(categoryId, reminder){
     fetch(`/api/v1/reminders`, {
       method: 'POST',
@@ -118,12 +98,33 @@ class RemindersIndex extends Component {
 
   addCategory(event){
     event.preventDefault();
-    let reminders = this.state.reminders
-    reminders[this.state.newCategory] = []
-    this.setState({
-      reminders: reminders,
-      newCategory: ""
-    }, this.saveCategory(this.state.newCategory))
+    let newCategory = this.state.newCategory
+    if(newCategory.replace(/\s+/g,'')){
+      this.saveCategory(newCategory)
+    }
+  }
+
+  saveCategory(newCategory) {
+    fetch(`/api/v1/reminder_categories`, {
+      method: 'POST',
+      body: JSON.stringify({category: newCategory}),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+        credentials: 'same-origin'
+    })
+    .then(data => data.json())
+    .then(data => {
+      let categories = this.state.categories;
+      categories.push(data.reminder_category);
+      let newReminders = Object.assign({}, this.state.reminders);
+      newReminders[data.reminder_category.id] = []
+      this.setState({
+        selectedCategory: data.reminder_category,
+        categories: categories,
+        reminders: newReminders
+      })
+    })
   }
 
   onChangeCategory(event){
@@ -144,7 +145,9 @@ class RemindersIndex extends Component {
 
   reminderSubmitForm(event){
     event.preventDefault()
-    this.addReminder(this.state.selectedCategory.id, this.state.newReminder)
+    if(this.state.newReminder.replace(/\s+/g,'')){
+      this.addReminder(this.state.selectedCategory.id, this.state.newReminder)
+    }
     this.setState({newReminder: ""})
   }
 

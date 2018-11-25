@@ -1,6 +1,6 @@
 # Manabu
 
-An application that attempts to make learning more efficient by consolidating flashcards, notes and reminders. Goal of this application is to reduce the number of applications a user has to maintain. Additionally, a student can check the weather, news and MBTA train times to more efficiently prepare in the mornings. Online demonstration of the app can be found at [manabu.page](https://www.manabu.page).
+An application that attempts to make learning more efficient by consolidating flashcards, notes and reminders. Goal of this application is to reduce the number of applications a user has to maintain. Additionally, a student can check the news and weather to more efficiently get the day started. Online demonstration of the app can be found at [manabu.page](https://www.manabu.page).
 
 ## Getting Started
 1. Clone the repository to your computer.
@@ -48,7 +48,6 @@ $ yarn run test
 ## APIs
 - [Bing Maps](https://msdn.microsoft.com/en-us/library/dd877180.aspx) - Location based on coordinates.
 - [DarkSky](https://darksky.net/dev) - Weather data.
-- [MBTA](https://www.mbta.com/developers/v3-api) - MBTA train predictions.
 - [News API](https://newsapi.org/) - News with descriptions and images.
 - [Skycons](https://darkskyapp.github.io/skycons/) - Weather icon.
 
