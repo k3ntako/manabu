@@ -38,6 +38,7 @@ h1, h2, h3, h4, h5, h6, label, a{
 
 /////////Nav Bar/////////
 .top-bar{
+  z-index: 1;
   background-color: #093145; // #e6e6e6;
   width: 100vw;
   user-select: none;
