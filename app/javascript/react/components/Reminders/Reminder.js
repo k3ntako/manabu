@@ -6,7 +6,8 @@ class Reminder extends Component {
     super(props);
     this.state = {
       reminder: this.props.reminder.reminder,
-      date: this.props.reminder.time_due ? new Date(this.props.reminder.time_due) : this.roundUpToHour(new Date())
+      date: this.props.reminder.time_due ? new Date(this.props.reminder.time_due) : this.roundUpToHour(new Date()),
+      completed: this.props.reminder.completed
     };
 
     this.onChange = this.onChange.bind(this);
@@ -16,6 +17,7 @@ class Reminder extends Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.clickDate = this.clickDate.bind(this);
     this.submitReminder = this.submitReminder.bind(this);
+    this.toggleComplete = this.toggleComplete.bind(this);
   }
 
   roundUpToHour(date) {
@@ -32,7 +34,7 @@ class Reminder extends Component {
 
   updateReminder(type){
     let data = this.state[type];
-    if(type === "date" || data.replace(/\s+/g,'')){
+    if(type != "reminder" || data.replace(/\s+/g,'')){
       fetch(`/api/v1/reminders/${this.props.reminder.id}`, {
         method: 'PATCH',
         body: JSON.stringify({
@@ -55,6 +57,12 @@ class Reminder extends Component {
 
   handleDateChange(date){
     this.setState({date: date[0]})
+  }
+
+  toggleComplete(){
+    this.setState({completed: !this.state.completed},
+      () => {this.updateReminder("completed")}
+    );
   }
 
   deleteReminder(){
@@ -83,7 +91,7 @@ class Reminder extends Component {
 
     let dueDateHTML = (
       <i
-        className="far fa-calendar-alt fa-lg reminder-cal-button link"
+        className="far fa-calendar-alt fa-lg reminder-control-button reminder-cal-button"
         onClick={this.clickDate}
         id={this.props.reminder.id}
         >
@@ -110,6 +118,11 @@ class Reminder extends Component {
       )
     }
 
+    let completedClass = "reminder-done-button"
+    if(this.state.completed){
+      completedClass = "reminder-completed-button-completed"
+    }
+
     return(
       <div>
         <div className="reminder-row">
@@ -125,7 +138,8 @@ class Reminder extends Component {
 
           <div className="reminder-controls">
             {dueDateHTML}
-            <span id={this.props.reminder.id} className="link" onClick={this.deleteReminder}>Delete</span>
+            <i className={`fas fa-check-circle fa-lg reminder-control-button ${completedClass}`} onClick={this.toggleComplete}></i>
+            <i className="fas fa-trash-alt fa-lg reminder-control-button reminder-delete-button" id={this.props.reminder.id} onClick={this.deleteReminder}></i>
           </div>
         </div>
 

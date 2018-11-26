@@ -1,6 +1,7 @@
 class Reminder < ApplicationRecord
   validates :reminder, presence: true
   validates :sequence, null: false, numericality: { only_integer: true }
+  validates :completed, null: false, inclusion: { in: [ true, false ] }
 
   belongs_to :reminder_category
   has_many :user_reminders, through: :reminder_category

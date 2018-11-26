@@ -12,6 +12,8 @@ class Api::V1::RemindersController < ApplicationController
     reminder = Reminder.find(update_params[:id])
     if update_params[:reminder]
       reminder.reminder = update_params[:reminder]
+    elsif update_params[:completed] == !!update_params[:completed]
+      reminder.completed = update_params[:completed]
     elsif update_params[:date]
       reminder.time_due = DateTime.parse(update_params[:date])
     end
@@ -32,7 +34,7 @@ class Api::V1::RemindersController < ApplicationController
 
   def today
     tomorrow = DateTime.now().beginning_of_day + 1.day
-    reminders = current_user.reminders.where("time_due < ?", tomorrow).order("time_due DESC")
+    reminders = current_user.reminders.where(completed: false).where("time_due < ?", tomorrow).order("time_due DESC")
     render json: reminders
   end
 
@@ -43,7 +45,7 @@ class Api::V1::RemindersController < ApplicationController
   end
 
   def update_params
-    params.permit(:id, :reminder, :date)
+    params.permit(:id, :reminder, :date, :completed)
   end
 
   def delete_params
