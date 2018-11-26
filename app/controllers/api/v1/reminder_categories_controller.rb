@@ -6,7 +6,7 @@ class Api::V1::ReminderCategoriesController < ApplicationController
 
   def show
     category = current_user.reminder_categories.find(category_params[:id])
-    reminders = category.reminders
+    reminders = category.reminders.where(completed: false)
     render json: reminders
   end
 

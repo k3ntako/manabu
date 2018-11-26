@@ -103,12 +103,42 @@ border-width: 1px 0;
   height: 70px;
 }
 
-.reminder-cal-button{
+.reminder-control-button{
   margin: 0 10px;
   height: 29px;
   position: relative;
   bottom: 0%;
   padding-top: 6px;
+}
+
+.reminder-cal-button:hover{
+  background: -webkit-linear-gradient(#79b9e1, var(--steelblue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.reminder-done-button:hover{
+  background: -webkit-linear-gradient(#00ff00, limegreen);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.reminder-completed-button-completed{
+  background: -webkit-linear-gradient(#00ff00, limegreen);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.reminder-completed-button-completed:hover{
+  background: black;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.reminder-delete-button:hover{
+  background: -webkit-linear-gradient(#ff4c4c, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .flatpickr-input{

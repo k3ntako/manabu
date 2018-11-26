@@ -57,9 +57,8 @@ class RemindersIndex extends Component {
     })
     .then(response => response.json())
     .then(data => {
-      let sortedReminders = data.reminders.sort(this.props.sortBySequence)
-      let newReminders = Object.assign({}, this.state.reminders)
-      newReminders[this.state.selectedCategory.id] = sortedReminders
+      let newReminders = Object.assign({}, this.state.reminders);
+      newReminders[this.state.selectedCategory.id] = data.reminders;
       this.setState({
         reminders: newReminders
       });
@@ -184,7 +183,9 @@ class RemindersIndex extends Component {
     let remindersHTML;
     if(this.state.selectedCategory && this.state.reminders[this.state.selectedCategory.id]){
       let remindersArr = this.state.reminders[this.state.selectedCategory.id];
-      remindersHTML = remindersArr.map(reminder => {
+      let sortedReminders = remindersArr.sort(this.props.sortBySequence);
+
+      remindersHTML = sortedReminders.map(reminder => {
         return(
           <Reminder
             key={reminder.id}
