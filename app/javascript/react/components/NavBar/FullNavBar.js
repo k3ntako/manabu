@@ -40,7 +40,7 @@ const FullNavBar = (props) => {
           </ul>
         </div>
       </div>
-      <div className="grid-x">
+      <div className="grid-x body">
         <div className="cell small-22 small-offset-1 medium-20 medium-offset-2">
           {props.children}
         </div>

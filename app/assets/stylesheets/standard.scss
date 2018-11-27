@@ -19,15 +19,20 @@ body{
   padding-right: 17px;
   overflow-x: hidden;
   background-color: var(--bg-color);
+  overflow-y: hidden;
 }
 
 a{
   color:black;
 }
 
-#app{
-  padding-top: 70px;
-  height: 100vh;
+.body{
+  padding-top: 20px;
+  top: 50px;
+  position: absolute;
+  height: calc(100vh - 50px);
+  overflow-y: scroll;
+  width: 100vw;
 }
 
 h1, h2, h3, h4, h5, h6, label, a{
