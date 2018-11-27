@@ -34,7 +34,7 @@ input.notes-name:focus{
   background-color: var(--card-bg-color);
   flex-grow: 1;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   border: 2px solid var(--notes-editor-border-color);
   padding: 10px;
   margin-top: 5px;

@@ -330,7 +330,7 @@ class RemindersIndex extends Component {
 
         {showCompletedButton}
         <div id="slideout">
-          <i className="fas fa-angle-double-right fa-2x"></i>
+          <i className="fas fa-angle-double-right fa-2x reminder-cat-show-button"></i>
           <div id="slideout_inner">
             <h3>Categories</h3>
             {categoryList}

@@ -26,24 +26,27 @@ canvas{
   overflow: hidden;
   position: relative;
   margin-top: 40px;
-  background-color: #fafafa;
+  background-color: var(--bg-color);
   z-index: 0;
 }
 
 .todays-reminders-container > h4{
   margin-left: 20px;
+  height: 35px;
+  line-height: 35px;
 }
 
 .todays-reminders{
-  border-top: 1px solid #dadada;
+  border: solid #dadada;
+  border-width: 1px 0;
   width: 100%;
-  height: calc(100% - 40px);
+  height: calc(100% - 75px);
   padding: 10px 20px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
   display: block;
-
+  color: var(--header-font-color);
   font-size: 1.3rem;
   list-style: none;
 }
