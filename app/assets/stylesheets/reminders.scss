@@ -70,8 +70,6 @@ h3{
 }
 
 .reminder-item{
-  border: solid #dadada;
-  border-width: 1px 0 0 0;
   height: 38px;
   float:left;
   flex-grow: 1;
@@ -84,8 +82,6 @@ h3{
 }
 
 .reminder-controls{
-  border: solid #dadada;
-  border-width: 1px 0 0 0;
   padding: 4px 10px;
   line-height: 30px;
   height: 38px;
@@ -94,8 +90,13 @@ h3{
   display: flex;
 }
 
-.grid-x:last-of-type > .reminder-item, .grid-x:last-of-type > .reminder-controls{
-border-width: 1px 0;
+.reminder-row{
+  border: solid #dadada;
+  border-width: 1px 0 0 0;
+}
+
+.reminder-row:last-of-type{
+  border-bottom-width: 1px;
 }
 
 .first-reminder-category{
@@ -156,9 +157,21 @@ border-width: 1px 0;
   color: var(--steelblue);
 }
 
+.completed-reminders > .reminder-row > .reminder-controls > .flatpickr-input:hover{
+  color: black;
+}
+
 @media only screen and (max-width: 640px) {
   .flatpickr-input {
     margin-left: 0px;
     width: 100%;
   }
+}
+
+.show-completed{
+  display: block;
+  text-align: center;
+  width: 100%;
+  color: #666;
+  margin: 10px 0;
 }
