@@ -10,7 +10,9 @@ Rails.application.routes.draw do
       resources :news, only: [:index]
       resources :notes, only: [:index, :update, :show]
       resources :reminders, only: [:create, :destroy, :update]
-      resources :reminder_categories, only: [:index, :show, :create]
+      resources :reminder_categories, only: [:index, :show, :create] do
+        get 'completed', to: 'reminder_categories#completed'
+      end
       resources :decks, only: [:index, :update, :create] do
         resources :definitions, only: [:create]
         resources :definition_titles, only: [:destroy]

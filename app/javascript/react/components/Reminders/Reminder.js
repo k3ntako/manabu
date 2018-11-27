@@ -61,7 +61,14 @@ class Reminder extends Component {
 
   toggleComplete(){
     this.setState({completed: !this.state.completed},
-      () => {this.updateReminder("completed")}
+      () => {
+        let date = null;
+        if(this.props.reminder.time_due){
+          date = this.state.date
+        }
+        this.props.toggleReminderCompleted(this.props.reminder.id, this.state.completed, this.state.reminder, date)
+        this.updateReminder("completed")
+      }
     );
   }
 
@@ -86,17 +93,19 @@ class Reminder extends Component {
   }
 
   render(){
-    let calendarHTML;
     const { date } = this.state;
 
-    let dueDateHTML = (
-      <i
-        className="far fa-calendar-alt fa-lg reminder-control-button reminder-cal-button"
-        onClick={this.clickDate}
-        id={this.props.reminder.id}
-        >
-      </i>
-    )
+    let dueDateHTML
+    if(!this.props.datePickerDisabled){
+      dueDateHTML = (
+        <i
+          className="far fa-calendar-alt fa-lg reminder-control-button reminder-cal-button"
+          onClick={this.clickDate}
+          id={this.props.reminder.id}
+          >
+        </i>
+      )
+    }
 
     if(this.props.reminder.time_due || this.props.selectedDate === this.props.reminder.id){
       if(!this.props.reminder.time_due && new Date() >= this.state.date){
@@ -108,6 +117,7 @@ class Reminder extends Component {
           value={date}
           onChange={(date) => {this.handleDateChange(date)}}
           onBlur={() => {this.updateReminder("date")}}
+          disabled={this.props.datePickerDisabled}
           options={{
             enableTime: true,
             dateFormat: "M. j, Y  h:i K",
@@ -124,7 +134,6 @@ class Reminder extends Component {
     }
 
     return(
-      <div>
         <div className="reminder-row">
           <form onSubmit={this.submitReminder} className="reminder-item">
             <input
@@ -141,8 +150,6 @@ class Reminder extends Component {
             <i className={`fas fa-check-circle fa-lg reminder-control-button ${completedClass}`} onClick={this.toggleComplete}></i>
             <i className="fas fa-trash-alt fa-lg reminder-control-button reminder-delete-button" id={this.props.reminder.id} onClick={this.deleteReminder}></i>
           </div>
-        </div>
-
       </div>
     )
   }

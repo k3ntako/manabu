@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory, Link } from 'react-router';
-import Reminder from './Reminder'
+import Reminder from './Reminder';
+import CompletedReminders from './CompletedReminders';
 
 class RemindersIndex extends Component {
   constructor(props) {
@@ -11,11 +12,14 @@ class RemindersIndex extends Component {
       reminders: {},
       selectedCategory: null,
       newReminder: "",
-      selectedDate: null
+      selectedDate: null,
+      showCompleted: false,
+      completedReminders: {}
     };
 
     this.fetchCategories = this.fetchCategories.bind(this);
     this.fetchReminders = this.fetchReminders.bind(this);
+    this.fetchCompletedReminders = this.fetchCompletedReminders.bind(this);
     this.saveCategory = this.saveCategory.bind(this);
     this.clickReminders = this.clickReminders.bind(this);
     this.addReminder = this.addReminder.bind(this);
@@ -24,8 +28,10 @@ class RemindersIndex extends Component {
     this.onClickCategory = this.onClickCategory.bind(this);
     this.reminderOnChange = this.reminderOnChange.bind(this);
     this.reminderSubmitForm = this.reminderSubmitForm.bind(this);
-    this.updateReminders = this.updateReminders.bind(this)
-    this.clickDate = this.clickDate.bind(this)
+    this.updateReminders = this.updateReminders.bind(this);
+    this.clickDate = this.clickDate.bind(this);
+    this.toggleShowComplete = this.toggleShowComplete.bind(this);
+    this.toggleReminderCompleted = this.toggleReminderCompleted.bind(this);
   }
 
   fetchCategories() {
@@ -63,6 +69,25 @@ class RemindersIndex extends Component {
       newReminders[this.state.selectedCategory.id] = data.reminders;
       this.setState({
         reminders: newReminders
+      });
+      this.fetchCompletedReminders();
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`));
+  }
+
+  fetchCompletedReminders(){
+    fetch(`/api/v1/reminder_categories/${this.state.selectedCategory.id}/completed`)
+    .then(response => {
+      if (response.ok) {
+        return response;
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      let completedReminders = Object.assign({}, this.state.completedReminders);
+      completedReminders[this.state.selectedCategory.id] = data.reminders;
+      this.setState({
+        completedReminders: completedReminders
       });
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -177,6 +202,49 @@ class RemindersIndex extends Component {
     this.setState({reminders: allReminders})
   }
 
+  toggleShowComplete(){
+    this.setState({showCompleted: !this.state.showCompleted});
+  }
+
+  toggleReminderCompleted(reminderId, newCompletedStatus, reminder, time_due){
+    const catId = this.state.selectedCategory.id
+    let currentList;
+    let destinationList;
+    if(newCompletedStatus){
+      currentList = Object.assign({}, this.state.reminders);
+      destinationList =  Object.assign({}, this.state.completedReminders);
+    }else{
+      currentList = Object.assign({}, this.state.completedReminders);
+      destinationList = Object.assign({}, this.state.reminders);
+    }
+    updatedReminder
+
+    let updatedReminder;
+    for(let i=0; i< currentList[catId].length; i++){
+      if(currentList[catId][i].id === reminderId){
+        updatedReminder = currentList[catId].splice(i,1);
+      }
+    }
+
+    updatedReminder = updatedReminder[0];
+    updatedReminder.completed = newCompletedStatus;
+    updatedReminder.reminder = reminder;
+    updatedReminder.time_due = time_due;
+    destinationList[catId].push(updatedReminder)
+
+    if(newCompletedStatus){
+      this.setState({
+        reminders: currentList,
+        completedReminders: destinationList
+      })
+    }else{
+      this.setState({
+        reminders: destinationList,
+        completedReminders: currentList
+      })
+    }
+  }
+
   componentDidMount(){
     this.fetchCategories();
   }
@@ -195,7 +263,8 @@ class RemindersIndex extends Component {
             updateReminders={this.updateReminders}
             selectedDate={this.state.selectedDate}
             clickDate={this.clickDate}
-            />
+            toggleReminderCompleted={this.toggleReminderCompleted}
+          />
         )
       })
     }
@@ -230,6 +299,19 @@ class RemindersIndex extends Component {
       reminderDisabled = false;
     }
 
+    let showCompletedButton;
+    if(this.state.selectedCategory){
+      let selectedId = this.state.selectedCategory.id
+      showCompletedButton = (
+        <CompletedReminders
+          showCompleted={this.state.showCompleted}
+          completedReminders={this.state.completedReminders[selectedId]}
+          toggleShowComplete={this.toggleShowComplete}
+          toggleReminderCompleted={this.toggleReminderCompleted}
+          sortBySequence={this.props.sortBySequence}
+        />)
+    }
+
     return(
       <div className="reminders">
         <h1>{title}</h1>
@@ -246,6 +328,7 @@ class RemindersIndex extends Component {
          </form>
        </div>
 
+        {showCompletedButton}
         <div id="slideout">
           <i className="fas fa-angle-double-right fa-2x"></i>
           <div id="slideout_inner">

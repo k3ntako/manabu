@@ -10,6 +10,12 @@ class Api::V1::ReminderCategoriesController < ApplicationController
     render json: reminders
   end
 
+  def completed
+    category = current_user.reminder_categories.find(completed_params[:reminder_category_id])
+    reminders = category.reminders.where(completed: true)
+    render json: reminders
+  end
+
   def create
     category = ReminderCategory.create(category: new_reminders_params[:category])
 
@@ -28,5 +34,9 @@ class Api::V1::ReminderCategoriesController < ApplicationController
 
   def new_reminders_params
     params.permit(:category)
+  end
+
+  def completed_params
+    params.permit(:reminder_category_id)
   end
 end
