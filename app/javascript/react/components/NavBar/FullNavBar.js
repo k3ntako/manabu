@@ -4,22 +4,22 @@ import { Link } from 'react-router';
 const FullNavBar = (props) => {
   let destinations = ["flashcards", "notes", "reminders"]
   let destinationsHTML = destinations.map(dest =>{
-    let className = "nav-link"
+    let linkClassName = "";
     if(props.pathname.includes(dest)){
-      className += " nav-active-link"
+      linkClassName += " nav-active-link"
     }
     return(
-      <li key={dest} className="nav-list-item">
-        <Link className={className} to={`/${dest}`}>
+      <li key={dest} className={`nav-list-item ${linkClassName}`}>
+        <Link to={`/${dest}`}>
           {dest[0].toUpperCase() + dest.slice(1)}
         </Link>
       </li>
     )
   })
 
-  let darkModeToggle = (<i className="far fa-sun"></i>)
+  let darkModeToggle = (<i className="far fa-sun fa-lg"></i>)
   if(props.darkMode){
-    darkModeToggle = (<i className="far fa-moon"></i>)
+    darkModeToggle = (<i className="far fa-moon fa-lg"></i>)
   }
 
   return(
@@ -35,6 +35,13 @@ const FullNavBar = (props) => {
           <ul className="menu">
             <li className="nav-list-item" onClick={props.toggleDarkMode}>
               {darkModeToggle}
+            </li>
+            <li className="nav-list-item">
+              <Link href='/users/profile'>
+              <i
+                className="fas fa-user-circle fa-lg">
+              </i>
+            </Link>
             </li>
             <li className="nav-list-item" onClick={props.signOut}>Sign Out</li>
           </ul>

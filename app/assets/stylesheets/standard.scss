@@ -60,13 +60,17 @@ h1, h2, h3, h4, h5, h6, label, a{
   background-color: rgba(255,255,255,0);
 }
 
-.top-bar-right > .menu > li {
-  padding: 0.7rem 1.2rem;
+ .menu > li {
+  padding: 11px;
 }
 
 li.nav-list-item{
   height: 50px;
-  min-width: 30px;
+}
+
+li.nav-list-item > a {
+  margin: 0;
+  padding: 0;
 }
 
 ul.menu > li > a, #title-link,.nav-list-item, .nav-dropdown-item {
@@ -105,6 +109,7 @@ ul.menu > li > a:hover, #title-link:hover, .nav-dropdown-item:hover,  .nav-list-
   text-align: center;
   position: fixed;
   top: 50px;
+  z-index: 1;
 }
 .nav-dropdown-item{
   border-top: 1px solid white;
@@ -114,10 +119,18 @@ ul.menu > li > a:hover, #title-link:hover, .nav-dropdown-item:hover,  .nav-list-
 .nav-user-options{
   border-top: 3px solid white;
 }
-
-#nav-child{
-  height: calc(100vh - 70px);
+.fa-bars, .fa-times{
+  min-width: 25px;
 }
+
+.fa-bars{
+  color: white;
+}
+
+.fa-times{
+  color: red;
+}
+
 /////////Error Page/////////
 div.error-page{
   width: 60vw;

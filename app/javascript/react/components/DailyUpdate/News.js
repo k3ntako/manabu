@@ -31,7 +31,6 @@ constructor(props) {
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
-
   componentDidMount(){
     this.fetchNews()
   }
@@ -48,14 +47,17 @@ constructor(props) {
       }
     })
 
-
     let news = newsWithImage.map(news => {
       return(
         <div key={news.title} className="cell small-24 large-12 news-card ">
           <div className="news-image-container">
-            <img className="news-image" src={news.urlToImage} />
+            <a href={news.url} target="_blank">
+              <img className="news-image" src={news.urlToImage} />
+            </a>
           </div>
-          <h3 className="news-title"><a href={news.url}>{news.title}</a></h3>
+          <h3 className="news-title">
+            <a href={news.url} target="_blank">{news.title}</a>
+          </h3>
           <p className="news-description">{news.description}</p>
         </div>
       )
