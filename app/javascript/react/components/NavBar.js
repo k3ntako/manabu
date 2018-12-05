@@ -14,7 +14,7 @@ class NavBar extends Component {
     this.fetchUser = this.fetchUser.bind(this)
     this.signOut = this.signOut.bind(this)
     this.windowResizeHandler = this.windowResizeHandler.bind(this)
-    this.renderErrors = this.renderErrors.bind(this)
+    this.renderFlash = this.renderFlash.bind(this)
     this.toggleDarkMode = this.toggleDarkMode.bind(this)
     this.sortBySequence = this.sortBySequence.bind(this)
   }
@@ -64,21 +64,28 @@ class NavBar extends Component {
   };
 
   windowResizeHandler(){
-    if(this.state.smallNavBar && window.innerWidth > 640){
+    if(this.state.smallNavBar && window.innerWidth > 750){
       this.setState({smallNavBar: false})
-    }else if(!this.state.smallNavBar && window.innerWidth <= 640){
+    }else if(!this.state.smallNavBar && window.innerWidth <= 750){
       this.setState({smallNavBar: true})
     }
   }
 
-  renderErrors(errors){
-    let errorsHTML = []
-    errors.forEach((error, idx) => {
-      errorsHTML.push(
-        <div key={idx} className="flash flash-alert flash-alert-under-nav">{error}</div>
+  renderFlash(messages, type){
+    let messagesHTML = []
+    messages.forEach((message, idx) => {
+      let key = Object.keys(message)[0];
+      const classN = key === "error" ? "flash-alert" : "";
+      messagesHTML.push(
+        <div
+          key={idx}
+          className={`flash ${classN} flash-alert-under-nav`}
+          >
+          {message[key]}
+        </div>
       )
     })
-    return errorsHTML
+    return messagesHTML
   }
 
   sortBySequence(a,b){
@@ -98,7 +105,7 @@ class NavBar extends Component {
     const children = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
         currentUser: this.state.currentUser,
-        renderErrors: this.renderErrors,
+        renderFlash: this.renderFlash,
         darkMode: this.state.darkMode,
         sortBySequence: this.sortBySequence
       });

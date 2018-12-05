@@ -10,6 +10,7 @@ import DailyUpdate from './DailyUpdate/DailyUpdate'
 import Notes from './Notes/Notes'
 import Note from './Notes/Note'
 import RemindersIndex from './Reminders/RemindersIndex'
+import Profile from './Profile/Profile'
 
 const App = () => {
   return(
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/notes/new" component={Note}/>
         </Route>
         <Route path='/reminders' component={RemindersIndex}/>
+        <Route path='/users/profile' component={Profile}/>
         <Route path="daily_update" component={DailyUpdate} />
         <Route path="/not-found" component={ErrorPage}/>
         <Redirect from='/*' to="/not-found" />

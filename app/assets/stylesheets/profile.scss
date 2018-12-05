@@ -1,0 +1,40 @@
+.profile-img-container{
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: black solid 2px;
+  background-color: gray;
+}
+
+.profile-img{
+  object-fit: cover;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.dropzone-container{
+  margin-top: 30px;
+}
+
+.dropzone > div{
+  width:300px !important;
+  height:150px !important;
+  padding: 10px;
+  text-align: center;
+}
+
+.dropzone-container > input{
+  background-color: white;
+  width: 300px;
+  margin-top: 10px;
+}
+
+.dropzone-dropped > span{
+  width: 300px;
+  padding: 5px 0;
+}
+
+.change-password{
+  margin-bottom: 20px;
+}

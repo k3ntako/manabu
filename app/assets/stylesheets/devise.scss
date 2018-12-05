@@ -1,3 +1,4 @@
+/////////All/////////
 .devise-wrapper{
   width: 100vw;
   height: 100vh;
@@ -20,6 +21,7 @@
   margin:auto;
 }
 
+/////////Sign In/Sign Up/////////
 .devise-title{
   font-weight: bold;
   user-select: none;
@@ -53,18 +55,18 @@
 }
 
 @media only screen and (max-width: 640px) {
-    #devise-log-in-button, #devise-sign-up-button {
-        font-size: 1rem;
-    }
+  #devise-log-in-button, #devise-sign-up-button {
+    font-size: 1rem;
+  }
 
-    .devise-description{
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-    }
+  .devise-description{
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
 
-    .devise-content{
-      padding: 20px;
-    }
+  .devise-content{
+    padding: 20px;
+  }
 }
 
 #devise-log-in-button{
@@ -87,4 +89,10 @@
 
 #confirmation-email-note{
   color: gray;
+}
+
+/////////Edt Profile/////////
+.back-button{
+  margin-top: 30px;
+  font-size: 1.3rem;
 }

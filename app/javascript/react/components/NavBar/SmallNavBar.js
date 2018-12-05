@@ -5,7 +5,7 @@ class SmallNavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      iconClassName: "css-icon-menu"
+      iconClassName: "fa-bars"
     };
     this.onClickHandler = this.onClickHandler.bind(this)
     this.bodyClickHandler = this.bodyClickHandler.bind(this)
@@ -14,30 +14,30 @@ class SmallNavBar extends Component {
     this.clickToggleDarkMode = this.clickToggleDarkMode.bind(this)
   }
   onClickHandler(){
-    if(this.state.iconClassName === "css-icon-menu"){
-      this.setState({iconClassName: "css-icon-close"})
+    if(this.state.iconClassName === "fa-bars"){
+      this.setState({iconClassName: "fa-times"})
     }else{
-      this.setState({iconClassName: "css-icon-menu"})
+      this.setState({iconClassName: "fa-bars"})
     }
   }
 
   bodyClickHandler(){
-    this.setState({iconClassName: "css-icon-menu"})
+    this.setState({iconClassName: "fa-bars"})
   }
 
   clickLink(event){
     let link = event.target.innerHTML.toLowerCase()
-    this.setState({iconClassName: "css-icon-menu"},
+    this.setState({iconClassName: "fa-bars"},
       () => {browserHistory.push(`/${link}`)}
     )
   }
 
   clickHome(){
-    this.setState({iconClassName: "css-icon-menu"})
+    this.setState({iconClassName: "fa-bars"})
   }
 
   clickToggleDarkMode(){
-    this.setState({iconClassName: "css-icon-menu"})
+    this.setState({iconClassName: "fa-bars"})
     this.props.toggleDarkMode()
   }
 
@@ -52,7 +52,7 @@ class SmallNavBar extends Component {
     }
 
     let navDropDown
-    if(this.state.iconClassName === "css-icon-close"){
+    if(this.state.iconClassName === "fa-times"){
       navDropDown = (
         <div className="grid-y nav-dropdown">
           <div className="nav-dropdown-item" onClick={this.clickLink}>
@@ -73,14 +73,14 @@ class SmallNavBar extends Component {
         </div>
       )
     }
-
+    
     return(
       <div>
         <div className="top-bar">
           <div className="top-bar-left">
             <ul className="menu" >
               <li className="nav-list-item" onClick={this.onClickHandler}>
-                <div className={`${this.state.iconClassName} css-icon-icon`}></div>
+                <i className={`fas ${this.state.iconClassName} fa-lg`}></i>
               </li>
               <li className="menu-text nav-list-item" onClick={this.clickHome}>
                 <Link id="title-link" to="/">Manabu</Link>
@@ -89,7 +89,7 @@ class SmallNavBar extends Component {
           </div>
         </div>
         {navDropDown}
-        <div className="grid-x" id="nav-child">
+        <div className="grid-x body" id="nav-child">
           <div className="cell small-22 small-offset-1 medium-20 medium-offset-2">
             {this.props.children}
           </div>

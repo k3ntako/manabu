@@ -77,8 +77,15 @@ constructor(props) {
       skycons.add("icon1", Skycons[icon]);
       skycons.play();
     }
+
+    let name = "";
+    if(this.props.firstName){
+      name = `, ${this.props.firstName}`
+    }
+
     return(
       <div className="weather cell small-24 medium-12">
+        <h2>Welcome{name}!</h2>
         <canvas id="icon1"></canvas>
         <p className="newsDescription weatherInfo">
           <span className="weatherInfoText current" id="temp">{this.state.summary} | {this.state.temp}</span><br />
