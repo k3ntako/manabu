@@ -99,7 +99,7 @@ class Note extends React.Component {
       .then(data => data.json())
       .then(note => {
         if(note.error){
-          this.setState({errors: this.state.errors.concat(note.error)})
+          this.setState({errors: this.state.errors.concat({error: note.error})})
         }
       }
     )
@@ -123,7 +123,7 @@ class Note extends React.Component {
       }
     };
 
-    let errorsHTML = this.props.renderErrors(this.state.errors)
+    let errorsHTML = this.props.renderFlash(this.state.errors)
 
     return (
       <div className="notes grid-y">

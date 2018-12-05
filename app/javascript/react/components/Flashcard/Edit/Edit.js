@@ -123,7 +123,7 @@ class Edit extends Component {
       .then(card => {
         if(card.error){
           this.setState({
-            errors: this.state.errors.concat(card.error)
+            errors: this.state.errors.concat({error: card.error})
           })
         }
       }
@@ -152,14 +152,14 @@ class Edit extends Component {
         .then(data => data.json())
         .then(deck => {
           if(deck.error){
-            this.setState({errors: this.state.errors.concat(deck.error)})
+            this.setState({errors: this.state.errors.concat({error: deck.error})})
           }else{
             this.setState({definitionTitles: deck.definition_titles})
           }
         }
       )
     }else{
-      this.setState({errors: this.state.errors.concat("Inputs cannot be blank.")})
+      this.setState({errors: this.state.errors.concat({error: "Inputs cannot be blank."})})
     }
   }
 
@@ -185,7 +185,7 @@ class Edit extends Component {
       .then(data => data.json())
       .then(newDefinitions => {
         if(newDefinitions.error){
-          this.setState({errors: this.state.errors.concat(newDefinitions.error)})
+          this.setState({errors: this.state.errors.concat({error: newDefinitions.error})})
         }else{
           this.setState({
             definitionTitles: newDefinitions.definition_titles,
@@ -196,7 +196,7 @@ class Edit extends Component {
       })
     }else{
       //error message on screen
-      this.setState({errors: this.state.errors.concat("Definition titles can't be blank.")})
+      this.setState({errors: this.state.errors.concat({error: "Definition titles can't be blank."})})
     }
   }
 
@@ -222,12 +222,12 @@ class Edit extends Component {
         .then(data => data.json())
         .then(data => {
           if(data.error){
-            this.setState({errors: this.state.errors.concat(card.error)})
+            this.setState({errors: this.state.errors.concat({error: card.error})})
           }
         }
       )
     }else{
-      this.setState({errors: ["Need to figure out how to deal with deleting titles while already editing."]})
+      this.setState({errors: [{error: "Need to figure out how to deal with deleting titles while already editing."}]})
     }
   }
 
@@ -280,7 +280,7 @@ class Edit extends Component {
         .then(data => data.json())
         .then(newCard => {
           if(newCard.error){
-            this.setState({errors: this.state.errors.concat(newCard.error)})
+            this.setState({errors: this.state.errors.concat({error: newCard.error})})
           }else{
             this.setState({
               cards: [...this.state.cards, newCard.card],
@@ -312,7 +312,7 @@ class Edit extends Component {
         }
       }
 
-      let errorsHTML = this.props.renderErrors(this.state.errors)
+      let errorsHTML = this.props.renderFlash(this.state.errors)
 
       return(
         <div className="flashcard-edit">
