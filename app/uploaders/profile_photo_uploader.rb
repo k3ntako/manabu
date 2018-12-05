@@ -20,7 +20,7 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
       }
       config.fog_public = false
       config.fog_authenticated_url_expiration = 600
-      if Rails.env.production?
+      if ENV["RAILS_ENV"] == "production"
         config.fog_directory  = ENV["S3_BUCKET"]
       else
         config.fog_directory  = ENV["S3_BUCKET_DEV"]

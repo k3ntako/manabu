@@ -21,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
 
   def is_signed_in?
     bucket = ENV["S3_BUCKET_DEV"]
-    if Rails.env.production?
+    if ENV["RAILS_ENV"] == "production"
       bucket = ENV["S3_BUCKET"]
     end
 

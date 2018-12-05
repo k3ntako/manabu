@@ -30,7 +30,7 @@ class User < ApplicationRecord
     })
 
     bucket_name = ENV["S3_BUCKET_DEV"]
-    if Rails.env.production?
+    if ENV["RAILS_ENV"] == "production"
       bucket = ENV["S3_BUCKET"]
     end
 
