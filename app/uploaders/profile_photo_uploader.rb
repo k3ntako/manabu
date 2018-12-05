@@ -12,15 +12,19 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
 
   CarrierWave.configure do |config|
     if !Rails.env.test?
-      config.fog_provider = 'fog/aws'                        # required
+      config.fog_provider = 'fog/aws'
       config.fog_credentials = {
-        provider:              'AWS',                        # required
-        aws_access_key_id:     ENV["AWS_ACCESS_KEY_ID"],     # required unless using use_iam_profile
-        aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"], # required unless using use_iam_profile
+        provider:              'AWS',
+        aws_access_key_id:     ENV["AWS_ACCESS_KEY_ID"],
+        aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
       }
-      config.fog_public = false,
-      config.fog_authenticated_url_expiration = 600,
-      config.fog_directory  = ENV["S3_BUCKET"]              # required
+      config.fog_public = false
+      config.fog_authenticated_url_expiration = 600
+      if Rails.env.production?
+        config.fog_directory  = ENV["S3_BUCKET"]
+      else
+        config.fog_directory  = ENV["S3_BUCKET_DEV"]
+      end
     end
   end
 

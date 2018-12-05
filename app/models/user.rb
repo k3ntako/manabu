@@ -29,7 +29,12 @@ class User < ApplicationRecord
       :aws_secret_access_key    => ENV["AWS_SECRET_ACCESS_KEY"]
     })
 
-    bucket = fog.directories.get(ENV["S3_BUCKET"])
+    bucket_name = ENV["S3_BUCKET_DEV"]
+    if Rails.env.production?
+      bucket = ENV["S3_BUCKET"]
+    end
+
+    bucket = fog.directories.get(bucket_name)
     bucket.files.get_https_url(file.path, Time.now + 600)
   end
 

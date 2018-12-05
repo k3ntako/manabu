@@ -20,7 +20,12 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def is_signed_in?
-    image_url = "https://s3.amazonaws.com/manabu-profile-photos/default/logo.png"
+    bucket = ENV["S3_BUCKET_DEV"]
+    if Rails.env.production?
+      bucket = ENV["S3_BUCKET"]
+    end
+
+    image_url = "https://s3.amazonaws.com/#{bucket}/default/logo.png"
     if current_user.profile_photo.path
       image_url = User.get_profile_photo(current_user.id, current_user.profile_photo)
     end
