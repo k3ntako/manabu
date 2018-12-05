@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :weather, only: :index
       get 'reminders/today', to: 'reminders#today'
-      resources :users, only: [:index]
+      resources :users, only: [:index, :update]
       resources :news, only: [:index]
       resources :notes, only: [:index, :update, :show]
       resources :reminders, only: [:create, :destroy, :update]
@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get '/notes', to: 'homes#index'
   get '/reminders', to: 'homes#index'
   get '/notes/:id', to: 'homes#index'
+  get '/users/profile', to: 'homes#index'
   get '/not-found', to: 'homes#index'
   get '*path', to: redirect('/not-found')
 end

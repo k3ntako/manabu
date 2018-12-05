@@ -6,6 +6,8 @@ class User < ApplicationRecord
   validates :birthday, presence: true
   validates :sign_in_count, presence: true
 
+  mount_uploader :profile_photo, ProfilePhotoUploader
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -19,6 +21,17 @@ class User < ApplicationRecord
   has_many :user_reminders
   has_many :reminder_categories, through: :user_reminders
   has_many :reminders, through: :reminder_categories
+
+  def self.get_profile_photo(id, file)
+    fog = Fog::Storage.new({
+      :provider                 => 'AWS',
+      :aws_access_key_id        => ENV["AWS_ACCESS_KEY_ID"],
+      :aws_secret_access_key    => ENV["AWS_SECRET_ACCESS_KEY"]
+    })
+
+    bucket = fog.directories.get(ENV["S3_BUCKET"])
+    bucket.files.get_https_url(file.path, Time.now + 600)
+  end
 
   protected
   def confirmation_required?
