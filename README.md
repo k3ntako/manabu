@@ -11,20 +11,50 @@ $ bundle install
 $ yarn install
 ```
 
-4. Create and prepare the database.
+4. Fill out your `.env` file. More information below.
+
+5. Create and prepare the database.
 ```
-$ bundle exec rake:db create
-$ bundle exec rake:db migrate
+$ bundle exec rake db:create
+$ bundle exec rake db:migrate
 ```
 
-5. Start the server by running the following. Then visit `localhost:3000` in a browser.
+6. Start the server by running the following.
 ```
 $ rails server
 ```
-6. In a new command line window run the following.
+7. In a new command line window run the following.
 ```
 $ yarn run start
 ```
+
+8. Visit `localhost:3000` in a browser and sign up.
+
+9. After signing up, a confirmation email will NOT be sent from the local environment. Email confirmation should work on production, if set up. To confirm yourself, open a new tab in terminal and run the following commands.
+```
+$ rails console
+$ user = User.first
+$ user.skip_confirmation!
+$ user.save!
+```
+
+10. You should now be able to log in to your account.
+
+## `.env` file
+In the root directory of the project, create a file titled `.env`. This file will contain information that should not be shared publicly such as API keys and passwords.
+
+Following values are required. This will require you to obtain API keys, create a Gmail account, and create an AWS S3 bucket.
+
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- BING_MAP_KEY
+- DARK_SKY_KEY
+- GMAIL_USERNAME
+- GMAIL_PASSWORD
+- GOOGLE_MAPS_API_KEY
+- NEWS_API_KEY
+- S3_BUCKET
+- S3_BUCKET_DEV
 
 ## Tests
 - Run RSpec tests by running:
