@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:passwords => 'users/passwords', :confirmations => 'users/confirmations', :sessions => 'users/sessions', :registrations => 'users/registrations'}
   get '/users/sign_up', to: redirect('/users/sign_in')
 
-  post '/api/emails/groups', to: 'emails#groups'
-
   namespace :api do
     namespace :v1 do
       resources :weather, only: :index
@@ -22,6 +20,7 @@ Rails.application.routes.draw do
           resources :masteries, only: :create
         end
       end
+      post 'emails/groups', to: 'emails#groups'
     end
   end
 
